@@ -1,0 +1,28 @@
+<section>
+  
+  <div class="section-header text-center">
+    <h1 class="article__title">{{ article.title }}</h1>
+  </div>
+
+  <div class="article-part" itemprop="articleBody">
+    {{ article.content }}
+  </div>
+  
+</section>
+
+
+{% schema %}
+  {
+    "name": "Article Blog",
+	"class": "article-blog-section",
+    "settings": [   
+      {
+        "type": "checkbox",
+        "id": "show_share_buttons",
+        "label": "Show social sharing buttons",
+        "default": true
+      }
+    ]
+  }
+{% endschema %}
+

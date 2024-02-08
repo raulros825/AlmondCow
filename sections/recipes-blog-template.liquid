@@ -1,0 +1,423 @@
+<style>
+  @media only screen and (min-width: 750px){
+    #shopify-section-header{
+      box-shadow: 0px 2px 15px #a7a7a7;
+    }
+  }
+</style>
+
+{% assign blog_handles = "Milk-Recipes;Made-with-Milk;Pulp-Recipes;Beverages;Pulpmeal-Recipes;Creamer;Infusions;Soup;" %}
+{% assign blog_list = blog_handles | split: ';' %}
+
+{% assign blog_handles1 = "Milk-Recipes;" %}
+{% assign blog_list1 = blog_handles1 | split: ';' %}
+
+{% assign blog_handles2 = "Pulp-Recipes;" %}
+{% assign blog_list2 = blog_handles2 | split: ';' %}
+
+{% assign blog_handles3 = "Beverages;" %}
+{% assign blog_list3 = blog_handles3 | split: ';' %}
+
+{% assign blog_handles4 = "Pulpmeal-Recipes;" %}
+{% assign blog_list4 = blog_handles4 | split: ';' %}
+
+{% assign blog_handles5 = "Creamer;" %}
+{% assign blog_list5 = blog_handles5 | split: ';' %}
+
+{% assign blog_handles6 = "Made-with-Milk;" %}
+{% assign blog_list6 = blog_handles6 | split: ';' %}
+
+{% assign blog_handles7 = "Infusions;" %}
+{% assign blog_list7 = blog_handles7 | split: ';' %}
+
+{% assign blog_handles8 = "Soup;" %}
+{% assign blog_list8 = blog_handles8 | split: ';' %}
+
+<div class="page-width recipe-search-page">
+  
+  <header class="section-header text-center">
+    <h1>Recipes</h1>
+
+    <form action="/search" method="get" class="search recipe-search-form">
+      <input type="hidden" name="type" value="article">
+      <input class="search-header__input search__input"
+             type="search"
+             name="q"
+             placeholder="{{ 'general.search.placeholder' | t }}"
+             aria-label="{{ 'general.search.placeholder' | t }}">
+      <button class="search-header__submit search__submit btn--link" type="submit">
+        {% include 'icon-search' %}
+        <span class="icon__fallback-text">{{ 'general.search.submit' | t }}</span>
+      </button>
+    </form>
+    
+    <div class="blog-tag-tabs">
+      <li><input type="submit" id="#milk" class="btn" value="Milk"></li>
+      <li><input type="submit" id="#made-with-milk" class="btn" value="Made with milk"></li>
+      <li><input type="submit" id="#pulpmeal" class="btn" value="Pulpmeal"></li>
+      <li><input type="submit" id="#pulp" class="btn" value="Pulp"></li>
+      <li><input type="submit" id="#beverage" class="btn" value="Beverage"></li>
+      <li><input type="submit" id="#creamer" class="btn" value="Creamer"></li>
+      <li><input type="submit" id="#infusions" class="btn" value="Infusions"></li>
+      <li><input type="submit" id="#soup" class="btn" value="Soup"></li>
+    </div>
+    <div class="blog-reset-button text-center">
+      <input type="submit" class="btn" value="Reset">
+    </div>
+  </header>
+  
+  <div class="recipes-search-container">      
+
+    <div class="blog--list-view btn-click-none">
+      <h4>Milk Recipes</h4>
+      <div class="grid grid--uniform grid--blog">
+        {% for blog_handle1 in blog_list1 %}
+
+        {% for article in blogs[blog_handle1].articles limit: 8 %}        
+
+        	{% include 'article-grid-block' %}
+
+        {% endfor %}
+
+        {% endfor %}         
+
+      </div>
+      <div class="recipe-explore-btn border-bottom-1">
+        <a href="/blogs/milk-recipes">
+          <input type="submit" class="btn bordered-btn" value="Explore all milk recipes">
+        </a>
+      </div>        
+    </div>
+    
+    <div class="blog--list-view padding-top-40 btn-click-none">
+      <h4>Made with Milk</h4>
+      <div class="grid grid--uniform grid--blog">
+        {% for blog_handle6 in blog_list6 %}
+
+        {% for article in blogs[blog_handle6].articles limit: 8 %}        
+
+        	{% include 'article-grid-block' %}
+
+        {% endfor %}
+
+        {% endfor %}         
+
+      </div>
+      <div class="recipe-explore-btn border-bottom-1">
+        <a href="/blogs/made-with-milk">
+          <input type="submit" class="btn bordered-btn" value="Explore all made with milk">
+        </a>
+      </div>        
+    </div>   
+
+    <div class="blog--list-view padding-top-40 btn-click-none">
+      <h4>Pulpmeal Recipes</h4>
+      <div class="grid grid--uniform grid--blog">
+        {% for blog_handle4 in blog_list4 %}
+
+        {% for article in blogs[blog_handle4].articles limit: 8 %}        
+
+        	{% include 'article-grid-block' %}
+
+        {% endfor %}
+
+        {% endfor %}         
+
+      </div>
+      <div class="recipe-explore-btn border-bottom-1">
+        <a href="/blogs/pulpmeal-recipes">
+          <input type="submit" class="btn bordered-btn" value="Explore all pulpmeal recipes">
+        </a>
+      </div>        
+    </div>
+
+    <div class="blog--list-view padding-top-40 btn-click-none">
+      <h4>Pulp Recipes</h4>
+      <div class="grid grid--uniform grid--blog">
+        {% for blog_handle2 in blog_list2 %}
+
+        {% for article in blogs[blog_handle2].articles limit: 8 %}
+
+			{% include 'article-grid-block' %}
+        
+        {% endfor %}
+
+        {% endfor %}         
+
+      </div>
+      <div class="recipe-explore-btn border-bottom-1">
+        <a href="/blogs/pulp-recipes">
+          <input type="submit" class="btn bordered-btn" value="Explore all pulp recipes">
+        </a>
+      </div>
+    </div>
+    
+    <div class="blog--list-view padding-top-40 btn-click-none">
+      <h4>Beverages</h4>
+      <div class="grid grid--uniform grid--blog">
+        {% for blog_handle3 in blog_list3 %}
+
+        {% for article in blogs[blog_handle3].articles limit: 8 %}
+
+        	{% include 'article-grid-block' %}
+
+        {% endfor %}
+
+        {% endfor %}         
+
+      </div>
+      <div class="recipe-explore-btn border-bottom-1">
+        <a href="/blogs/beverages">
+          <input type="submit" class="btn bordered-btn" value="Explore all beverages recipes">
+        </a>
+      </div>
+    </div>
+    
+    <div class="blog--list-view padding-top-40 btn-click-none">
+      <h4>Creamer</h4>
+      <div class="grid grid--uniform grid--blog">
+        {% for blog_handle5 in blog_list5 %}
+
+        {% for article in blogs[blog_handle5].articles limit: 8 %}
+
+        	{% include 'article-grid-block' %}
+
+        {% endfor %}
+
+        {% endfor %}
+
+      </div>
+      <div class="recipe-explore-btn border-bottom-1">
+        <a href="/blogs/creamer">
+          <input type="submit" class="btn bordered-btn" value="Explore all creamer recipes">
+        </a>
+      </div>
+    </div>
+    
+    <div class="blog--list-view padding-top-40 btn-click-none">
+      <h4>Infusions</h4>
+      <div class="grid grid--uniform grid--blog">
+        {% for blog_handle7 in blog_list7 %}
+
+        {% for article in blogs[blog_handle7].articles limit: 8 %}
+
+        	{% include 'article-grid-block' %}
+
+        {% endfor %}
+
+        {% endfor %}       
+
+      </div>
+      <div class="recipe-explore-btn border-bottom-1">
+        <a href="/blogs/infusions">
+          <input type="submit" class="btn bordered-btn" value="Explore all infusions recipes">
+        </a>
+      </div>
+    </div>
+    
+    <div class="blog--list-view padding-top-40 btn-click-none">
+      <h4>Soup</h4>
+      <div class="grid grid--uniform grid--blog">
+        {% for blog_handle8 in blog_list8 %}
+
+        {% for article in blogs[blog_handle8].articles limit: 8 %}
+
+        	{% include 'article-grid-block' %}
+
+        {% endfor %}
+
+        {% endfor %}      
+
+      </div>
+      <div class="recipe-explore-btn">
+        <a href="/blogs/soup">
+          <input type="submit" class="btn bordered-btn" value="Explore all soup recipes">
+        </a>
+      </div>
+    </div>
+
+    <div class="blog--list-view">
+      <div class="grid grid--uniform grid--blog">
+        
+        <!--    recipes for milk tag      -->
+        <div id="milk" class="tab_content"> 
+          {% for blog_handle in blog_list %}
+          {% paginate blogs[blog_handle].articles by 200 %}
+          {% for article in blogs[blog_handle].articles %}
+          {% if article.tags contains 'milk' %}
+
+          	{% include 'article-grid-block' %}
+
+          {% endif %}
+          {% endfor %}
+          {% endpaginate %}
+          {% endfor %}
+        </div>
+        
+        <!--    recipes for made-with-milk tag      -->
+        <div id="made-with-milk" class="tab_content"> 
+          {% for blog_handle in blog_list %}
+          {% paginate blogs[blog_handle].articles by 200 %}
+          {% for article in blogs[blog_handle].articles %}
+          {% if article.tags contains 'made-with-milk' %}
+
+          	{% include 'article-grid-block' %}
+
+          {% endif %}
+          {% endfor %}
+          {% endpaginate %}
+          {% endfor %}
+        </div>
+        
+        <!--    recipes for pulpmeal tag      -->
+        <div id="pulpmeal" class="tab_content">
+          {% for blog_handle in blog_list %}
+          {% paginate blogs[blog_handle].articles by 200 %}
+          {% for article in blogs[blog_handle].articles %}
+          {% if article.tags contains 'pulpmeal' %}
+
+            {% include 'article-grid-block' %}
+
+          {% endif %}
+          {% endfor %}
+          {% endpaginate %}
+          {% endfor %}
+        </div>
+        
+        <!--    recipes for pulp tag      -->
+        <div id="pulp" class="tab_content">
+          {% for blog_handle in blog_list %}
+          {% paginate blogs[blog_handle].articles by 200 %}
+          {% for article in blogs[blog_handle].articles %}
+          {% if article.tags contains 'pulp' %}
+
+          	{% include 'article-grid-block' %}
+
+          {% endif %}
+          {% endfor %}
+          {% endpaginate %}
+          {% endfor %}
+        </div>
+        
+        <!--    recipes for beverage tag      -->
+        <div id="beverage" class="tab_content">
+          {% for blog_handle in blog_list %}
+          {% paginate blogs[blog_handle].articles by 200 %}
+          {% for article in blogs[blog_handle].articles %}
+          {% if article.tags contains 'beverage' %}
+
+            {% include 'article-grid-block' %}
+
+          {% endif %}
+          {% endfor %}
+          {% endpaginate %}
+          {% endfor %}
+        </div>
+        
+        <!--    recipes for creamer tag      -->
+        <div id="creamer" class="tab_content">
+          {% for blog_handle in blog_list %}
+          {% paginate blogs[blog_handle].articles by 200 %}
+          {% for article in blogs[blog_handle].articles %}
+          {% if article.tags contains 'creamer' %}
+
+            {% include 'article-grid-block' %}
+
+          {% endif %}
+          {% endfor %}
+          {% endpaginate %}
+          {% endfor %}
+        </div>
+        
+        <!--    recipes for infusions tag      -->
+        <div id="infusions" class="tab_content">
+          {% for blog_handle in blog_list %}
+          {% paginate blogs[blog_handle].articles by 200 %}
+          {% for article in blogs[blog_handle].articles %}
+          {% if article.tags contains 'infusions' %}
+
+            {% include 'article-grid-block' %}
+
+          {% endif %}
+          {% endfor %}
+          {% endpaginate %}
+          {% endfor %}
+        </div>
+        
+        <!--    recipes for soup tag      -->
+        <div id="soup" class="tab_content">
+          {% for blog_handle in blog_list %}
+          {% paginate blogs[blog_handle].articles by 200 %}
+          {% for article in blogs[blog_handle].articles %}
+          {% if article.tags contains 'soup' %}
+
+            {% include 'article-grid-block' %}
+
+          {% endif %}
+          {% endfor %}
+          {% endpaginate %}
+          {% endfor %}
+        </div>
+        
+
+      </div>      
+    </div>
+    
+  </div>  
+
+</div>
+
+<script>
+  
+  $('.tab_content').hide();
+  $('.blog-tag-tabs li').click(function(event) {
+    $('.blog-tag-tabs li').removeClass('active');
+    $(this).addClass('active');
+    $('.tab_content').hide();
+    $('.btn-click-none').hide();
+    var selectTab = $(this).find('input').attr('id');    
+    $(selectTab).fadeIn();
+  });
+  $('.blog-reset-button input').click(function(){
+    $('.tab_content').hide();
+    $('.btn-click-none').fadeIn();
+  });  
+  
+</script>
+
+
+{% schema %}
+  {
+    "name": "Blog Landing pages",
+    "settings": [
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "default": "list",
+        "options": [
+          {
+            "value": "grid",
+            "label": "Grid"
+          },
+          {
+            "value": "list",
+            "label": "List"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_author",
+        "label": "Show author",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_date",
+        "label": "Show date",
+        "default": true
+      }
+    ]
+  }
+{% endschema %}

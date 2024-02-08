@@ -1,0 +1,71 @@
+<section class="home-ingredient-section vertical-center">
+
+  <div class="grid__item medium-up--one-half">
+    <div class="desktop-only">
+      {% if section.settings.desktop_image %}
+      <img class="ingredient-banner lazyload" data-src="{{ section.settings.desktop_image | img_url: '950x' }}" />
+      {% endif %}
+    </div>
+    <div class="mobile-only">
+      {% if section.settings.mobile_image %}
+      <img class="ingredient-banner lazyload" data-src="{{ section.settings.mobile_image | img_url: '750x' }}" />
+      {% endif %}
+    </div>
+  </div>
+  <div class="grid__item medium-up--one-half content-part text-center">
+    <h3 class="title">{{ section.settings.title }}</h3>
+    <p class="description">{{ section.settings.subtitle }}</p>
+    <div class="pre-remove">
+      <a class="btn main-btn" href="/products/ingredient-bundle">{{ section.settings.button_text }}</a>
+    </div>
+    <div class="none-pre-remove">
+      <a class="btn main-btn" href="/products/almond-cow-milk-machine-220v">{{ section.settings.button_text }}</a>
+    </div>
+  </div>
+
+</section>
+
+{% schema %}
+  {
+    "name": "Home Ingredient Section",
+    "settings": [
+		{
+          	"type"  :  "image_picker",
+          	"id"    :  "desktop_image",
+          	"label" :  "Desktop Image"
+        },
+        {
+          	"type"  :  "image_picker",
+          	"id"    :  "mobile_image",
+          	"label" :  "Mobile Image"
+        },
+        {
+          	"type"  :  "text",
+          	"id"    :  "title",
+          	"label" :  "Title"
+        },
+        {
+          	"type"  :  "textarea",
+          	"id"    :  "subtitle",
+          	"label" :  "Sub Title"
+        },
+		{
+			"type"  :  "text",
+			"id"    :  "button_text",
+			"label" :  "Button Label"
+		}
+	],
+	"presets": [
+		{
+			"name"  :  "Home Ingredient Section",
+			"category":  "Custom Section"
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

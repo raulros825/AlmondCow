@@ -1,0 +1,850 @@
+/*==============================================================================*/
+if ((typeof ShopifyAPI) === 'undefined') { ShopifyAPI = {}; }
+
+/*============================================================================
+  API Helper Functions
+==============================================================================*/
+function attributeToString(attribute) {
+  if ((typeof attribute) !== 'string') {
+    attribute += '';
+    if (attribute === 'undefined') {
+      attribute = '';
+    }
+  }
+  return jQuery.trim(attribute);
+};
+
+/*============================================================================
+  API Functions
+==============================================================================*/
+ShopifyAPI.onCartUpdate = function(cart) {
+  // alert('There are now ' + cart.item_count + ' items in the cart.');
+};
+
+ShopifyAPI.updateCartNote = function(note, callback) {
+  var params = {
+    type: 'POST',
+    url: '/cart/update.js',
+    data: 'note=' + attributeToString(note),
+    dataType: 'json',
+    success: function(cart) {
+      if ((typeof callback) === 'function') {
+        callback(cart);
+      }
+      else {
+        ShopifyAPI.onCartUpdate(cart);
+      }
+    },
+    error: function(XMLHttpRequest, textStatus) {
+      ShopifyAPI.onError(XMLHttpRequest, textStatus);
+    }
+  };
+  jQuery.ajax(params);
+};
+
+ShopifyAPI.onError = function(XMLHttpRequest, textStatus) {
+  var data = eval('(' + XMLHttpRequest.responseText + ')');
+  if (!!data.message) {
+    alert(data.message + '(' + data.status  + '): ' + data.description);
+  }
+};
+
+/*============================================================================
+  POST to cart/add.js returns the JSON of the cart
+    - Allow use of form element instead of just id
+    - Allow custom error callback
+==============================================================================*/
+ShopifyAPI.addItemFromForm = function(form, callback, errorCallback) {
+  var params = {
+    type: 'POST',
+    url: '/cart/add.js',
+    data: jQuery(form).serialize(),
+    dataType: 'json',
+    success: function(line_item) {
+      if ((typeof callback) === 'function') {
+        callback(line_item, form);
+      }
+      else {
+        ShopifyAPI.onItemAdded(line_item, form);
+      }
+    },
+    error: function(XMLHttpRequest, textStatus) {
+      if ((typeof errorCallback) === 'function') {
+        errorCallback(XMLHttpRequest, textStatus);
+      }
+      else {
+        ShopifyAPI.onError(XMLHttpRequest, textStatus);
+      }
+    }
+  };
+  jQuery.ajax(params);
+};
+
+// Get from cart.js returns the cart in JSON
+ShopifyAPI.getCart = function(callback) {
+  jQuery.getJSON('/cart.js', function (cart, textStatus) {
+    if ((typeof callback) === 'function') {
+      callback(cart);
+    }
+    else {
+      ShopifyAPI.onCartUpdate(cart);
+    }
+  });
+};
+
+// POST to cart/change.js returns the cart in JSON
+ShopifyAPI.changeItem = function(line, quantity, callback) {
+  var params = {
+    type: 'POST',
+    url: '/cart/change.js',
+    data: 'quantity=' + quantity + '&line=' + line,
+    dataType: 'json',
+    success: function(cart) {
+      if ((typeof callback) === 'function') {
+        callback(cart);
+      }
+      else {
+        ShopifyAPI.onCartUpdate(cart);
+      }
+    },
+    error: function(XMLHttpRequest, textStatus) {
+      ShopifyAPI.onError(XMLHttpRequest, textStatus);
+    }
+  };
+  jQuery.ajax(params);
+};
+
+// productObj {794864053: 5}}
+// productObj {794864053: 0, 794864233: 0}}
+ShopifyAPI.updateMany = function(productObj, callback) {
+  var params = {
+    type: 'POST',
+    url: '/cart/update.js',
+    data: { updates: productObj },
+    dataType: 'json',
+    success: function(cart) {
+      if ((typeof callback) === 'function') {
+        callback(cart);
+      }
+      else {
+        ShopifyAPI.onCartUpdate(cart);
+      }
+    },
+    error: function(XMLHttpRequest, textStatus) {
+      ShopifyAPI.onError(XMLHttpRequest, textStatus);
+    }
+  };
+  jQuery.ajax(params);
+}
+
+// productArr [ { quantity: 1, id: 794864229, } ]
+// productArr [ { quantity: 1, id: 794864229, }, { quantity: 2, id: 294334523, } ]
+ShopifyAPI.addMany = function(productArr, callback) {
+  var params = {
+    type: 'POST',
+    url: '/cart/add.js',
+    data: { items: productArr },
+    dataType: 'json',
+    success: function(cart) {
+      if ((typeof callback) === 'function') {
+        callback(cart);
+      }
+      else {
+        ShopifyAPI.onCartUpdate(cart);
+      }
+    },
+    error: function(XMLHttpRequest, textStatus) {
+      ShopifyAPI.onError(XMLHttpRequest, textStatus);
+    }
+  };
+  jQuery.ajax(params);
+}
+
+/*============================================================================
+  Ajax Shopify Add To Cart
+==============================================================================*/
+var ajaxCart = (function(module, $) {
+
+  'use strict';
+
+  // Public functions
+  var init, loadCart;
+
+  // Private general variables
+  var settings, isUpdating, $body;
+
+  // Private plugin variables
+  var $formContainer, $addToCart, $cartCountSelector, $cartCostSelector, $cartContainer, $drawerContainer;
+
+  // Private functions
+  var updateCountPrice, formOverride, itemAddedCallback, itemErrorCallback, cartUpdateCallback, buildCart, cartCallback, adjustCart, adjustCartCallback, createQtySelectors, qtySelectors, validateQty;
+
+  /*============================================================================
+    Initialise the plugin and define global options
+  ==============================================================================*/
+  init = function (options) {
+
+    // Default settings
+    settings = {
+      formSelector       : 'form[action^="/cart/add"]',
+      cartContainer      : '#CartContainer',
+      addToCartSelector  : 'input[type="submit"]',
+      cartCountSelector  : null,
+      cartCostSelector   : null,
+      moneyFormat        : '${{amount}}',
+      disableAjaxCart    : false,
+      enableQtySelectors : true
+    };
+
+    // Override defaults with arguments
+    $.extend(settings, options);
+
+    // Select DOM elements
+    $formContainer     = $(settings.formSelector);
+    $cartContainer     = $(settings.cartContainer);
+    $addToCart         = $formContainer.find(settings.addToCartSelector);
+    $cartCountSelector = $(settings.cartCountSelector);
+    $cartCostSelector  = $(settings.cartCostSelector);
+
+    // General Selectors
+    $body = $('body');
+
+    // Track cart activity status
+    isUpdating = false;
+
+    // Setup ajax quantity selectors on the any template if enableQtySelectors is true
+    if (settings.enableQtySelectors) {
+      qtySelectors();
+    }
+
+    // Take over the add to cart form submit action if ajax enabled
+    if (!settings.disableAjaxCart && $addToCart.length) {
+      formOverride();
+    }
+
+    // Run this function in case we're using the quantity selector outside of the cart
+    adjustCart();
+  };
+
+  loadCart = function () {
+    $body.addClass('drawer--is-loading');
+    ShopifyAPI.getCart(cartUpdateCallback);
+  };
+
+  updateCountPrice = function (cart) {
+    if ($cartCountSelector) {
+      $cartCountSelector.html(cart.item_count).removeClass('hidden-count');
+
+      if (cart.item_count === 0) {
+        $cartCountSelector.addClass('hidden-count');
+      }
+    }
+    if ($cartCostSelector) {
+      $cartCostSelector.html(theme.Currency.formatMoney(cart.total_price, settings.moneyFormat));
+    }
+  };
+
+  formOverride = function () {
+    $formContainer.on('submit', function(evt) {
+      evt.preventDefault();
+
+      // Add class to be styled if desired
+      $addToCart.removeClass('is-added').addClass('is-adding');
+
+      // Remove any previous quantity errors
+      $('.qty-error').remove();
+
+      ShopifyAPI.addItemFromForm(evt.target, itemAddedCallback, itemErrorCallback);
+    });
+  };
+
+  itemAddedCallback = function (product) {
+    $addToCart.removeClass('is-adding').addClass('is-added');
+
+    ShopifyAPI.getCart(cartUpdateCallback);
+  };
+
+  itemErrorCallback = function (XMLHttpRequest, textStatus) {
+    var data = eval('(' + XMLHttpRequest.responseText + ')');
+    $addToCart.removeClass('is-adding is-added');
+
+    if (!!data.message) {
+      if (data.status == 422) {
+        $formContainer.after('<div class="errors qty-error">'+ data.description +'</div>')
+      }
+    }
+  };
+
+  cartUpdateCallback = function (cart) {
+    // Update quantity and price
+    updateCountPrice(cart);
+    buildCart(cart);
+  };
+
+  buildCart = function (cart) {
+    // Start with a fresh cart div
+    $cartContainer.empty();
+
+    // Show empty cart
+    if (cart.item_count === 0) {
+      $cartContainer
+        .append('<p>' + {{ 'cart.general.empty' | t | json }} + '</p>');
+      cartCallback(cart);
+      return;
+    }
+
+    // Handlebars.js cart layout
+    var items = [],
+        item = {},
+        data = {},
+        source = $("#CartTemplate").html(),
+        template = Handlebars.compile(source);
+
+    // Add each item to our handlebars.js data
+    $.each(cart.items, function(index, cartItem) {
+
+      /* Hack to get product image thumbnail
+       *   - If image is not null
+       *     - Remove file extension, add _small, and re-add extension
+       *     - Create server relative link
+       *   - A hard-coded url of no-image
+      */
+      if (cartItem.image != null){
+        var prodImg = cartItem.image.replace(/(\.[^.]*)$/, "_small$1").replace('http:', '');
+      } else {
+        var prodImg = "//cdn.shopify.com/s/assets/admin/no-image-medium-cc9732cb976dd349a0df1d39816fbcc7.gif";
+      }
+		//console.log(cartItem.variant_title);
+      // Create item's data object and add to 'items' array
+      item = {
+        id: cartItem.variant_id,
+        line: index + 1, // Shopify uses a 1+ index in the API
+        url: cartItem.url,
+        img: prodImg,
+        name: cartItem.product_title,
+        variation: cartItem.variant_title,
+        properties: cartItem.properties,
+        itemAdd: cartItem.quantity + 1,
+        itemMinus: cartItem.quantity - 1,
+        itemQty: cartItem.quantity,
+        price: theme.Currency.formatMoney(cartItem.price, settings.moneyFormat),
+        vendor: cartItem.vendor
+      };
+
+      items.push(item);
+    });
+
+    // Gather all cart data and add to DOM
+    data = {
+      items: items,
+      note: cart.note,
+       totalPrice:theme.Currency.formatMoney(cart.total_price, settings.moneyFormat)
+    }
+
+    $cartContainer.append(template(data));
+
+    cartCallback(cart);
+  };
+
+  cartCallback = function(cart) {
+    $body.removeClass('drawer--is-loading');
+    $body.trigger('ajaxCart.afterCartLoad', cart);
+    
+     if (window.Shopify && Shopify.StorefrontExpressButtons) {
+      Shopify.StorefrontExpressButtons.initialize();
+    }
+    
+
+    // floating bar for ingredients products
+    //console.log(cart.items);
+    var ingredient_cartQTY = 0;
+    var machine_cartQTY = 0;
+    var none_almond_machine_cartQTY = 0;
+    var almond_machine_cartQTY = 0;
+    var accessary_cartQTY = 0;
+    
+    $.each(cart.items, function(index, cartItem) {
+
+      if (cartItem.product_id == '4383774507108'){ // count -> Bulk Almonds - 3lb
+        ingredient_cartQTY += cartItem.quantity;     
+      }
+      if (cartItem.product_id == '4383775588452'){ // count -> Bulk Organic Coconut Shreds - 2lb
+        ingredient_cartQTY += cartItem.quantity;
+      }
+      if (cartItem.product_id == '4383776276580'){ // count -> Bulk Organic Whole Grain Oats - 3lb
+        ingredient_cartQTY += cartItem.quantity;
+      }
+      if (cartItem.product_id == '5604200743064'){ // count -> Bulk Organic Cashew Pieces - 3lb
+        ingredient_cartQTY += cartItem.quantity;
+      }
+      
+      if (cartItem.product_id == '4415898648676'){ // count -> Almond Cow Pro Starter Set
+        machine_cartQTY += cartItem.quantity;
+      }
+      if (cartItem.product_id == '1671272693795'){ // count -> Almond Cow Pro
+        machine_cartQTY += cartItem.quantity;
+      }
+      if (cartItem.product_id == '4344800772196'){ // count -> Almond Cow Starter Set
+        machine_cartQTY += cartItem.quantity;
+      }
+      if (cartItem.product_id == '5455992946840'){ // count -> Case of Bulk Almonds - 30lbs
+        machine_cartQTY += cartItem.quantity;
+      }
+      if (cartItem.product_id == '5456146628760'){ // count -> Case of Bulk Organic Whole Grain Oats - 30lbs
+        machine_cartQTY += cartItem.quantity;
+      }
+      if (cartItem.product_id == '5456094134424'){ // count -> Case of Bulk Organic Coconut Shreds - 16lbs
+        machine_cartQTY += cartItem.quantity;
+      }
+      if (cartItem.product_id == '5588753842328'){ // count -> Case of Bulk Organic Cashew Pieces - 30lbs
+        machine_cartQTY += cartItem.quantity;
+      }
+      if (cartItem.product_id == '5521345085592'){ // count -> Ingredient Variety Case
+        machine_cartQTY += cartItem.quantity;
+      }
+      if (cartItem.product_id == '1727829803043'){ // count -> Almond Cow Glass Jug (6 Pack)
+        machine_cartQTY += cartItem.quantity;
+      }
+      
+      if (cartItem.product_id == '8709252690'){ // count Almond machine
+        almond_machine_cartQTY += cartItem.quantity;
+      }
+      if (cartItem.product_id != '8709252690'){ // count none Almond machine
+        none_almond_machine_cartQTY += cartItem.quantity;
+      }
+      
+      if (cartItem.product_id == '1376805060643'){ // count -> Almond Cow Glass Jug
+        accessary_cartQTY += cartItem.quantity;
+      }
+      if (cartItem.product_id == '4547457384548'){ // count -> Glass Jug & Jug Brush
+        accessary_cartQTY += cartItem.quantity;
+      }
+      if (cartItem.product_id == '4377372950628'){ // count -> Almond Cow Bottles - Set of 4
+        accessary_cartQTY += cartItem.quantity;
+      }
+      if (cartItem.product_id == '4404091879524'){ // count -> Jug Brush
+        accessary_cartQTY += cartItem.quantity;
+      }
+      
+    });
+    
+    if ((accessary_cartQTY > 0) && (accessary_cartQTY < 3)){
+      $('.ajaxcart_shipping_text').css('display', 'block');
+      $(".ajaxcart_shipping_text > p.ajaxsubtext").text("Shipping:");
+      $(".ajaxcart_shipping_text > p.ajaxsubtotal").text("$7.95");
+    }
+
+    // Shipping text between 1 ~3 ingredients
+    if ((ingredient_cartQTY > 0) && (ingredient_cartQTY < 3)) {
+      $('.ajaxcart_shipping_text').css('display', 'block');
+      $(".ajaxcart_shipping_text > p.ajaxsubtext").text("Shipping:");
+      $(".ajaxcart_shipping_text > p.ajaxsubtotal").text("$7.95");
+//       $('.ajax-checkout-btn').prop('disabled', true);
+//       $('.ajax-checkout-btn').css('opacity', '0.6');
+    } 
+    // progress bar and text when cart 1 ingredient
+    if (ingredient_cartQTY == 1){
+      $('.progress-bar').css('display', 'block');
+      $(".progress-bar_text > p > span").text("1 ingredient added.");
+      $(".progress-bar_text > small> span").text("Just 2 more needed for free shipping.");
+      $('.floating-bar > .fillmult').each(function(){
+        var width='33.33%';
+        $(this).animate({ width: width }, 2000);
+      }); 
+    }
+    // progress bar and text when cart 2 ingredients
+    if (ingredient_cartQTY == 2){
+      $('.progress-bar').css('display', 'block');
+      $(".progress-bar_text > p > span").text("2 ingredients added.");
+      $(".progress-bar_text > small> span").text("Just 1 more needed for free shipping.");
+      $('.floating-bar > .fillmult').each(function(){
+        var width='66.66%';
+        $(this).animate({ width: width }, 2000);
+      }); 
+    }
+    // progress bar and text when cart 3 ingredients
+    if (ingredient_cartQTY >= 3){
+      $('.progress-bar').css('display', 'block');
+      $(".progress-bar_text > p > span").text("You’re all set!");
+      $(".progress-bar_text > small").css('display', 'none');
+      $('.floating-bar > .fillmult').each(function(){
+        var width='100%';
+        $(this).animate({ width: width }, 2000);
+      }); 
+    }
+    
+//     if ((ingredient_cartQTY == 1) && (accessary_cartQTY == 1)){
+//       $('.progress-bar').css('display', 'none');
+//       $('.ajaxcart_shipping_bar').css('display', 'block');
+//       $(".ajaxcart_shipping_bar > p").text("Add 1 item in order to ship.");
+//     }
+    
+    // display the text and hide progress bar when over 2 accessories + 1 ingredient
+    if ((ingredient_cartQTY >= 1) && (accessary_cartQTY >= 2)){
+      $('.ajaxcart_shipping_bar').css('display', 'none');
+      $('.progress-bar').css('display', 'block');
+      $(".progress-bar_text > p > span").text("You've got free shipping.");
+      $(".progress-bar_text > small").css('display', 'none');
+      $('.floating-bar > .fillmult').each(function(){
+        var width='100%';
+        $(this).animate({ width: width }, 2000);
+      });
+      
+      $('.ajaxcart_shipping_text').css('display', 'block');
+      $(".ajaxcart_shipping_text > p.ajaxsubtext").text("Shipping:");
+      $(".ajaxcart_shipping_text > p.ajaxsubtotal").text("Free!");
+    }
+    // display the text and hide progress bar when 1 accessory + over 2 ingredients
+    if ((ingredient_cartQTY >= 2) && (accessary_cartQTY > 0)){
+      $('.ajaxcart_shipping_bar').css('display', 'none');
+      $('.progress-bar').css('display', 'block');
+      $(".progress-bar_text > p > span").text("You've got free shipping.");
+      $(".progress-bar_text > small").css('display', 'none');
+      $('.floating-bar > .fillmult').each(function(){
+        var width='100%';
+        $(this).animate({ width: width }, 2000);
+      });
+      
+      $('.ajaxcart_shipping_text').css('display', 'block');
+      $(".ajaxcart_shipping_text > p.ajaxsubtext").text("Shipping:");
+      $(".ajaxcart_shipping_text > p.ajaxsubtotal").text("Free!");
+    }
+    
+    // display the text When cart "AC Pro Starter Set, AC Pro, AC Starter Set, All ingredient bundles"
+    if ( machine_cartQTY >0 ){
+      $('.progress-bar').css('display', 'none');
+      
+      $('.ajaxcart_shipping_bar').css('display', 'block');
+      $(".ajaxcart_shipping_bar > p").text("You've got free shipping.");
+      $('.ajaxcart_shipping_text').css('display', 'block');
+      $(".ajaxcart_shipping_text > p.ajaxsubtext").text("Shipping:");
+      $(".ajaxcart_shipping_text > p.ajaxsubtotal").text("Free!");
+    }
+    
+     // display the text when add 1 almond machine only
+    if (almond_machine_cartQTY == 1 ) {
+      $('.ajaxcart_shipping_bar').css('display', 'block');
+      $(".ajaxcart_shipping_bar > p").text("Add an item to get free shipping.");
+      $('.ajaxcart_shipping_text').css('display', 'block');
+      $(".ajaxcart_shipping_text > p.ajaxsubtext").text("Shipping:");
+      $(".ajaxcart_shipping_text > p.ajaxsubtotal").text("$7.95");
+    }    
+    //display the text when over 2 almond machines
+    if (almond_machine_cartQTY > 1) {
+      $('.ajaxcart_shipping_bar').css('display', 'block');
+      $(".ajaxcart_shipping_bar > p").text("You've got free shipping.");
+      $('.ajaxcart_shipping_text').css('display', 'block');
+      $(".ajaxcart_shipping_text > p.ajaxsubtext").text("Shipping:");
+      $(".ajaxcart_shipping_text > p.ajaxsubtotal").text("Free!");
+    }    
+    //display the text when add almond machine + other item(none almond machine)
+    if ((almond_machine_cartQTY >= 1) && (none_almond_machine_cartQTY > 0)) {
+      $('.ajaxcart_shipping_bar').css('display', 'block');
+      $(".ajaxcart_shipping_bar > p").text("You've got free shipping.");
+      $('.ajaxcart_shipping_text').css('display', 'block');
+      $(".ajaxcart_shipping_text > p.ajaxsubtext").text("Shipping:");
+      $(".ajaxcart_shipping_text > p.ajaxsubtotal").text("Free!");
+    }
+    
+    // ----- floating bar for ingredients products end ------
+    
+    //     Geo API part within Ajax template
+    GeolizrAPI.addEventListener('geolizr.geoData', function(geoData) {
+      var country = geoData.countryCode;
+      
+      if ( "US" === country ){
+        $('.ajax-us-only').css('display', 'block');
+      } else{
+        $('.ajax-us-only').css('display', 'none');
+      }
+      
+      if ( "US" === country || "CA" === country || "PR" === country ){
+        $('.ajax-pre-order').css('display', 'block');
+      } else {
+        $('.ajax-pre-order').css('display', 'none');
+      }
+    });
+    
+    //     rebuy app integration for ajax cart
+    document.addEventListener('rebuy.add', (event) => {
+      updateCountPrice(Rebuy.Cart.cart);
+      buildCart(Rebuy.Cart.cart);
+    });
+
+  };
+
+  adjustCart = function () {
+    
+    // Add or remove from the quantity
+    $body.on('click', '.ajaxcart__qty-adjust', function() {
+      var $el = $(this),
+          line = $el.data('line'),
+          $qtySelector = $el.siblings('.ajaxcart__qty-num'),
+          qty = parseInt($qtySelector.val().replace(/\D/g, ''));
+
+      var qty = validateQty(qty);
+
+      // Add or subtract from the current quantity
+      if ($el.hasClass('ajaxcart__qty--plus')) {
+        qty += 1;
+      } else {
+        qty -= 1;
+        if (qty <= 0) qty = 0;
+      }
+
+      // If it has a data-line, update the cart.
+      // Otherwise, just update the input's number
+      if (line) {
+        updateQuantity(line, qty);
+      } else {
+        $qtySelector.val(qty);
+      }
+    });
+
+    // Update quantity based on input on change
+    $body.on('change', '.ajaxcart__qty-num', function() {
+      var $el = $(this),
+          line = $el.data('line'),
+          qty = parseInt($el.val().replace(/\D/g, ''));
+
+      var qty = validateQty(qty);
+
+      // If it has a data-line, update the cart
+      if (line) {
+        updateQuantity(line, qty);
+      }
+    });
+
+    // Prevent cart from being submitted while quantities are changing
+    $body.on('submit', 'form.ajaxcart', function(evt) {
+      if (isUpdating) {
+        evt.preventDefault();
+      }
+    });
+
+    // Highlight the text when focused
+    $body.on('focus', '.ajaxcart__qty-adjust', function() {
+      var $el = $(this);
+      setTimeout(function() {
+        $el.select();
+      }, 50);
+    });
+
+    function updateQuantity(line, qty) {
+      isUpdating = true;
+
+      // Add activity classes when changing cart quantities
+      var $row = $('.ajaxcart__row[data-line="' + line + '"]').addClass('is-loading');
+
+      if (qty === 0) {
+        $row.parent().addClass('is-removed');
+      }
+
+      // Slight delay to make sure removed animation is done
+      setTimeout(function() {
+        ShopifyAPI.changeItem(line, qty, adjustCartCallback);
+      }, 250);
+    }
+
+    // Save note anytime it's changed
+    $body.on('change', 'textarea[name="note"]', function() {
+      var newNote = $(this).val();
+
+      // Update the cart note in case they don't click update/checkout
+      ShopifyAPI.updateCartNote(newNote, function(cart) {});
+    });
+   // Delegate all events because elements reload with the cart
+		$body.on('click', '.ajaxifyCartremove', function(e) {
+           e.preventDefault();
+         var el = $(this),
+           line = el.data('line') || null,
+          qty = 0;
+
+       // Without a data-line, let the default link action take over
+       if (!line) {
+         return;
+      }
+
+       e.preventDefault();
+       updateQuantity(line, qty);
+        });
+
+
+    // reCharge subscription box in ajax cart start
+    $body.on('click', '.ajax-subscription-btn', function(evt) {
+      evt.preventDefault();
+  
+      var oneTimeProduct = {};
+      var subscriptionProduct = [];
+  
+      $(".cart .ajaxcart__product").each(function(_, el) {
+        var $el = $(el);
+        var productInput = $el.find("input.ajaxcart__qty-num");
+        var productId = productInput.data("id");
+        var productQty = parseInt(productInput.val(), 10);
+        oneTimeProduct[productId] = productQty;
+      });
+      
+      // Get recharge variant ID and transfer qty;
+      for (const prodId in oneTimeProduct) {
+        var shopifyVariantIdInput =  $(`input[data-shopify-id="${prodId}"]`);
+        var rechargeFrequency = $("#rc_shipping_interval_frequency-tstk7udar").val();
+        if(shopifyVariantIdInput.length) {
+          var rechargeVariantId = shopifyVariantIdInput.data("re-var-id");
+          var rechargeSubscriptionId = shopifyVariantIdInput.data("re-sub-id");
+          
+          subscriptionProduct.push({ 
+            quantity: oneTimeProduct[prodId], 
+            id: rechargeVariantId, 
+            properties: {
+              'shipping_interval_frequency': rechargeFrequency,
+              'shipping_interval_unit_type': "Months", 
+              'subscription_id': rechargeSubscriptionId
+            }
+          });
+          oneTimeProduct[prodId] = 0;
+        }
+        else {
+          delete oneTimeProduct[prodId];
+        }
+      }
+      
+      // Callback hell
+      if(Object.keys(oneTimeProduct).length > 0) {
+        ShopifyAPI.updateMany(oneTimeProduct, function() {
+          if(subscriptionProduct.length) {
+            ShopifyAPI.addMany(subscriptionProduct, function() {
+              $(".ajax-checkout-btn").trigger("click");
+            })
+          }
+          else {
+            $(".ajax-checkout-btn").trigger("click");
+          }
+        })
+      }
+      else {
+        $(".ajax-checkout-btn").trigger("click");
+      }
+    });
+    // reCharge subscription box in ajax cart end
+    
+  };
+ 
+  adjustCartCallback = function (cart) {
+    isUpdating = false;
+
+    // Update quantity and price
+    updateCountPrice(cart);
+
+    // Reprint cart on short timeout so you don't see the content being removed
+    setTimeout(function() {
+      ShopifyAPI.getCart(buildCart);
+    }, 150)
+  };
+
+  createQtySelectors = function() {
+    // If there is a normal quantity number field in the ajax cart, replace it with our version
+    if ($('input[type="number"]', $cartContainer).length) {
+      $('input[type="number"]', $cartContainer).each(function() {
+        var $el = $(this),
+            currentQty = $el.val();
+
+        var itemAdd = currentQty + 1,
+            itemMinus = currentQty - 1,
+            itemQty = currentQty;
+
+        var source   = $("#AjaxQty").html(),
+            template = Handlebars.compile(source),
+            data = {
+              id: $el.data('id'),
+              itemQty: itemQty,
+              itemAdd: itemAdd,
+              itemMinus: itemMinus
+            };
+
+        // Append new quantity selector then remove original
+        $el.after(template(data)).remove();
+      });
+    }
+     // If there is a regular link to remove an item, add attributes needed to ajaxify it
+    if ($('a[href^="/cart/change"]', $cartContainer).length) {
+      $('a[href^="/cart/change"]', $cartContainer).each(function() {
+        var el = $(this).addClass('ajaxifyCart--remove');
+      });
+    }
+  };
+
+  qtySelectors = function() {
+    // Change number inputs to JS ones, similar to ajax cart but without API integration.
+    // Make sure to add the existing name and id to the new input element
+    var numInputs = $('input[type="number"]');
+
+    if (numInputs.length) {
+      numInputs.each(function() {
+        var $el = $(this),
+            currentQty = $el.val(),
+            inputName = $el.attr('name'),
+            inputId = $el.attr('id');
+
+        var itemAdd = currentQty + 1,
+            itemMinus = currentQty - 1,
+            itemQty = currentQty;
+
+        var source   = $("#JsQty").html(),
+            template = Handlebars.compile(source),
+            data = {
+              id: $el.data('id'),
+              itemQty: itemQty,
+              itemAdd: itemAdd,
+              itemMinus: itemMinus,
+              inputName: inputName,
+              inputId: inputId
+            };
+
+        // Append new quantity selector then remove original
+        $el.after(template(data)).remove();
+      });
+
+      // Setup listeners to add/subtract from the input
+      $('.js-qty__adjust').on('click', function() {
+        var $el = $(this),
+            id = $el.data('id'),
+            $qtySelector = $el.siblings('.js-qty__num'),
+            qty = parseInt($qtySelector.val().replace(/\D/g, ''));
+
+        var qty = validateQty(qty);
+
+        // Add or subtract from the current quantity
+        if ($el.hasClass('js-qty__adjust--plus')) {
+          qty += 1;
+        } else {
+          qty -= 1;
+          if (qty <= 1) qty = 1;
+        }
+
+        // Update the input's number
+        $qtySelector.val(qty);
+      });
+    }
+  };
+
+  validateQty = function (qty) {
+    if((parseFloat(qty) == parseInt(qty)) && !isNaN(qty)) {
+      // We have a valid number!
+    } else {
+      // Not a number. Default to 1.
+      qty = 1;
+    }
+    return qty;
+  };
+
+  module = {
+    init: init,
+    load: loadCart
+  };
+  
+  
+
+  return module;
+
+}(ajaxCart || {}, jQuery));

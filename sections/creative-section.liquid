@@ -1,0 +1,105 @@
+<div id="creative" class="page-width educational-{{ section.id }} text-center">
+  <h4 class="pre-title">{{ section.settings.pre_text }}</h5>
+  <h3 class="title">{{ section.settings.title }}</h3>
+<!--   <h6>{{ section.settings.sub_text }}</h6> -->
+  
+  <div class="grid">
+    {% for block in section.blocks %}
+    <div class="grid__item medium-up--one-quarter">
+      <div class="tile-content">
+        <div class="content-overlay"></div>
+        {% if block.settings.image %}
+        <img src="{{ block.settings.image | img_url: '400x' }}">
+        {% endif %}
+        <div class="content-details fadeIn-top">
+          <h4><span>{{ block.settings.hover_title }}</span></h4>
+          <p>{{ block.settings.hover_text }}</p>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% comment %}
+  <h4>{{ section.settings.bottom_text }}</h4>
+  {% endcomment %}
+  <a href="/products/starter-set" class="no-opacity pre-remove">
+    <input type="submit" class="btn bordered-btn" value="SHOP NOW">
+  </a>
+  <a href="/products/almond-cow-milk-machine" class="no-opacity none-pre-remove">
+    <input type="submit" class="btn bordered-btn" value="SHOP NOW">
+  </a>
+  
+</div>
+
+{% schema %}
+  {
+    "name": "Creative Section",
+    "settings": [
+		{
+			"type"    :   "text",
+			"id"      :   "pre_text",
+			"label"   :   "Pre Text"
+		},
+		{
+			"type"    :   "text",
+			"id"      :   "title",
+			"label"   :   "Title"
+		},
+		{
+			"type"    :   "text",
+			"id"      :   "sub_text",
+			"label"   :   "Sub Text"
+		},
+		{
+			"type"    :   "text",
+			"id"      :   "bottom_text",
+			"label"   :   "Bottom Text"
+		}
+	],
+	"blocks":[
+		{
+			"type"    :   "image",
+			"name"    :   "Image",
+			"settings":[
+				{
+					"type"   :  "image_picker",
+					"id"     :  "image",
+					"label"  :  "Image"
+				},
+				{
+					"type"   :  "text",
+					"id"     :  "hover_title",
+					"label"  :  "Hover Title"
+				},
+				{
+					"type"   :  "text",
+					"id"     :  "hover_text",
+					"label"  :  "Hover Text"
+				}
+			]
+		}
+	],
+    "default": {
+		"blocks": [
+			{
+				"type": "image"
+			},
+			{
+				"type": "image"
+			},
+			{
+				"type": "image"
+			},
+			{
+				"type": "image"
+			}
+		]
+	}
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,206 @@
+<section class="product-{{ product.id }}">
+  <div class="page-width">
+    <h3 class="title">{{ section.settings.title }}</h3>
+    <div class="slider-part">
+      <div class="slider ingredients-product-recipes">
+        {% for block in section.blocks %}
+        
+          <!--  Product - Bulk Organic Cashew Pieces - 3lb   -->
+          {% if product.id == 5604200743064 and block.type == 'recipes' %}
+            <div>
+              <a href="{{ block.settings.recipe_link }}" target="_blank">
+                <div class="recipe-block">
+                  <div>
+                    <img data-lazy="{{ block.settings.recipe_image | img_url: '350x' }}" />
+                  </div>
+                  <p class="recipe-title">{{ block.settings.recipe_title }}</p>
+                </div>
+              </a>
+            </div>
+          {% endif %}
+        
+          <!--  Product - Bulk Organic Whole Grain Oats - 3lb   -->
+          {% if product.id == 4383776276580 and block.type == 'oats' %}
+            <div>
+              <a href="{{ block.settings.recipe_link }}" target="_blank">
+                <div class="recipe-block">
+                  <div>
+                    <img data-lazy="{{ block.settings.recipe_image | img_url: '350x' }}" />
+                  </div>
+                  <p class="recipe-title">{{ block.settings.recipe_title }}</p>
+                </div>
+              </a>
+            </div>
+          {% endif %}
+        
+          <!--  Product - Bulk Organic Coconut Shreds - 2lb  -->
+          {% if product.id == 4383775588452 and block.type == 'coconut' %}
+            <div>
+              <a href="{{ block.settings.recipe_link }}" target="_blank">
+                <div class="recipe-block">
+                  <div>
+                    <img data-lazy="{{ block.settings.recipe_image | img_url: '350x' }}" />
+                  </div>
+                  <p class="recipe-title">{{ block.settings.recipe_title }}</p>
+                </div>
+              </a>
+            </div>
+          {% endif %}
+        
+          <!--  Product - Bulk Almonds - 3lb  -->
+          {% if product.id == 4383774507108 and block.type == 'almonds' %}
+            <div>
+              <a href="{{ block.settings.recipe_link }}" target="_blank">
+                <div class="recipe-block">
+                  <div>
+                    <img data-lazy="{{ block.settings.recipe_image | img_url: '350x' }}" />
+                  </div>
+                  <p class="recipe-title">{{ block.settings.recipe_title }}</p>
+                </div>
+              </a>
+            </div>
+          {% endif %}
+        
+        {% endfor %}
+      </div>
+      <div class="ingredients-slick-prev slick-arrows">
+        {% include 'icon-chevron-left' %}
+      </div>
+      <div class="ingredients-slick-next slick-arrows">
+        {% include 'icon-chevron-right' %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  $('.ingredients-product-recipes').slick({
+    dots: false,
+    prevArrow: $('.ingredients-slick-prev'),
+    nextArrow: $('.ingredients-slick-next'),
+    infinite: true,
+    //     fade: true,
+    swipe:true,
+    //     autoplay: true,
+    speed: 1000,
+    slidesToShow: 2,
+    slidesToScroll: 2,
+    responsive: [
+      {
+        breakpoint: 750,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          speed: 1000
+        }
+      }
+    ]
+    //     adaptiveHeight: true
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Ingredients Recipes",
+	"class": "ingredients-recipes",
+    "settings": [
+		{
+			"type"  :  "text",
+			"id"    :  "title",
+			"label" :  "Title"
+		}
+	],
+	"blocks": [
+		{
+			"type"  :  "recipes",
+			"name"  :  "Cashew Recipes",
+			"settings": [
+				{
+					"type"  :  "url",
+					"id"    :  "recipe_link",
+					"label" :  "Recipe Link"
+				},
+				{
+                    "type"  :  "image_picker",
+                    "id"    :  "recipe_image",
+                    "label" :  "Recipe Image"
+                },
+				{
+					"type"  :  "textarea",
+					"id"    :  "recipe_title",
+					"label" :  "Recipe Title"
+				}
+			]
+		},
+		{
+			"type"  :  "oats",
+			"name"  :  "Oat Recipes",
+			"settings": [
+				{
+					"type"  :  "url",
+					"id"    :  "recipe_link",
+					"label" :  "Recipe Link"
+				},
+				{
+                    "type"  :  "image_picker",
+                    "id"    :  "recipe_image",
+                    "label" :  "Recipe Image"
+                },
+				{
+					"type"  :  "textarea",
+					"id"    :  "recipe_title",
+					"label" :  "Recipe Title"
+				}
+			]
+		},
+		{
+			"type"  :  "coconut",
+			"name"  :  "Coconut Recipes",
+			"settings": [
+				{
+					"type"  :  "url",
+					"id"    :  "recipe_link",
+					"label" :  "Recipe Link"
+				},
+				{
+                    "type"  :  "image_picker",
+                    "id"    :  "recipe_image",
+                    "label" :  "Recipe Image"
+                },
+				{
+					"type"  :  "textarea",
+					"id"    :  "recipe_title",
+					"label" :  "Recipe Title"
+				}
+			]
+		},
+		{
+			"type"  :  "almonds",
+			"name"  :  "Almonds Recipes",
+			"settings": [
+				{
+					"type"  :  "url",
+					"id"    :  "recipe_link",
+					"label" :  "Recipe Link"
+				},
+				{
+                    "type"  :  "image_picker",
+                    "id"    :  "recipe_image",
+                    "label" :  "Recipe Image"
+                },
+				{
+					"type"  :  "textarea",
+					"id"    :  "recipe_title",
+					"label" :  "Recipe Title"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

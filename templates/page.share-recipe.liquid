@@ -1,0 +1,61 @@
+<style>
+  
+  @media only screen and (min-width: 750px){
+    #shopify-section-header{
+      position: absolute;
+      z-index: 9999;
+    }
+    .site-header{
+      background-color: transparent;
+    }
+    .main-content{ padding-top: 0 !important; }
+  }
+  .custom_mobile_nav .site-nav>li>a{
+    color: #ffffff;
+  }
+
+</style>
+
+<div class="share-recipe-page">
+  <div class="share-image"></div>
+  <div class="page-width share-recipe-content text-center">
+    <h1 class="cream-text">Share Your Recipes</h1>
+    <p class="cream-text">
+      Have a delicious recipe you’ve made with your Almond Cow? We’d love to hear it!
+      Share your unique recipe below for a chance to have it featured on our site - we can’t wait to hear what you’ve created!
+    </p>
+    <div class="contact-form form-vertical share-contact">
+      {% form 'contact' %}
+      {% if form.posted_successfully? %}
+      <p class="note form-success cream-text">
+        {{ 'contact.form.post_success' | t }}
+      </p>
+      {% endif %}
+
+      {{ form.errors | default_errors }}
+      <div class="contact-form">
+        <input type="hidden" name="form_type" value="contact">
+        <input type="hidden" name="utf8" value="✓">
+        <div class="grid grid--half-gutters">
+          <div class="grid__item  ">
+            <input type="text" id="ContactFormName" name="contact[name]" placeholder="Name" value="">
+          </div>
+          <div class="grid__item ">
+            <input type="email" id="ContactFormEmail" name="contact[email]" placeholder="Email" autocorrect="off" autocapitalize="off" value="" class="">
+          </div>
+        </div>
+        <div class="grid ">
+          <div class="grid__item zero-left-padding ">
+            <textarea rows="3"  id="ContactFormRecipe" name="contact[recipe]" placeholder="Recipe ..."></textarea>
+          </div>
+        </div>       
+      </div>
+
+      <div class="contact-form-submit-btn-container">
+        <input type="submit" id="contactus-submit" class="btn" value="SEND">
+      </div>
+
+      {% endform %}
+    </div>
+  </div>
+</div>

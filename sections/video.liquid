@@ -1,0 +1,107 @@
+{% assign text_options = section.settings.rotating | newline_to_br | split: '<br />' %}
+<script src="https://f.vimeocdn.com/js/froogaloop2.min.js"></script>
+
+<section data-rotate-text-hero>
+  <div class="mobile-only mobile-content">
+    <h1>
+      {{ section.settings.mobile_title  }}
+    </h1>
+  </div>
+  <div class="video-part" 
+       {% if section.settings.background_image %} style="background-image: url({{ section.settings.background_image | img_url: '1903x' }})" {% endif %}>
+    <div class="pre-remove">
+      <iframe id="projectplayer" src="" data-src="{{ section.settings.video }}?api=1&background=1&autoplay=1&amp;loop=1" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen allow=autoplay id="vimeo_video">
+      </iframe>
+    </div>
+  </div>
+  <div class="content-part">
+    <h1 class="desktop-only">
+      {{ section.settings.title  }}
+      <span class="rotating-hero__rotate-spacer">
+        <span class="rotating-hero__rotate" data-rotate>{{ text_options | first }}</span>
+      </span>
+    </h1>
+    <div class="pre-remove">
+      <a href="{{ section.settings.button1_link }}" class="btn main-btn">{{ section.settings.button1_label }}</a>
+    </div>
+    <div class="none-pre-remove">
+      <a href="{{ section.settings.button2_link }}" class="btn main-btn">{{ section.settings.button2_label }}</a>
+    </div>
+  </div>
+</section>
+
+<script type="text/javascript">
+  iframe = $('#projectplayer')[0];
+  player = $f(iframe);
+  player.api('setVolume',1); //reset volume
+  
+  var rotateText = [{%- for option in text_options -%}'{{- option | strip -}}',{%- endfor -%}];
+</script>
+
+{% schema %}
+{
+  "name": "Video",
+  "class": "holiday-video-section",
+  "settings": [
+    {
+      "type": "video_url",
+      "id": "video",
+      "label": "Video link",
+      "accept": ["vimeo"],
+      "default": "https://player.vimeo.com/video/480460184"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image",
+      "info": "width: 1920 px recommended"
+    },
+    {
+      "type": "textarea",
+      "id": "title",
+      "label": "Heading for Desktop",
+      "info": "Heading text before the rotating text"
+    },
+	{
+		"type"  :  "textarea",
+		"id"    :  "mobile_title",
+		"label" :  "Heading for Mobile"
+	},
+    {
+      "type": "textarea",
+      "id": "rotating",
+      "label": "Rotating Text",
+      "info": "List seperated by line breaks"
+    },
+    {
+      "type": "text",
+      "id": "button1_label",
+      "label": "US/CANADA button label"
+    },
+    {
+      "type": "url",
+      "id": "button1_link",
+      "label": "US/CANADA button link"
+    },
+	{
+      "type": "text",
+      "id": "button2_label",
+      "label": "Rest Of World button label"
+    },
+    {
+      "type": "url",
+      "id": "button2_link",
+      "label": "Rest Of World button link"
+    }
+  ],
+  "presets": [{
+    "name": "Video",
+    "category": "Video"
+  }]
+}
+
+{% endschema %}

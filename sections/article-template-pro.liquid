@@ -1,0 +1,66 @@
+<script src="{{ 'jQuery.print.js' | asset_url }}"></script>
+
+<div id="recipe-print-container">
+
+  <div class="rte article-part" itemprop="articleBody">
+    {{ article.content }}
+  </div>
+  
+</div>
+
+{% if section.settings.show_share_buttons %}
+  {% include 'social-sharing', share_title: article.title, share_permalink: article.url, share_image: article.image %}
+{% endif %}
+
+<div class="text-center padding-top-30">
+  <a href="/products/almond-cow-pro-milk-machine">
+    <input type="submit" class="btn article_btn" value="Shop Almond Cow Pro">
+  </a>
+</div>
+
+<script>
+  $('.print-btn').click(function() {
+    //Print ele4 with custom options
+    $("#recipe-print-container").print({
+      //Use Global styles
+      globalStyles : false,
+      //Add link with attrbute media=print
+      mediaPrint : false,
+      //Custom stylesheet
+      stylesheet : "https://fonts.googleapis.com/css?family=Montserrat",
+      //Print in a hidden iframe
+      iframe : true,
+      //Don't print this
+      noPrintSelector : "img, svg",
+      //Add this at top
+      prepend : "<div style='text-align: center;'><img style='width: 40%;' src='//cdn.shopify.com/s/files/1/1667/4225/files/Logo-transparent-background.png?6801640281008118169' /></div>",
+      //Add this on bottom
+      append : "<div style='text-align: center; padding-top: 30px;'><a href='https://almondcow.co/'>AlmondCow.co</a></div>",
+      //Log to console when printing is done via a deffered callback
+      deferred: $.Deferred().done(function() { console.log('Printing done', arguments); })
+    });
+  });
+</script>
+
+
+{% schema %}
+  {
+    "name": "Pro Recipe Pages",
+    "settings": [
+   
+      {
+        "type": "checkbox",
+        "id": "show_share_buttons",
+        "label": "Show social sharing buttons",
+        "default": true
+      },
+	  {
+		"type"  :  "checkbox",
+		"id"    :  "show_print_button",
+		"label" :  "Show print button",
+		"default": false
+	  }
+    ]
+  }
+{% endschema %}
+

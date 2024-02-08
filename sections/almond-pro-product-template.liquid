@@ -1,0 +1,574 @@
+{{ 'cart-modal.css' | asset_url | stylesheet_tag }}
+
+<div class="product-template__container" itemscope itemtype="http://schema.org/Product" id="ProductSection-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="product" data-enable-history-state="true">
+  <meta itemprop="name" content="{{ product.title }}">
+  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+  <meta itemprop="image" content="{{ product.featured_image.src | img_url: '800x' }}">
+
+  {% comment %}
+    Get first variant, or deep linked one
+  {% endcomment %}
+  {%- assign current_variant = product.selected_or_first_available_variant -%}
+  {%- assign product_thumb_size = '130x' -%}
+  {%- assign product_image_zoom_size = '1024x1024' -%}
+  {%- assign enable_zoom = section.settings.enable_zoom -%}
+
+  {% case section.settings.image_size %}
+    {% when 'small' %}
+      {%- assign product_image_width = 'medium-up--one-third' -%}
+      {%- assign product_description_width = 'medium-up--two-thirds' -%}
+      {%- assign product_thumbnail_width = 'medium-up--one-third' -%}
+      {%- assign product_image_size = '345x' -%}
+    {% when 'medium' %}
+      {%- assign product_image_width = 'medium-up--one-half' -%}
+      {%- assign product_description_width = 'medium-up--one-half' -%}
+      {%- assign product_thumbnail_width = 'medium-up--one-quarter' -%}
+      {%- assign product_image_size = '545x' -%}
+    {% when 'large' %}
+      {%- assign product_image_width = 'medium-up--two-thirds' -%}
+      {%- assign product_description_width = 'medium-up--one-third' -%}
+      {%- assign product_thumbnail_width = 'medium-up--one-fifth' -%}
+      {%- assign product_image_size = '720x' -%}
+    {% when 'full' %}
+      {%- assign product_image_width = '' -%}
+      {%- assign product_description_width = '' -%}
+      {%- assign product_thumbnail_width = 'medium-up--one-eighth' -%}
+      {%- assign product_image_size = '1090x' -%}
+      {%- assign enable_zoom = false -%}
+  {% endcase %}
+    
+    
+    <div class="pro-hero-section">
+      
+      {% if section.settings.desktop_image %}
+      <img class="desktop-only lazyload" data-src="{{ section.settings.desktop_image | img_url: "1903x" }}" />
+      {% endif %}
+      
+      {% if section.settings.mobile_image %}
+      <img class="mobile-only lazyload" data-src="{{ section.settings.mobile_image | img_url: "750x" }}" />
+      {% endif %}
+      
+      <div class="captions">
+        {% if section.settings.pro_logo %}
+        <img class="lazyload" data-src="{{ section.settings.pro_logo | img_url: "330x" }}" />
+        {% endif %}
+        
+        <h4 class="title">{{ section.settings.pro_title }}</h4>
+        <p>{{ section.settings.pro_sub }}</p>
+        
+        <form method="post" action="/cart/add" class="AddToCartForm">          
+          <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+          <input type="submit" class="btn main-btn AddToCart" value="Buy now" />
+        </form>        
+      </div>
+      
+    </div>
+
+    <div class="grid product-single">
+
+      <div class="page-width main_product_almond">
+
+        <div class="grid__item product-single__photos {{ product_image_width }}{% if section.settings.image_size == 'full' %} product-single__photos--full{% endif %}">
+          
+{% capture mzp %}{% include 'magiczoomplus' %}{% endcapture %}
+{% if mzp contains "Liquid error" %} 
+
+          {%- assign featured_img_src = current_variant.featured_image.src | default: product.featured_image.src -%}
+          {%- assign featured_img_alt = current_variant.featured_image.alt | default: product.featured_image.alt -%}
+          
+          <div id="FeaturedImageZoom-{{ section.id }}" class="product-single__photo{% if product.images.size > 1 %} product-single__photo--has-thumbnails product__slider-main {% endif %}" {% if enable_zoom %}data-zoom="{{ featured_img_src | img_url: product_image_zoom_size }}"{% endif %}>
+            {% for image in product.images %}
+            <div class="slide">
+              <img data-lazy="{{ image.src | img_url: product_image_size }}" {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size }}"{% endif %} id="FeaturedImage-{{ section.id }}" class="product-featured-img{% if enable_zoom %} js-zoom-enabled{% endif %}">
+            </div>
+            {% endfor %}
+          </div>
+          
+          <button type="button" class="slick-prev-arrow">
+            {% include 'icon-chevron-left' %}
+            <span class="icon__fallback-text">{{ 'sections.slideshow.previous_slide' | t }}</span>
+          </button>
+          
+          <button type="button" class="slick-next-arrow">
+            {% include 'icon-chevron-right' %}
+            <span class="icon__fallback-text">{{ 'sections.slideshow.next_slide' | t }}</span>
+          </button>
+          
+
+          {% if product.images.size > 1 %}
+          {% if product.images.size > 3 %}
+          {%- assign enable_thumbnail_slides = true -%}
+          {% endif %}
+
+          <div class="thumbnails-wrapper{% if enable_thumbnail_slides == true %} thumbnails-slider--active product__slider-thmb{% endif %}">
+            
+            {% for image in product.images %}
+            
+            <div class="slide">
+              <a
+                 href="{{ image.src | img_url: product_image_size }}"
+                 class="text-link product-single__thumbnail product-single__thumbnail--{{ section.id }}"
+                 {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size }}"{% endif %}>
+                <img class="product-single__thumbnail-image" data-lazy="{{ image.src | img_url: product_thumb_size }}">
+              </a>
+            </div>
+            
+            {% endfor %}     
+            
+          </div>
+          
+          {% endif %}
+          
+{% else %}
+          <div style="display:none">
+            
+            {%- assign featured_img_src = current_variant.featured_image.src | default: product.featured_image.src -%}
+            {%- assign featured_img_alt = current_variant.featured_image.alt | default: product.featured_image.alt -%}
+
+            <div id="FeaturedImageZoom-{{ section.id }}" class="product-single__photo{% if product.images.size > 1 %} product-single__photo--has-thumbnails product__slider-main {% endif %}" {% if enable_zoom %}data-zoom="{{ featured_img_src | img_url: product_image_zoom_size }}"{% endif %}>
+              {% for image in product.images %}
+              <div class="slide">
+                <img data-lazy="{{ image.src | img_url: product_image_size }}" {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size }}"{% endif %} id="FeaturedImage-{{ section.id }}" class="product-featured-img{% if enable_zoom %} js-zoom-enabled{% endif %}">
+              </div>
+              {% endfor %}
+            </div>
+
+            <button type="button" class="slick-prev-arrow">
+              {% include 'icon-chevron-left' %}
+              <span class="icon__fallback-text">{{ 'sections.slideshow.previous_slide' | t }}</span>
+            </button>
+
+            <button type="button" class="slick-next-arrow">
+              {% include 'icon-chevron-right' %}
+              <span class="icon__fallback-text">{{ 'sections.slideshow.next_slide' | t }}</span>
+            </button>
+
+
+            {% if product.images.size > 1 %}
+            {% if product.images.size > 3 %}
+            {%- assign enable_thumbnail_slides = true -%}
+            {% endif %}
+
+            <div class="thumbnails-wrapper{% if enable_thumbnail_slides == true %} thumbnails-slider--active product__slider-thmb{% endif %}">
+
+              {% for image in product.images %}
+
+              <div class="slide">
+                <a
+                   href="{{ image.src | img_url: product_image_size }}"
+                   class="text-link product-single__thumbnail product-single__thumbnail--{{ section.id }}"
+                   {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size }}"{% endif %}>
+                  <img class="product-single__thumbnail-image" data-lazy="{{ image.src | img_url: product_thumb_size }}">
+                </a>
+              </div>
+
+              {% endfor %}     
+
+            </div>
+
+          {% endif %}
+            
+          </div>
+      {{ mzp }}
+{% endif %}
+
+        </div>
+
+        <div class="grid__item {{ product_description_width }}">
+          <div class="product-single__meta medium_text_center">
+
+<!--             <h1 itemprop="name" class="product-single__title medium_text_center">{{ product.title }}</h1> -->
+            <div class="pro-title"><span>Almond Cow PRO</span><span>The Professional Plant-Based Milk Maker</span></div>
+            <div class="product-single__description" itemprop="description">
+              {{ product.description }}
+            </div>
+            <ul class="accordion pro-accordion">
+              <li>
+                <a>Details</a>
+                <div class="accordion_text">
+                  Power: 120V, 50/60 HZ, 10 Amps<br>
+                  Weight: 15.0 lbs. (20.0 lbx with box)<br>
+                  Capacity: 2 Gallons (- 33 cups)<br>
+                  Dimensions: 19.0 x 15.5 x 12.0 in. [Base](H x W x D)<br>
+                  <a href="#" id="myBtn-warranty"><input type="submit" class="btn pro_custom_btn" value="Warranty"></a>                   
+                </div>
+              </li>
+            </ul>
+
+            {% if section.settings.show_vendor %}
+            <p itemprop="brand" class="product-single__vendor">{{ product.vendor }}</p>
+            {% endif %}
+
+            <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+              <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+
+              <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+
+              <form action="/cart/add" method="post" enctype="multipart/form-data" class="AddToCartForm product-form product-form-{{ section.id }}{% unless section.settings.show_variant_labels %} product-form--hide-variant-labels{% endunless %}" data-section="{{ section.id }}">
+                {% unless product.options.size == 1 and product.variants[0].title == 'Default Title' %}
+                {% for option in product.options_with_values %}
+                <div class="selector-wrapper js product-form__item">
+                  <label {% if option.name == 'default' %}class="label--hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
+                    {{ option.name }}
+                  </label>
+                  <select class="single-option-selector single-option-selector-{{ section.id }} product-form__input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
+                    {% for value in option.values %}
+                    <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
+                    {% endfor %}
+                  </select>
+
+                </div>
+                {% endfor %}
+                {% endunless %}
+
+                <select name="id" id="ProductSelect-{{ section.id }}" data-section="{{ section.id }}" class="product-form__variants no-js">
+                  {% for variant in product.variants %}
+                  {% if variant.available %}
+                  <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">
+                    {{ variant.title }}
+                  </option>
+                  {% else %}
+                  <option disabled="disabled">{{ variant.title }} - {{ 'products.product.sold_out' | t }}</option>
+                  {% endif %}
+                  {% endfor %}
+                </select>
+                
+                <p class="product-single__price product-single__price-{{ section.id }}{% unless current_variant.available %} product-price--sold-out{% endunless %}">
+                  {% if current_variant.compare_at_price > current_variant.price %}
+                  <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+                  <s id="ComparePrice-{{ section.id }}">{{ current_variant.compare_at_price | money }}</s>
+                  <span class="product-price__price product-price__price-{{ section.id }} product-price__sale product-price__sale--single">
+                    <span id="ProductPrice-{{ section.id }}"
+                          itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
+                      {{ current_variant.price | money}}
+                    </span>
+                    <span class="product-price__sale-label product-price__sale-label-{{ section.id }}">{{ 'products.product.on_sale' | t }}</span>
+                  </span>
+                  {% else %}
+                  <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+                  <s id="ComparePrice-{{ section.id }}" class="hide">{{ current_variant.compare_at_price | money }}</s>
+                  <span class="product-price__price product-price__price-{{ section.id }}">
+                    <span id="ProductPrice-{{ section.id }}"
+                          itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
+                      {{ current_variant.price | money_without_trailing_zeros}}
+                    </span>
+                    <span class="product-price__sale-label product-price__sale-label-{{ section.id }} hide">{{ 'products.product.on_sale' | t }}</span>
+                  </span>
+                  {% endif %}
+                </p>
+
+                <div class="pro-quantity-part">
+                  {% if section.settings.show_quantity_selector %}
+                  
+                  	{% include 'quantity-box' %}
+                  
+                  {% endif %}
+                </div>
+                
+                <div style="clear: both;">
+                  <p class="none-pre-remove">
+                    <b>{{ section.settings.international_shipping_rate }}</b>
+                  </p>
+                </div>
+
+                <div class="product-form__item product-form__item--submit product--btn-container">
+                  <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="AddToCart btn product-form__cart-submit{% if product.options.size == 1 and product.variants[0].title == 'Default Title' %} product-form__cart-submit--small{% endif %}">
+                    <span id="AddToCartText-{{ section.id }}">
+                      {% unless current_variant.available %}
+                      {{ 'products.product.sold_out' | t }}
+                      {% else %}
+<!--                       {{ 'products.product.add_to_cart' | t }} -->
+                      Check out
+                      {% endunless %}
+                    </span>
+                  </button>
+                </div>
+              </form>
+              
+            </div>
+
+            {% if section.settings.show_share_buttons %}
+            {% include 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product %}
+            {% endif %}
+          </div>
+          
+        </div>
+
+      </div><!--   page width     -->     
+      
+    </div> <!-- product-single end-->
+  
+</div>
+
+{% comment %}
+{% if collection %}
+  <div class="text-center return-link-wrapper">
+    <a href="{{ collection.url }}" class="btn btn--secondary btn--has-icon-before return-link">
+      {% include 'icon-arrow-left' %}
+      {{ 'products.product.back_to_collection' | t: title: collection.title }}
+    </a>
+  </div>
+{% endif %}
+{% endcomment %}
+
+{% unless product == empty %}
+  <script type="application/json" id="ProductJson-{{ section.id }}">
+    {{ product | json }}
+    
+    
+  </script>
+{% endunless %}
+
+<div id="myModal-warranty" class="my-modal">
+  <div class="modal-content my-modal-content">
+    <div class="scroll-head">
+      <h3 class="uppercase cream-text" style="float: left;">Warranty</h3>
+      <a href="#" style="float: right" class="btn-close close cream-text" id="js-close">&nbsp;<span><i class="fa fa-times"></i></span></a>
+    </div>
+    <div class="scroll-body">
+      <p>We warrant to you, the end-user customer who after purchasing the Almond Cow for a valuable consideration, that the parts and motor will be free from defects in materials and workmanship for a period of 3 years from the date of purchase.</p>
+      <p>Warranty does not cover normal wear and tear.</p>
+      <p>1. The warranty is valid only for the original purchaser. This warranty is non-transferable.</p>
+      <p>2. If the Almond Cow exhibits defects while in normal household use, we will, upon our actual receipt of a written notice of such defects from you during the warranty period, at our option, either repair or replace the Almond Cow which proves to be defective. However, we have no such obligation to repair or replace until after you have, by insured mail and in protective packaging*, delivered the Almond Cow to the location of your service center as set forth. A replacement Almond Cow may be either new or like new. The replacement Almond Cow may contain re-manufactured or reconditioned parts, which are equivalent to new in performance or may have been subject to incidental use.</p>
+      <p>3. We do not warrant that the operation of the Almond Cow will be uninterrupted or error free. In no event shall our liability exceed the retail value of the Almond Cow.</p>
+      <p>4. All warranty and repair services must be performed at a warranty service center, which is located within the country where the machine was originally purchased.<br />However, in the event that: <br />[i] the machine must be serviced at a service center that is not located within the country where the machine was purchased; or <br />[ii] there is no service center within the country where the machine is located and must be shipped to a service center in another country, then those service centers are responsible for the parts and service only, and any and all costs relating to the shipping, delivery and handling of the machine to and from those service centers shall be the sole responsibility of the owner.</p>
+      <p>This warranty does not cover defects resulting from:</p>
+      <p>[a] failure to operate the Almond Cow in accordance with the instructions;</p>
+      <p>[b] use of parts or supplies not provided or authorized by the manufacturer;</p>
+      <p>[c] negligent, improper or inadequate maintenance;</p>
+      <p>[d] service performed or attempted by an unauthorized service person;</p>
+      <p>[e] damages, accidental or otherwise, to the Almond Cow, which are not directly caused by the manufacturer; or</p>
+      <p>[f] damages resulting from abuse, tampering, misuse, commercial use, or unauthorized modification of the Almond Cow.</p>
+      <p>WE MAKE NO OTHER EXPRESS OR IMPLIED WARRANTY OR CONDITION WHETHER WRITTEN OR ORAL TO THE EXTENT ALLOWED BY LOCAL LAW, ANY IMPLIED WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE OR IMPLIED WARRANTY OR CONDITION OF MERCHANTABILIITY IS LIMITED TO THREE (1) YEAR.</p>
+      <p>In the event that such limitation or exclusion on the duration of an implied warranty is not allowed in the state or county wherein you reside, the above limitation or exclusion will not apply.</p>
+      <p>This warranty gives you specific legal rights and protection, and you might also have other rights that vary from state to state, or country to country.</p>
+      <p>TO THE EXTENT ALLOWED BY LOCAL LAW, THE REMEDIES IN THIS WARRANTY STATEMENT ARE YOUR SOLE AND EXCLUSIVE REMEDIES. EXCEPT AS INDICATED ABOVE, IN NO EVENT WILL WE BE LIABLE FOR DIRECT, SPECIAL, INCIDENTAL, CONSEQUENTIAL (INCLUDING LOST PROFIT, OR OTHER DAMAGE, WHETHER BASED IN CONTRACT, TORT, OR OTHERWISE).</p>
+      <p>Some states or counties may not allow the exclusion or limitation of incidental or consequential damages. If you reside in such a state or county, the above limitation or exclusion may not be applicable. Do not send your Almond Cow back to the service center without a return authorization.</p>
+      <div class="text-center"><button id="js-close" class="btn btn-primary">Close</button></div>
+    </div>
+  </div>
+</div>
+
+<div class="bts-popup" role="alert">
+    <div class="bts-popup-container">
+      <img src="{{ 'white-almond-Icon.png' | asset_url }}" />
+      <p>Not what you're looking for?</p>
+      <div class="bts-popup-button">
+        <a href="/products/almond-cow-milk-machine">Take me back to AC home</a>
+      </div>
+      <div class="bts-popup-button">
+        <a class="remain-pro-page" href="#">I want to shop AC Pro</a>
+      </div>
+        <a href="#" class="bts-popup-close img-replace">Close</a>
+    </div>
+</div>
+
+<script>
+
+// Get the modal
+  var modal_warranty = document.getElementById('myModal-warranty');
+  
+  // Get the button that opens the modal
+  var warranty_btn = document.getElementById("myBtn-warranty");
+
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+
+  // When the user clicks the button, open the modal
+  
+  warranty_btn.onclick = function() {
+    modal_warranty.style.display = "block";
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  
+  $("#myModal-warranty #js-close").click(function(){
+    $("#myModal-warranty").css("display","none")
+  });
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal_warranty) {
+      modal_warranty.style.display = "none";
+    }
+  }
+  
+  // popup code
+
+  jQuery(document).ready(function($){
+
+    setTimeout(function(){
+      $(".bts-popup").delay(15000).addClass('is-visible');
+    }, 15000);
+
+    //open popup
+    $('.bts-popup-trigger').on('click', function(event){
+      event.preventDefault();
+      $('.bts-popup').addClass('is-visible');
+    });
+
+    //close popup
+    $('.bts-popup').on('click', function(event){
+      if( $(event.target).is('.bts-popup-close') || $(event.target).is('.remain-pro-page') || $(event.target).is('.bts-popup') ) {
+        event.preventDefault();
+        $(this).removeClass('is-visible');
+      }
+    });
+    //close popup when clicking the esc keyboard button
+    $(document).keyup(function(event){
+      if(event.which=='27'){
+        $('.bts-popup').removeClass('is-visible');
+      }
+    });
+    
+  });
+  
+  // product image slider
+  if ( $('.product__slider-main').length ) {
+    var $slider = $('.product__slider-main')
+    .on('init', function(slick) {
+      $('.product__slider-main').fadeIn(1000);
+    })
+    .slick({
+      dots: true,
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrows: true,
+      autoplay: false,
+      lazyLoad: 'ondemand',
+//       autoplaySpeed: 3000,
+      asNavFor: '.product__slider-thmb',
+      prevArrow:'.slick-prev-arrow',
+      nextArrow:'.slick-next-arrow'
+    });
+
+    var $slider2 = $('.product__slider-thmb')
+    .on('init', function(slick) {
+      $('.product__slider-thmb').fadeIn(1000);
+    })
+    .slick({
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      lazyLoad: 'ondemand',
+      asNavFor: '.product__slider-main',
+      dots: false,
+      centerMode: false,
+      focusOnSelect: true
+    });
+
+    //remove active class from all thumbnail slides
+    $('.product__slider-thmb .slick-slide').removeClass('slick-active');
+
+    //set active class to first thumbnail slides
+    $('.product__slider-thmb .slick-slide').eq(1).addClass('slick-active');
+
+    // On before slide change match active thumbnail to current slide
+    $('.product__slider-main').on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+      var mySlideNumber = nextSlide;
+      $('.product__slider-thmb .slick-slide').removeClass('slick-active');
+      $('.product__slider-thmb .slick-slide').eq(mySlideNumber).addClass('slick-active');
+    });
+
+  }
+
+
+</script>
+
+
+{% schema %}
+  {
+    "name": "Almond Pro Product",
+	"class": "almond-product-pro",
+    "settings": [
+		{
+			"type"  :  "image_picker",
+			"id"    :  "desktop_image",
+			"label" :  "Desktop Banner"
+		},
+		{
+			"type"  :  "image_picker",
+			"id"    :  "mobile_image",
+			"label" :  "Mobile Banner"
+		},
+		{
+			"type"  :  "image_picker",
+			"id"    :  "pro_logo",
+			"label" :  "Almond Pro Logo",
+			"info"  :  "recommend: 380x157px"
+		},
+		{
+			"type"  :  "text",
+			"id"    :  "pro_title",
+			"label" :  "Banner Title"
+		},
+		{
+			"type"  :  "text",
+			"id"    :  "pro_sub",
+			"label" :  "Description"
+		},
+        {
+			"type"  :  "header",
+			"content": "Product Section"
+		},
+        {
+        	"type": "select",
+        	"id": "image_size",
+        	"label": "Image size",
+        	"options": [
+        		{
+        			"value": "small",
+        			"label": "Small"
+        		},
+        		{
+        			"value": "medium",
+        			"label": "Medium"
+        		},
+        		{
+        			"value": "large",
+        			"label": "Large"
+        		},
+        		{
+        			"value": "full",
+        			"label": "Full-width"
+        		}
+        	],
+        		"default": "medium"
+        },
+        {
+        	"type": "checkbox",
+        	"id": "show_quantity_selector",
+        	"label": "Show quantity selector",
+        	"default": false
+        },
+        {
+        	"type": "checkbox",
+        	"id": "show_variant_labels",
+        	"label": "Show variant labels",
+        	"default": true
+        },
+        {
+        	"type": "checkbox",
+        	"id": "show_vendor",
+        	"label": "Show vendor",
+        	"default": false
+        },
+        {
+        	"type": "checkbox",
+        	"id": "enable_zoom",
+        	"label": "Enable image zoom",
+        	"default": true
+        },
+        {
+        	"type": "checkbox",
+        	"id": "show_share_buttons",
+        	"label": "Show social sharing buttons",
+        	"default": true
+        },
+		{
+			"type"  :  "text",
+			"id"    :  "international_shipping_rate",
+			"label" :  "International Shipping Rate"
+		}
+    ]
+  }
+{% endschema %}

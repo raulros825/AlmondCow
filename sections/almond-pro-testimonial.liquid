@@ -1,0 +1,103 @@
+<section class="testimonial-part">
+  <div class="page-width">
+    <div class="slider pro-testimonial">
+      {% for block in section.blocks %}
+      {% if block.type == "testimonial" %}
+      <div>
+        <div class="testimonial-image lazy-background" {% if block.settings.svg_image_url %} data-src="{{ block.settings.svg_image_url }}" {% endif %}>
+          <p class="descriptions">
+            {{ block.settings.author_descriptions }}
+            <span class="author_name">{{ block.settings.author_name }}</span>
+          </p>
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+    <!-- control arrows -->
+    <div class="testimonial-slick-prev">
+      {% include 'icon-chevron-left' %}
+    </div>
+    <div class="testimonial-slick-next">
+      {% include 'icon-chevron-right' %}
+    </div>
+  </div>
+</section>
+
+<script>
+  $('.pro-testimonial').slick({
+    dots: true,
+    prevArrow: $('.testimonial-slick-prev'),
+    nextArrow: $('.testimonial-slick-next'),
+    infinite: true,
+    //     fade: true,
+    swipe:true,
+    //     autoplay: true,
+    speed: 4000,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    responsive: [
+      {
+        breakpoint: 1025,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2
+        }
+      },
+      {
+        breakpoint: 641,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          speed: 2000
+        }
+      },
+      {
+        breakpoint: 481,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          speed: 1000
+        }
+      }
+    ]
+    //     adaptiveHeight: true
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Almond Pro Testimonial",
+	"class": "almond-pro-testimonial",
+    "settings": [],
+	"blocks": [
+      {
+        "type": "testimonial",
+        "name": "Testimonial",
+        "settings": [
+          {
+            "type": "url",
+            "id": "svg_image_url",
+            "label": "SVG Background"
+          },
+          {
+            "type": "textarea",
+            "id": "author_descriptions",
+            "label": "Author Descriptions"
+          },
+          {
+            "type": "textarea",
+            "id": "author_name",
+            "label": "Author Name"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

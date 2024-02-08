@@ -1,0 +1,27 @@
+<script>
+    var GeolizrAPI = {}
+
+    GeolizrAPI.addEventListener = function(name, callback) {
+        if(typeof GeolizrAPI.events === "undefined") GeolizrAPI.events = {};
+        GeolizrAPI.events[name] = callback;
+    };
+
+    Geolizr.addSystemEventListener('geolizr.init.api', function(e) {
+        var $ = e.jquery;
+        GeolizrAPI.addEventListener = Geolizr.addEventListener;
+
+        if(typeof GeolizrAPI.events === "undefined") GeolizrAPI.events = {};
+        if(Object.keys(GeolizrAPI.events).length > 0) {
+            Object.keys(GeolizrAPI.events).forEach(function(name) {
+                GeolizrAPI.addEventListener(name, GeolizrAPI.events[name]);
+            })
+        }
+
+        Geolizr.init(function() {
+            Geolizr.getGeoData(function(geoData) {
+                Geolizr.dispatchEvent('geolizr.geoData', geoData);
+            });
+        });
+    });
+
+</script>

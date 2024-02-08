@@ -1,0 +1,18 @@
+<div class="grid__item medium-up--one-quarter">
+  {% if article.image %}
+  <a href="{{ article.url }}" class="article__grid-image">
+    {% comment %}
+    {{ article | img_url: '345x', scale: 2 | img_tag: article.title }}
+    {% endcomment %}
+
+    <img class="lazyload" data-src="{{ article.image.src | img_url: '345x', scale: 2 }}" />
+
+  </a>
+  {% endif %}
+
+  <div class="article__grid-meta">
+    <h6 class="article__title text-center">
+      <a href="{{ article.url }}">{{ article.title }}</a>
+    </h6>
+  </div>
+</div>

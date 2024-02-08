@@ -1,0 +1,39 @@
+<section class="home-drink-section home-blue-background lazy-background" {% if section.settings.blue_background %}
+     data-src="{{ section.settings.blue_background | img_url: '1903x' }}"{% endif %}>
+  
+  <div class="page-width">
+    <h3 class="title">{{ section.settings.title }}</h3>
+    <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Us-vs-them-for-site-v5.gif?v=1603680889">
+  </div>
+  
+</section>
+
+{% schema %}
+  {
+    "name": "Home Drink Section",
+    "settings": [
+		{
+          	"type"  :  "image_picker",
+          	"id"    :  "blue_background",
+          	"label" :  "Background Image for Desktop"
+        },
+		{
+			"type"  :  "textarea",
+			"id"    :  "title",
+			"label" :  "Title"
+		}
+	],
+	"presets": [
+		{
+			"name"  :  "Home Drink Section",
+			"category":  "Custom Section"
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

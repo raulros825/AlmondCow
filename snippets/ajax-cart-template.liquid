@@ -1,0 +1,163 @@
+<!-- /snippets/ajax-cart-template.liquid -->
+
+  <script id="CartTemplate" type="text/template">
+
+  {% raw %}
+  
+	<div class="ajax-us-only">
+      <div class="ajaxcart_shipping_bar">
+          <p></p>
+      </div>
+
+      <div class="progress-bar">
+          <div class="progress-bar_text">
+              <p><span></span></p>
+              <small><span></span></small>
+          </div>
+          <div class="floating-bar">
+              <div class="fillmult">
+          </div>
+          </div>
+      </div>
+    </div>
+  
+    <form action="/cart" method="post" novalidate class="cart ajaxcart">
+    
+      <div class="ajaxcart__inner">
+        {{#items}}
+        <div class="ajaxcart__product">
+        
+        <div class="ajaxremove">
+          <a href="/cart/change?line={{line}}&amp;quantity=0" class="ajaxifyCartremove" data-line="{{line}}">
+    	    <svg class="icon" id="icon-close" viewBox="0 0 32 32">
+               <title>close</title>
+                  <path class="path1" d="M28.095 5.795l-1.845-1.85-10.21 10.205-10.205-10.205-1.85 1.85 10.21 10.205-10.21 10.205 1.85 1.85 10.205-10.205 10.21 10.205 1.845-1.85-10.205-10.205 10.205-10.205z"></path>
+            </svg>
+          </a>
+        </div>
+                    
+          <div class="ajaxcart" data-line="{{line}}">
+
+              <div class="grid__item two-fifths no-padding">
+                <a href="{{url}}" class="ajaxcart__product-image"><img src="{{img}}" alt=""></a>
+              </div>
+              <div class="grid__item three-fifths ajaxcart-right">
+                <p class="ajax-rtinnerleft">
+                  <a href="{{url}}" class="ajaxcart__product-name">{{name}}</a>
+                    {% endraw %}{% raw %}
+                </p>
+
+                <div class="grid__item one-half no-padding">
+                  
+                    <div class="ajaxcart__qty">
+                      <button type="button" class="ajaxcart__qty-adjust ajaxcart__qty--minus quantity-increment" data-id="{{id}}" data-qty="{{itemMinus}}" data-line="{{line}}">
+                        <span>&minus;</span>
+                      </button>
+                      
+                      <input type="text" name="updates[]" class="ajaxcart__qty-num" value="{{itemQty}}" min="0" data-id="{{id}}" data-line="{{line}}" aria-label="quantity" pattern="[0-9]*">
+                                        
+                      <button type="button" class="ajaxcart__qty-adjust ajaxcart__qty--plus quantity-increment" data-id="{{id}}" data-line="{{line}}" data-qty="{{itemAdd}}">                        
+                        <span>+</span>
+                      </button>
+                    </div>
+                    
+                </div>
+                <div class="grid__item one-half no-padding">
+    				<p>{{{price}}}</p>
+    			</div>
+            
+              </div>
+
+          </div>
+        </div>
+        {{/items}}
+        
+        {% endraw %}{% raw %}
+        <div class="ajax-pre-order rebuy-almond">
+        	<div data-rebuy-id="2965"></div>
+        </div>
+        
+      </div>
+      
+      <div class="ajaxcart__footer row">
+
+          <div class="ajaxsubtext">
+            <p><strong>{% endraw %}{{ 'cart.general.subtotal' | t }}{% raw %}</strong></p>
+          </div>
+          <div class="ajaxsubtotal">
+            <p class="text-right">{{{totalPrice}}}</p>
+          </div>
+          <div style="clear: both"></div>
+          
+          <div class="ajax-us-only">
+            <div class="ajaxcart_shipping_text">
+               <p class="ajaxsubtext"></p>
+               <p class="ajaxsubtotal"></p>
+      		</div>
+          </div>
+
+        <div id="ingredient-bundle" style="display:none">
+          <p>Subscribe and save 10%</p>
+          <div>
+            <label style="color: #653818;" class="rc_label rc_label__deliver_every" aria-label="Subscription frequency options">
+              <span class="rc_label__delivery">Deliver every</span>
+              <select id="rc_shipping_interval_frequency-tstk7udar" class="rc_select rc_select__frequency styled replaced">
+                  <option value="1">
+                    1 Month 
+                  </option>
+                  <option value="2">
+                    2 Months 
+                  </option>
+                  <option value="3">
+                    3 Months
+                  </option>
+              </select>
+            </label>
+          </div>
+          <button class="cart__checkout btn ajax-subscription-btn" style="width: 100%;">
+            Subscribe Now
+          </button>
+        </div>
+        
+        <button type="submit" class="cart__checkout btn ajax-checkout-btn" name="checkout">
+          {% endraw %}checkout{% raw %}
+        </button>
+
+        <p class="payment-text">Safe and easy payment</p>
+        <img class="ajax-payment-icon" src="https://cdn.shopify.com/s/files/1/1667/4225/files/ajax-payment.svg?v=1596230781" />
+        
+      </div>
+    </form>
+  {% endraw %}
+  
+  
+  
+  </script>
+  <script id="AjaxQty" type="text/template">
+  {% raw %}
+    <div class="ajaxcart__qty">
+      <button type="button" class="ajaxcart__qty-adjust ajaxcart__qty--minus icon-fallback-text" data-id="{{id}}" data-qty="{{itemMinus}}">
+        <span class="icon icon-minus" aria-hidden="true"></span>
+        <span class="fallback-text">&minus;</span>
+      </button>
+      <input type="text" class="ajaxcart__qty-num" value="{{itemQty}}" min="0" data-id="{{id}}" aria-label="quantity" pattern="[0-9]*">
+      <button type="button" class="ajaxcart__qty-adjust ajaxcart__qty--plus icon-fallback-text" data-id="{{id}}" data-qty="{{itemAdd}}">
+        <span class="icon icon-plus" aria-hidden="true"></span>
+        <span class="fallback-text">+</span>
+      </button>
+    </div>
+  {% endraw %}
+  </script>
+  <script id="JsQty" type="text/template">
+  {% raw %}
+    <div class="js-qty">
+      <button type="button" class="js-qty__adjust js-qty__adjust--minus quantity-increment" data-id="{{id}}" data-qty="{{itemMinus}}">
+        <span>&minus;</span>
+      </button>
+      <input type="text" class="js-qty__num" value="{{itemQty}}" min="1" data-id="{{id}}" aria-label="quantity" pattern="[0-9]*" name="{{inputName}}" id="{{inputId}}">
+      <button type="button" class="js-qty__adjust js-qty__adjust--plus quantity-increment" data-id="{{id}}" data-qty="{{itemAdd}}">
+        <span>+</span>
+      </button>
+    </div>
+  {% endraw %}
+  </script>

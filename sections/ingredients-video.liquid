@@ -1,0 +1,132 @@
+<section>
+  <div class="page-width">
+    <h3 class="title">{{ section.settings.title }}</h3>
+    <div class="grid">
+      {% for block in section.blocks %}
+      
+      	<!--  Product - Bulk Organic Cashew Pieces - 3lb  -->
+        {% if product.id == 5604200743064 and block.type == "cashew" %}
+          <div class="grid__item medium-up--one-half">
+            <div style="padding:56.25% 0 0 0;position:relative;border: 2px solid {{block.settings.border_color}}">
+              <iframe src="" data-src="{{block.settings.youtube}}?rel=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+        {% endif %}
+      
+      	<!--  Product - Bulk Organic Whole Grain Oats - 3lb  -->
+        {% if product.id == 4383776276580 and block.type == "oats" %}
+          <div class="grid__item medium-up--one-half">
+            <div style="padding:56.25% 0 0 0;position:relative;border: 2px solid {{block.settings.border_color}}">
+              <iframe src="" data-src="{{block.settings.youtube}}?rel=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+        {% endif %}
+      
+      	<!--  Product - Bulk Organic Coconut Shreds - 2lb  -->
+        {% if product.id == 4383775588452 and block.type == "coconut" %}
+          <div class="grid__item medium-up--one-half">
+            <div style="padding:56.25% 0 0 0;position:relative;border: 2px solid {{block.settings.border_color}}">
+              <iframe src="" data-src="{{block.settings.youtube}}?rel=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+        {% endif %}
+      
+        <!--  Product - Bulk Almonds - 3lb -->
+        {% if product.id == 4383774507108 and block.type == "almonds" %}
+          <div class="grid__item medium-up--one-half">
+            <div style="padding:56.25% 0 0 0;position:relative;border: 2px solid {{block.settings.border_color}}">
+              <iframe src="" data-src="{{block.settings.youtube}}?rel=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+          </div>
+        {% endif %}
+      
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Ingredients Video",
+	"class": "ingredients-video-section",
+    "settings": [
+		{
+			"type"  :  "text",
+			"id"    :  "title",
+			"label" :  "Title"
+		}
+	],
+	"blocks": [
+		{
+			"type"  :  "cashew",
+			"name"  :  "Cashew",
+			"settings": [
+				{
+					"type"  :  "color",
+					"id"    :  "border_color",
+					"label" :  "Border Color"
+				},
+				{
+					"type"  :  "url",
+					"id"    :  "youtube",
+					"label" :  "Youtube"
+				}
+			]
+		},
+		{
+			"type"  :  "oats",
+			"name"  :  "Oats",
+			"settings": [
+				{
+					"type"  :  "color",
+					"id"    :  "border_color",
+					"label" :  "Border Color"
+				},
+				{
+					"type"  :  "url",
+					"id"    :  "youtube",
+					"label" :  "Youtube"
+				}
+			]
+		},
+		{
+			"type"  :  "coconut",
+			"name"  :  "Coconut",
+			"settings": [
+				{
+					"type"  :  "color",
+					"id"    :  "border_color",
+					"label" :  "Border Color"
+				},
+				{
+					"type"  :  "url",
+					"id"    :  "youtube",
+					"label" :  "Youtube"
+				}
+			]
+		},
+		{
+			"type"  :  "almonds",
+			"name"  :  "Almonds",
+			"settings": [
+				{
+					"type"  :  "color",
+					"id"    :  "border_color",
+					"label" :  "Border Color"
+				},
+				{
+					"type"  :  "url",
+					"id"    :  "youtube",
+					"label" :  "Youtube"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,393 @@
+<style>
+
+  ul#my-tree {
+    padding-top: 50px;
+  }
+  ul#my-tree li {
+    margin: 5px 0;
+    line-height: 30px;
+  }
+  ul#my-tree>li{
+    line-height: 60px;
+  }
+  ul#my-tree li a {
+    display: block;
+    width: 100%;
+  }
+  ul#my-tree>li:last-child a.title{
+    border-bottom: none;
+  }
+  .tf-tree .tf-child-true > ul {
+    display: none;
+    padding-left: 0;
+    padding-bottom: 5px;
+  }
+  .tf-tree .tf-child-true {
+    cursor: pointer;
+    position: relative;
+  }
+  .tf-tree .tf-child-true:before {
+    display: block;
+    position: absolute;
+    top: 7px;
+    left: 0;
+    content: "+";
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    line-height: 14px;
+    text-align: center;
+    transition: .1s linear;
+    border: 1px solid;
+    border-radius: 8px;
+  }
+  ul#my-tree>li:before{
+    top: 21px;
+  }
+  .tf-tree .tf-child-true.tf-open > ul {
+    display: block;
+  }
+  .tf-tree .tf-child-true.tf-open:before {
+    content: "-";
+  }
+  .search-section .has-link, .tf-tree .tf-child-false {
+    cursor: pointer;
+    position: relative;
+  }
+  .search-section .has-link:before, .tf-tree .tf-child-false:before {
+    display: block;
+    position: absolute;
+    top: -1px;
+    left: 0;
+    content: "•";
+    width: 20px;
+    height: 30px;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+    border: none;
+  }
+  .search-section .has-link>a{
+    display: inline-block !important;
+    width: unset !important;    
+  }
+  .search-section .has-link>a:first-child{
+    padding-right: 5px;   
+  }
+  .search-section .tf-child-false a:hover{
+    opacity: 1;
+  }
+  .tf-tree ul.tf-search-result {
+    display: block;
+  }
+  .tf-tree ul.tf-search-result > li {
+    display: none;
+  }
+  .tf-tree ul.tf-search-result > li.tf-search-result {
+    display: block;
+  }
+  .tf-tree ul>.tf-search-result.tf-open li {
+    display: block;
+  }
+
+</style>
+
+<div class="help-page">
+  <div class="page-container">
+    
+    <div class="search-section">      
+      <h3 class="headline">{{ section.settings.title }}</h3>
+      <div class="help-search-form">
+        <input type="search" id="my-search" placeholder="Search">
+        <button class="search-header__submit search__submit btn--link" type="submit">
+          {% include 'icon-search' %}
+          <span class="icon__fallback-text">{{ 'general.search.submit' | t }}</span>
+        </button>
+      </div>      
+      
+      <ul id="my-tree">
+        
+        <li class="help-the-milk">
+          <a class="title" href="#">Milk</a>
+          
+          <ul>
+            
+            {% for block in section.blocks %}
+
+              {% if block.type == 'the_milk' %}
+
+                <li>
+                  <a href="#">{{ block.settings.question }}</a>
+                  <ul>
+                    <li {% if block.settings.link_check %}class="has-link"{% endif %}><a href="#">{{ block.settings.answer }}</a></li>
+                  </ul>
+                </li>
+
+              {% endif %}
+
+            {% endfor %}
+            
+          </ul>
+        </li>
+        
+        
+        <li class="help-almond-cow">
+          <a class="title" href="#">The Almond Cow</a>
+          <ul>
+            
+            {% for block in section.blocks %}
+
+              {% if block.type == 'use' %}
+
+                <li>
+                  <a href="#">{{ block.settings.question }}</a>
+                  <ul>
+                    <li {% if block.settings.link_check %}class="has-link"{% endif %}><a href="#">{{ block.settings.answer }}</a></li>
+                  </ul>
+                </li>
+
+              {% endif %}
+
+            {% endfor %}
+            
+          </ul>
+        </li>
+        
+        
+        <li class="help-ingredients">
+          <a class="title" href="#">Ingredients</a>
+          <ul>
+            
+            {% for block in section.blocks %}
+
+              {% if block.type == 'ingredients' %}
+
+                <li>
+                  <a href="#">{{ block.settings.question }}</a>
+                  <ul>
+                    <li {% if block.settings.link_check %}class="has-link"{% endif %}><a href="#">{{ block.settings.answer }}</a></li>
+                  </ul>
+                </li>
+
+              {% endif %}
+
+            {% endfor %}
+            
+          </ul>
+        </li>
+        
+        
+        <li class="help-etcs">
+          <a class="title" href="#">Misc</a>
+          <ul>
+            
+            {% for block in section.blocks %}
+
+              {% if block.type == 'etc' %}
+
+                <li>
+                  <a href="#">{{ block.settings.question }}</a>
+                  <ul>
+                    <li {% if block.settings.link_check %}class="has-link"{% endif %}><a href="#">{{ block.settings.answer }}</a></li>
+                  </ul>
+                </li>
+
+              {% endif %}
+
+            {% endfor %}
+            
+          </ul>
+        </li>
+        
+        <li class="help-shipping">
+          <a class="title" href="#">Shipping</a>
+          <ul>
+            
+            {% for block in section.blocks %}
+
+              {% if block.type == 'shipping' %}
+
+                <li {% if block.settings.none_tax_country %}class="none-tax-country-only"{% endif %}>
+                  <a href="#">{{ block.settings.question }}</a>
+                  <ul>
+                    <li {% if block.settings.link_check %}class="has-link"{% endif %}><a href="#">{{ block.settings.answer }}</a></li>
+                  </ul>
+                </li>
+
+              {% endif %}
+
+            {% endfor %}
+            
+          </ul>
+        </li>
+        
+        <li class="help-returns">
+          <a class="title" href="#">Return Policy & Warranty</a>
+          <ul>
+            
+            <li>
+              <a href="#">
+                {{ pages.return-policy-warranty.content }}
+              </a>
+            </li>
+            
+          </ul>
+        </li>
+        
+        
+      </ul>
+    </div>
+    
+  </div>
+</div>
+
+<script src="{{ 'help-search.js' | asset_url }}"></script>
+
+
+<script type="text/javascript">
+
+  $(function() {
+    var tree = new treefilter($("#my-tree"), {
+      searcher : $("input#my-search"),
+      multiselect : false
+    });
+  });  
+
+</script>
+
+{% schema %}
+  {
+    "name": "Help Page",
+    "settings": [
+		{
+			"type"  : "text" ,
+     		"id"    : "title",
+			"label" : "Title"
+		}
+	],
+	"blocks":[
+		{
+			"type"  :  "the_milk",
+			"name"  :  "The Milk",
+			"settings":[
+				{
+					"type"  :  "text",
+					"id"    :  "question",
+					"label" :  "Question"
+				},
+				{
+					"type"  :  "html",
+					"id"    :  "answer",
+					"label" :  "Answer"
+				},
+				{
+					"type"  :  "checkbox",
+					"id"    :  "link_check",
+					"label" :  "Has Link",
+					"default": false
+				}
+			]
+		},
+		{
+			"type"  :  "use",
+			"name"  :  "Almond Cow",
+			"settings":[
+				{
+					"type"  :  "text",
+					"id"    :  "question",
+					"label" :  "Question"
+				},
+				{
+					"type"  :  "html",
+					"id"    :  "answer",
+					"label" :  "Answer"
+				},
+				{
+					"type"  :  "checkbox",
+					"id"    :  "link_check",
+					"label" :  "Has Link",
+					"default": false
+				}
+			]
+		},
+		{
+			"type"  :  "ingredients",
+			"name"  :  "Ingredients",
+			"settings":[
+				{
+					"type"  :  "text",
+					"id"    :  "question",
+					"label" :  "Question"
+				},
+				{
+					"type"  :  "html",
+					"id"    :  "answer",
+					"label" :  "Answer"
+				},
+				{
+					"type"  :  "checkbox",
+					"id"    :  "link_check",
+					"label" :  "Has Link",
+					"default": false
+				}
+			]
+		},
+		{
+			"type"  :  "etc",
+			"name"  :  "Etc",
+			"settings":[
+				{
+					"type"  :  "text",
+					"id"    :  "question",
+					"label" :  "Question"
+				},
+				{
+					"type"  :  "html",
+					"id"    :  "answer",
+					"label" :  "Answer"
+				},
+				{
+					"type"  :  "checkbox",
+					"id"    :  "link_check",
+					"label" :  "Has Link",
+					"default": false
+				}
+			]
+		},
+		{
+			"type"  :  "shipping",
+			"name"  :  "Shipping",
+			"settings":[
+				{
+					"type"  :  "text",
+					"id"    :  "question",
+					"label" :  "Question"
+				},
+				{
+					"type"  :  "html",
+					"id"    :  "answer",
+					"label" :  "Answer"
+				},
+				{
+					"type"  :  "checkbox",
+					"id"    :  "link_check",
+					"label" :  "Has Link",
+					"default": false
+				},
+				{
+					"type"  :  "checkbox",
+					"id"    :  "none_tax_country",
+					"label" :  "None Tax Country",
+					"default": false
+				}
+			]
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

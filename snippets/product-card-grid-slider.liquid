@@ -1,0 +1,56 @@
+<!-- /snippets/product-card-grid-slider.liquid -->
+<div class="collection--product text-center grid-view-item{% unless product.available %} product-price--sold-out grid-view-item--sold-out{% endunless %}">
+  
+  <div class="slider-part">
+    <div class="slider product-card-slider">
+      {% for image in product.images %}
+      <div>
+        <img data-lazy="{{ image.src | img_url: grid_image_width, scale: grid_image_scale }}">
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- control arrows -->
+    <div class="related-slick-prev">
+      {% include 'icon-chevron-left' %}
+    </div>
+    <div class="related-slick-next">
+      {% include 'icon-chevron-right' %}
+    </div>
+  </div>
+
+  <a class="grid-view-item__link" href="{{ product.url }}">
+    <div class="h4 grid-view-item__title">{{ product.title }}</div>
+    {% if section.settings.show_vendor %}
+    <div class="grid-view-item__vendor">{{ product.vendor }}</div>
+    {% endif %}
+    <div class="grid-view-item__meta">
+      {% include 'product-price' %}
+
+      {% if section.settings.related_descriptions %}
+      {{ product.description | truncate:60 }}
+      {% endif %}
+
+    </div>
+  </a>
+  
+  <form method="post" action="/cart/add" class="AddToCartForm">
+    <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+    <div class="collection-input-btn">
+
+      {% include 'quantity-box' %}
+      <input type="submit" class="collection-cart-btn btn AddToCart" value="Add to cart" />
+      
+    </div>
+  </form>
+  
+  {% comment %}
+  {% if product.id == 4383776276580 %}<!-- in case of Oat product  -->
+  <a href="/products/whole-grain-oats-2lb">
+    <input type="submit" class="btn product-notify-btn" value="Notify me when available">
+  </a>
+  {% endif %}
+  {% endcomment %}
+  
+  
+</div>

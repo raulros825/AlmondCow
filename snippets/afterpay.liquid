@@ -1,0 +1,87 @@
+<!-- Start of Afterpay assets -->
+<script type="application/javascript" src="https://static-us.afterpay.com/javascript/present-afterpay.js"></script>
+<script>
+  const isGiftCard = (item) => item.product_type === "Gift Card";
+  function giftCardDetected(){const t={{ product | json }},i={{ cart.items | json }};return t?"Gift Card"===t.type:!!i&&i.some(isGiftCard)}
+  function getExistingSelector(e){return e.find(e=>Boolean(document.querySelector(e)))}
+  let amount = 0, priceSelector = "", locale = 'en_US';
+  let baseObserverConfig = { activated: true, isDecimalPrice: true };
+  let mutationObserver = null;
+  
+	{%case template.name%} 
+      {%when "product"%}
+        const possibleProductPriceSelectors = [
+          '.ac-stater-qt',
+          '.product-price__price-product-ingredient-bundle',
+          '.pro-quantity-part',
+          '.product-single__price'
+        ];
+  		amount = {{product.selected_or_first_available_variant.price | json}}; 
+        priceSelector = getExistingSelector(possibleProductPriceSelectors);
+        
+      {%when "cart"%}     
+        amount = {{cart.total_price | json}}; 
+        priceSelector = ".cart__subtotal";
+		mutationObserver = { 
+                 ...baseObserverConfig,
+                  // observerTarget: '.PageContent',
+	           targetPriceSelector: '',
+		};
+  	  {% when "product" or "cart"%}
+        const apConfig = {
+          afterpayLogoColor: 'color',
+          priceSelector, locale, amount,
+          showUpperLimit: true,
+          showLowerLimit: false,
+          mutationObserver,
+          minMaxThreshold: {
+            min: 100,
+            max: 200000
+          },
+          hideAfterpay: giftCardDetected()
+        };
+
+        window.addEventListener("DOMContentLoaded", function(){
+          new presentAfterpay(apConfig).init();
+        });
+  {%endcase%}
+</script>
+
+<style type="text/css">
+  .afterpay-logo {
+    width: 5.5em !important;
+    height: auto !important;
+  }
+  .afterpay-paragraph {
+    clear: both;
+    font-size: 0.9em;
+    font-weight: normal;
+    margin-bottom: 18px !important;
+  }
+  .afterpay-logo-link {
+   	display: inline-block; 
+  }
+  {%case template.name%} 
+  	{%when "cart"%}
+      .afterpay-paragraph {
+
+      }
+  	{%when "product"%}
+
+      {% if product.handle == 'ingredient-bundle'%}
+        .afterpay-paragraph {
+            font-size: 0.7em;
+        }
+      {% endif %}
+  
+      .afterpay-paragraph {
+        margin-bottom: 8px !important;
+      }
+      @media only screen and (max-width: 767px) {
+        .afterpay-paragraph {
+          padding-top: 6px;
+        }
+      }
+  {%endcase%}
+</style>
+<!-- End of Afterpay assets -->

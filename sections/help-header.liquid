@@ -1,0 +1,111 @@
+{% for block in section.blocks %}
+
+  {% if block.type == 'image_text' %}
+
+  	{% include 'include-image-with-text' %}
+
+  {% endif %}
+
+{% endfor %}
+
+{% schema %}
+  {
+    "name": "Help Header",
+	"class": "help-header-section",
+    "settings": [],
+	"blocks": [
+		{
+			"type"  :  "image_text",
+			"name"  :  "Image with Text",
+			"settings":[
+				{
+					"type"  :  "image_picker",
+					"id"    :  "background_image",
+					"label" :  "Desktop Background Image",
+					"info"  :  "width: 1903px recommend"
+				},
+				{
+					"type"  :  "image_picker",
+					"id"    :  "background_image_mobile",
+					"label" :  "Mobile Background Image",
+					"info"  :  "width: 750 x 650px recommend"
+				},
+				{
+					"type"  :  "text",
+					"id"    :  "title",
+					"label" :  "Title"
+				},
+				{
+					"type"  :  "text",
+					"id"    :  "subtitle",
+					"label" :  "Sub Title"
+				},
+				{
+					"type"  :  "html",
+					"id"    :  "content",
+					"label" :  "Content"
+				},
+				{
+					"type"  :  "text",
+					"id"    :  "button",
+					"label" :  "Button Label"
+				},
+				{
+					"type"  :  "url",
+					"id"    :  "button_link",
+					"label" :  "Button Link For US, Canada"
+				},
+				{
+					"type"  :  "url",
+					"id"    :  "button_link_1",
+					"label" :  "Button Link For Rest world"
+				},
+                {
+                	"type": "select",
+                	"id": "text_position",
+                	"label": "Text position",
+                	"options": [
+                        {
+                        	"value": "left",
+                        	"label": "Left"
+                        },
+                        {
+                        	"value": "center",
+                        	"label": "Center"
+                        },
+                        {
+                        	"value": "right",
+                        	"label": "Right"
+                        }
+                    ]
+                },
+                {
+                 	"type": "select",
+                  	"id": "text_align",
+                  	"label": "Text alignment",
+                    "options": [
+                        {
+                         	"value": "left",
+                          	"label": "Left"
+                        },
+                        {
+                          	"value": "center",
+                          	"label": "Center"
+                        },
+                        {
+                          	"value": "right",
+                          	"label": "Right"
+                        }
+                    ]
+                }
+			]
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,579 @@
+<section>
+
+  <div class="page-width">
+    <div class="header-part">
+      <h1>{{ page.title }}</h1>
+      <p>{{ page.content }}</p>
+    </div>
+    
+    <div class="selector-part">
+      
+      <p class="title">Choose your ingredient and quantity</p>
+      
+      {% assign ingredients = " ,Pepitas,Almonds,Rolled Oats,Whole Grain Oats,Coconut,Cashew,Pistachio,Pecan,Hazelnut,Macadamia,Hemp Seed,Chia Seed,Flax Seed,Sunflower Seed,Walnuts,Brazil Nuts,Peanuts,Pitted Dates" | split: ',' %}
+      <div>
+        {% include 'nutrition-calculator-select-box' %}
+        {% include 'nutrition-calculator-select-box' %}
+        {% include 'nutrition-calculator-select-box' %}
+        {% include 'nutrition-calculator-select-box' %}
+      </div>
+      
+      
+      <input type="submit" class="btn main-btn add-ingredient-btn" value="Add additional ingredients" />
+
+      <div class="grid noted">
+        <small>*Please note that the filter basket can only hold 1 cup of ingredients per batch</small>
+      </div>
+
+      <input type="submit" class="btn main-btn reset-btn" value="Reset" />
+
+
+    </div>
+    
+    <div class="results-part">
+      <div class="grid">
+        
+        <div class="grid__item medium-up--one-half">
+          <div class="content">
+            <div class="head-part">
+              <h3>Nutrition Info(Milk)</h3>
+              <p>Serving Size 1 cup (8oz)</p>
+              <h6>Amount Per Serving</h6>
+              <img src="https://cdn.shopify.com/s/files/1/1667/4225/files/almond-icon.svg?v=1583855278" />
+            </div>
+            <ul class="milk-table">
+              <li><b>Calories</b> <span>0</span></li>
+              <li><b>Calories from Fat</b> <span>0</span></li>
+              <li><b>Total Fat</b> <span>0</span>g</li>
+              <li><b>Total Carbs</b> <span>0</span>g</li>
+              <li><b>Protein</b> <span>0</span>g</li>
+            </ul>
+            <div class="bottom-part">
+              <small>*This information is based on 1 cup (8oz) of milk.</small>
+            </div>
+          </div>
+        </div>
+        
+        <div class="grid__item medium-up--one-half">
+          <div class="content">
+            <div class="head-part">
+              <h3>Nutrition Info(Pulp)</h3>
+              <p>Serving Size 1 cup (8oz)</p>
+              <h6>Amount Per Serving</h6>
+              <img src="https://cdn.shopify.com/s/files/1/1667/4225/files/almond-icon.svg?v=1583855278" />
+            </div>
+            <ul class="pulp-table">
+              <li><b>Calories</b> <span>0</span></li>
+              <li><b>Calories from Fat</b> <span>0</span></li>
+              <li><b>Total Fat</b> <span>0</span>g</li>
+              <li><b>Total Carbs</b> <span>0</span>g</li>
+              <li><b>Protein</b> <span>0</span>g</li>
+            </ul>
+            <div class="bottom-part">
+              <small>*This information is based on 1 cup of pulp.</small>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </div>
+    
+  </div>
+  
+</section>
+
+
+
+<script>
+
+  var Milk_Object = [
+    {
+      "Pepitas":{
+        "Calories"  : "73",
+        "Calories_from_Fat" : "54.5",
+        "Fat"       : "6.1",
+        "Carbs"     : "0.2",        
+        "Protein"   : "4.3"
+      },
+      "Almonds":{
+        "Calories"  : "76",
+        "Calories_from_Fat" : "58.4",
+        "Fat"       : "6.5",
+        "Carbs"     : "1.3",
+        "Protein"   : "3.0"
+      },
+      "Rolled_Oats":{
+        "Calories"  : "60",
+        "Calories_from_Fat" : "7.8",
+        "Fat"       : "0.9",
+        "Carbs"     : "11.5",        
+        "Protein"   : "1.5"
+      },
+      "Whole_Grain_Oats":{
+        "Calories"  : "26",
+        "Calories_from_Fat" : "3.9",
+        "Fat"       : "0.4",
+        "Carbs"     : "5.2",        
+        "Protein"   : "0.4"
+      },
+      "Coconut":{
+        "Calories"  : "24",
+        "Calories_from_Fat" : "15.1",
+        "Fat"       : "1.7",
+        "Carbs"     : "1.2",        
+        "Protein"   : "0.9"
+      },
+      "Cashew":{
+        "Calories"  : "56",
+        "Calories_from_Fat" : "41.7",
+        "Fat"       : "4.6",
+        "Carbs"     : "1.4",        
+        "Protein"   : "2.1"
+      },
+      "Pistachio":{
+        "Calories"  : "102",
+        "Calories_from_Fat" : "76.8",
+        "Fat"       : "8.5",
+        "Carbs"     : "2.3",        
+        "Protein"   : "4.0"
+      },
+      "Pecan":{
+        "Calories"  : "113.6",
+        "Calories_from_Fat" : "102.9",
+        "Fat"       : "11.4",
+        "Carbs"     : "1.0",        
+        "Protein"   : "1.7"
+      },
+      "Hazelnut":{
+        "Calories"  : "105.5",
+        "Calories_from_Fat" : "86.7",
+        "Fat"       : "9.6",
+        "Carbs"     : "1.4",        
+        "Protein"   : "3.3"
+      },
+      "Macadamia":{
+        "Calories"  : "135.3",
+        "Calories_from_Fat" : "124.2",
+        "Fat"       : "13.8",
+        "Carbs"     : "1.2",        
+        "Protein"   : "1.6"
+      },
+      "Hemp_Seed":{
+        "Calories"  : "138.1",
+        "Calories_from_Fat" : "113.0",
+        "Fat"       : "12.6",
+        "Carbs"     : "0.0",        
+        "Protein"   : "6.3"
+      },
+      "Chia_Seed":{
+        "Calories"  : "147.1",
+        "Calories_from_Fat" : "125.5",
+        "Fat"       : "13.9",
+        "Carbs"     : "0.2",        
+        "Protein"   : "5.2"
+      },
+      "Flax_Seed":{
+        "Calories"  : "148.7",
+        "Calories_from_Fat" : "123.4",
+        "Fat"       : "13.7",
+        "Carbs"     : "0.2",        
+        "Protein"   : "6.1"
+      },
+      "Sunflower_Seed":{
+        "Calories"  : "138.6",
+        "Calories_from_Fat" : "121.9",
+        "Fat"       : "13.5",
+        "Carbs"     : "0.1",        
+        "Protein"   : "4.1"
+      },
+      "Walnuts":{
+        "Calories"  : "65.4",
+        "Calories_from_Fat" : "56.6",
+        "Fat"       : "6.3",
+        "Carbs"     : "0.6",        
+        "Protein"   : "1.5"
+      },
+      "Brazil_Nuts":{
+        "Calories"  : "82.7",
+        "Calories_from_Fat" : "72.5",
+        "Fat"       : "8.1",
+        "Carbs"     : "0.7",        
+        "Protein"   : "1.9"
+      },
+      "Peanuts":{
+        "Calories"  : "66.6",
+        "Calories_from_Fat" : "50.6",
+        "Fat"       : "5.6",
+        "Carbs"     : "0.7",        
+        "Protein"   : "3.3"
+      },
+      "Pitted_Dates":{
+        "Calories"  : "28.2",
+        "Calories_from_Fat" : "0.0",
+        "Fat"       : "0.0",
+        "Carbs"     : "6.8",        
+        "Protein"   : "0.2"
+      }
+    }
+  ];
+
+
+  var Pulp_Object = [
+    {
+      "Pepitas":{
+        "Calories"  : "485.1",
+        "Calories_from_Fat" : "53.7",
+        "Fat"       : "6.0",
+        "Carbs"     : "95.2",        
+        "Protein"   : "12.7"
+      },
+      "Almonds":{
+        "Calories"  : "653.4",
+        "Calories_from_Fat" : "456.6",
+        "Fat"       : "50.7",
+        "Carbs"     : "29.0",        
+        "Protein"   : "20.2"
+      },
+      "Rolled_Oats":{
+        "Calories"  : "161",
+        "Calories_from_Fat" : "31.3",
+        "Fat"       : "3.5",
+        "Carbs"     : "24.3",
+        "Protein"   : "8.1"
+      },
+      "Whole_Grain_Oats":{
+        "Calories"  : "655.7",
+        "Calories_from_Fat" : "108.4",
+        "Fat"       : "12.0",
+        "Carbs"     : "116.3",        
+        "Protein"   : "20.5"
+      },
+      "Coconut":{
+        "Calories"  : "508.3",
+        "Calories_from_Fat" : "438.6",
+        "Fat"       : "48.7",
+        "Carbs"     : "15.4",        
+        "Protein"   : "2.1"
+      },
+      "Cashew":{
+        "Calories"  : "511.3",
+        "Calories_from_Fat" : "326.4",
+        "Fat"       : "36.3",
+        "Carbs"     : "32.1",        
+        "Protein"   : "14.2"
+      },
+      "Pistachio":{
+        "Calories"  : "910.9",
+        "Calories_from_Fat" : "601.0",
+        "Fat"       : "66.8",
+        "Carbs"     : "50.6",        
+        "Protein"   : "26.9"
+      },
+      "Pecan":{
+        "Calories"  : "936.8",
+        "Calories_from_Fat" : "804.8",
+        "Fat"       : "89.4",
+        "Carbs"     : "21.6",        
+        "Protein"   : "11.4"
+      },
+      "Hazelnut":{
+        "Calories"  : "891.1",
+        "Calories_from_Fat" : "677.9",
+        "Fat"       : "75.3",
+        "Carbs"     : "31.2",        
+        "Protein"   : "22.1"
+      },
+      "Macadamia":{
+        "Calories"  : "1118.6",
+        "Calories_from_Fat" : "971.6",
+        "Fat"       : "108.0",
+        "Carbs"     : "26.1",        
+        "Protein"   : "10.7"
+      },
+      "Hemp_Seed":{
+        "Calories"  : "222.5",
+        "Calories_from_Fat" : "111.3",
+        "Fat"       : "12.4",
+        "Carbs"     : "9.5",        
+        "Protein"   : "18.3"
+      },
+      "Chia_Seed":{
+        "Calories"  : "501.3",
+        "Calories_from_Fat" : "123.7",
+        "Fat"       : "13.7",
+        "Carbs"     : "79.1",        
+        "Protein"   : "15.3"
+      },
+      "Flax_Seed":{
+        "Calories"  : "504.9",
+        "Calories_from_Fat" : "121.6",
+        "Fat"       : "13.5",
+        "Carbs"     : "77.8",        
+        "Protein"   : "18.0"
+      },
+      "Sunflower_Seed":{
+        "Calories"  : "287.5",
+        "Calories_from_Fat" : "120.1",
+        "Fat"       : "13.3",
+        "Carbs"     : "29.9",        
+        "Protein"   : "12.0"
+      },
+      "Walnuts":{
+        "Calories"  : "541.8",
+        "Calories_from_Fat" : "442.8",
+        "Fat"       : "49.2",
+        "Carbs"     : "14.5",        
+        "Protein"   : "10.3"
+      },
+      "Brazil_Nuts":{
+        "Calories"  : "676.3",
+        "Calories_from_Fat" : "567.3",
+        "Fat"       : "63.0",
+        "Carbs"     : "14.6",        
+        "Protein"   : "12.6"
+      },
+      "Peanuts":{
+        "Calories"  : "546.2",
+        "Calories_from_Fat" : "395.9",
+        "Fat"       : "44.0",
+        "Carbs"     : "15.6",        
+        "Protein"   : "22.0"
+      },
+      "Pitted_Dates":{
+        "Calories"  : "186.3",
+        "Calories_from_Fat" : "0.0",
+        "Fat"       : "0.0",
+        "Carbs"     : "45.1",        
+        "Protein"   : "1.4"
+      }
+    }
+  ];
+  
+  
+  $(document).ready(function(){
+    
+    var c_count = 1;
+    
+    $('select').on('change', function(){
+      
+      var serving_count = 0;
+      
+      format_values_milk();
+      format_values_pulp();
+      
+      $('.select-groups').each(function(i, data){
+        var ingredient_value = $(this).find('.select-ingredient').find('select').val(); 
+      	var serving_value = $(this).find('.select-serving').find('.clicked').data('value');
+        
+
+        if(ingredient_value != '_' && serving_value != ''){
+          
+          serving_count += eval(serving_value);
+          
+          var r_value_milk = get_group_val_milk(ingredient_value,serving_value);
+          var r_value_pulp = get_group_val_pulp(ingredient_value,serving_value);
+
+          add_values_milk(r_value_milk);
+          add_values_pulp(r_value_pulp);
+        }
+      });
+      
+      if(serving_count > 1){
+      	alert('*Please note that the filter basket can only hold 1 cup of ingredients per batch');
+      }
+           
+    });
+    
+    $('.select-serving ul li').on('click', function(){
+      
+      var serving_count = 0;
+      
+      $(this).parent().find('li').removeClass('clicked');      
+      $(this).addClass('clicked');
+      
+      //var option_li = $(this);
+      
+      format_values_milk();
+      format_values_pulp();
+      
+      $('.select-groups').each(function(i, data){
+        var ingredient_value = $(this).find('select').val(); 
+      	var serving_value = $(this).find('.select-serving').find('.clicked').data('value');
+
+        if(ingredient_value != '_' && serving_value != ''){
+          
+          serving_count += eval(serving_value);
+          
+          var r_value_milk = get_group_val_milk(ingredient_value,serving_value);
+          var r_value_pulp = get_group_val_pulp(ingredient_value,serving_value);
+
+          add_values_milk(r_value_milk);
+          add_values_pulp(r_value_pulp);
+        }
+      });
+      
+      if(serving_count > 1){
+      	alert('*Please note that the filter basket can only hold 1 cup of ingredients per batch');
+      }
+           
+    });
+    
+    
+    $('.reset-btn').click(function(){
+      $('.select-ingredient').find('select').val("_");
+      $('.select-serving ul li').removeClass('clicked');
+      $('.select-groups.added').hide();      
+      $('.add-ingredient-btn').removeAttr('disabled');
+      c_count = 1;
+      
+      format_values_milk();
+      format_values_pulp();
+      
+    });
+    
+    $('.add-ingredient-btn').click(function(){
+      $('.select-groups:eq('+ c_count + ')').show().addClass('added');
+      c_count++;
+      if(c_count == 4){
+      	$(this).attr('disabled','disabled');
+      }
+    });
+    
+  });
+  
+  function get_group_val_milk(ingredient_value,serving_value){
+
+    var row_valus = [];
+
+    $.each(Milk_Object, function() {
+
+      $.each(this, function(name, value) {
+
+        if (name == ingredient_value){
+          
+          var Calories = parseFloat(value.Calories);
+          var Calories_from_Fat = parseFloat(value.Calories_from_Fat);
+          var Fat = parseFloat(value.Fat);
+          var Carbs = parseFloat(value.Carbs);          
+          var Protein = parseFloat(value.Protein);          
+
+          let strToNum = eval(serving_value);
+          
+          row_valus.push(Calories * strToNum);
+          row_valus.push(Calories_from_Fat * strToNum);
+          row_valus.push(Fat * strToNum);
+          row_valus.push(Carbs * strToNum);          
+          row_valus.push(Protein * strToNum);
+
+        }
+
+      });     
+
+    });
+    
+    return row_valus;
+  }
+  
+  function get_group_val_pulp(ingredient_value,serving_value){
+
+    var row_valus = [];
+
+    $.each(Pulp_Object, function() {
+
+      $.each(this, function(name, value) {
+
+        if (name == ingredient_value){
+          // console.log(value);
+          var Calories = parseFloat(value.Calories);
+          var Calories_from_Fat = parseFloat(value.Calories_from_Fat);
+          var Carbs = parseFloat(value.Carbs);
+          var Fat = parseFloat(value.Fat);
+          var Protein = parseFloat(value.Protein);          
+
+          let strToNum = eval(serving_value);
+          
+          row_valus.push(Calories * strToNum);
+          row_valus.push(Calories_from_Fat * strToNum);
+          row_valus.push(Fat * strToNum);
+          row_valus.push(Carbs * strToNum);          
+          row_valus.push(Protein * strToNum);
+
+        }
+
+      });     
+
+    });
+    
+    return row_valus;
+  }
+  
+  function add_values_milk(r_value_milk){
+    
+    if(Array.isArray(r_value_milk)){
+      $('ul.milk-table li span').each(function(i,v){
+        if( i >= 0 ){
+          if($(this).text() == '' ){
+          	$(this).text(parseFloat(r_value_milk[i]).toFixed(1));
+          }else{
+          	$(this).text((parseFloat($(this).text()) + parseFloat(r_value_milk[i])).toFixed(1));
+          }
+        }
+      });
+    }
+  }
+  
+  function add_values_pulp(r_value_pulp){
+    
+    if(Array.isArray(r_value_pulp)){
+      $('ul.pulp-table li span').each(function(i,v){
+        if( i >= 0 ){
+          if($(this).text() == '' ){
+          	$(this).text(parseFloat(r_value_pulp[i]).toFixed(1));
+          }else{
+          	$(this).text((parseFloat($(this).text()) + parseFloat(r_value_pulp[i])).toFixed(1));
+          }
+        }
+      });
+    }
+  }
+  
+  function format_values_milk(){
+    $('ul.milk-table li span').each(function(i,v){
+      if( i >= 0 ){
+      	$(this).text('0');
+      }
+    });
+  }
+  
+  function format_values_pulp(){
+    $('ul.pulp-table li span').each(function(i,v){
+      if( i >= 0 ){
+      	$(this).text('0');
+      }
+    });
+  }
+  
+  
+  function serving_count(){
+    
+  }
+
+  
+
+</script>
+
+
+
+{% schema %}
+  {
+    "name": "Nutrition Calculator",
+	"class":  "nutrition-calculator",
+    "settings": []
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

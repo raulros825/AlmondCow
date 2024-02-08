@@ -1,0 +1,62 @@
+<!-- /snippets/include-related-products.liquid -->
+{% assign number_of_related_products = section.settings.number_of_related_products | plus:1 %}
+{% if collection == null or collection.handle == 'frontpage' or collection.handle == 'all' %}
+{% assign found_a_collection = false %}
+{% for c in product.collections %}
+  {% if found_a_collection == false and c.handle != 'frontpage' and c.handle != 'all' and c.all_products_count > 1 %}
+    {% assign found_a_collection = true %}
+    {% assign collection = c %}
+  {% endif %}
+{% endfor %}
+{% endif %}
+
+{% if collection and collection.products_count > 1 %}
+
+<section class="related-products">
+
+  <div class="page-width">
+    
+    {% if section.settings.related_products_title != blank %}
+    <div class="section-header text-center">
+
+      <h2>{{ section.settings.related_products_title }}</h2>
+    </div>
+    {% endif %}
+
+    <div class="grid grid--uniform{% if collection.products_count >
+ 0 %} grid--view-items{% endif %}">
+      {% assign current_product = product %}
+      {% assign current_product_found = false %}
+      {% for product in collection.products limit: number_of_related_products %}
+      {% if product.handle == current_product.handle %}
+      {% assign current_product_found = true %}
+      {% else %}
+      {% unless current_product_found == false and forloop.last %}
+      
+      {% case section.settings.related_image_size %}
+      {% when 'small' %}
+      {%- assign grid_item_width = 'medium-up--one-column' -%}
+      {%- assign grid_image_width = '100x100' -%}
+      {%- assign grid_image_scale = '1' -%}
+      {% when 'medium' %}
+      {%- assign grid_item_width = 'medium-up--one-third' -%}
+      {%- assign grid_image_width = '200x200' -%}
+      {%- assign grid_image_scale = '2' -%}
+      {% endcase %}
+
+      <div class="grid__item {{ grid_item_width }}">
+        {% if product.images.size > 1 %}
+          {% include 'product-card-grid-slider' %}
+        {% else %}
+          {% include 'product-card-grid-related' %}
+        {% endif %}
+      </div>
+      
+      {% endunless %}
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% assign product = current_product %}
+{% endif %}

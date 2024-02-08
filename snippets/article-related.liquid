@@ -1,0 +1,293 @@
+{% assign blog_handles = "Milk-Recipes;Pulpmeal-Recipes;Pulp-Recipes;Beverages;Creamer;" %}
+{% assign blog_list = blog_handles | split: ';' %}
+
+
+{% if article.id == 213924882 %}  <!--  if Almond Milk, show related article list    -->
+<div class="related-article-parts">
+  <h2>How to use the leftover pulp</h2>
+  {% for blog_handle in blog_list %}
+    {% paginate blogs[blog_handle].articles by 200 %}
+      {% for article in blogs[blog_handle].articles %}
+        {% if article.tags contains 'almond milk related' %}
+
+        <div class="grid__item medium-up--one-third">
+          {% if article.image %}
+          <a href="{{ article.url }}" class="article__grid-image">
+            {{ article | img_url: '345x', scale: 2 | img_tag: article.title }}
+          </a>
+          {% endif %}
+
+          <div class="article__grid-meta">
+            <h6 class="article__title text-center">
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </h6>
+          </div>
+        </div>
+
+        {% endif %}
+      {% endfor %}
+    {% endpaginate %}
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if article.id == 213336978 %}  <!--  if Pecan Milk, show related article list    -->
+<div class="related-article-parts">
+  <h2>How to use the leftover pulp</h2>
+  {% for blog_handle in blog_list %}
+    {% paginate blogs[blog_handle].articles by 200 %}
+      {% for article in blogs[blog_handle].articles %}
+        {% if article.tags contains 'pecan milk related' %}
+
+        <div class="grid__item medium-up--one-third">
+          {% if article.image %}
+          <a href="{{ article.url }}" class="article__grid-image">
+            {{ article | img_url: '345x', scale: 2 | img_tag: article.title }}
+          </a>
+          {% endif %}
+
+          <div class="article__grid-meta">
+            <h6 class="article__title text-center">
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </h6>
+          </div>
+        </div>
+
+        {% endif %}
+      {% endfor %}
+    {% endpaginate %}
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if article.id == 26859438115 %}  <!--  if Oat Milk, show related article list    -->
+<div class="related-article-parts">
+  <h2>How to use the leftover pulp</h2>
+  {% for blog_handle in blog_list %}
+    {% paginate blogs[blog_handle].articles by 200 %}
+      {% for article in blogs[blog_handle].articles %}
+        {% if article.tags contains 'oat milk related' %}
+
+        <div class="grid__item medium-up--one-third">
+          {% if article.image %}
+          <a href="{{ article.url }}" class="article__grid-image">
+            {{ article | img_url: '345x', scale: 2 | img_tag: article.title }}
+          </a>
+          {% endif %}
+
+          <div class="article__grid-meta">
+            <h6 class="article__title text-center">
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </h6>
+          </div>
+        </div>
+
+        {% endif %}
+      {% endfor %}
+    {% endpaginate %}
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if article.id == 213336914 %}  <!--  if Coconut Milk, show related article list    -->
+<div class="related-article-parts">
+  <h2>How to use the leftover pulp</h2>
+  {% for blog_handle in blog_list %}
+    {% paginate blogs[blog_handle].articles by 200 %}
+      {% for article in blogs[blog_handle].articles %}
+        {% if article.tags contains 'coconut milk related' %}
+
+        <div class="grid__item medium-up--one-third">
+          {% if article.image %}
+          <a href="{{ article.url }}" class="article__grid-image">
+            {{ article | img_url: '345x', scale: 2 | img_tag: article.title }}
+          </a>
+          {% endif %}
+
+          <div class="article__grid-meta">
+            <h6 class="article__title text-center">
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </h6>
+          </div>
+        </div>
+
+        {% endif %}
+      {% endfor %}
+    {% endpaginate %}
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if article.id == 213336530 %}  <!--  if Cashew Milk, show related article list    -->
+<div class="related-article-parts">
+  <h2>How to use the leftover pulp</h2>
+  {% for blog_handle in blog_list %}
+    {% paginate blogs[blog_handle].articles by 200 %}
+      {% for article in blogs[blog_handle].articles %}
+        {% if article.tags contains 'cashew milk related' %}
+
+        <div class="grid__item medium-up--one-third">
+          {% if article.image %}
+          <a href="{{ article.url }}" class="article__grid-image">
+            {{ article | img_url: '345x', scale: 2 | img_tag: article.title }}
+          </a>
+          {% endif %}
+
+          <div class="article__grid-meta">
+            <h6 class="article__title text-center">
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </h6>
+          </div>
+        </div>
+
+        {% endif %}
+      {% endfor %}
+    {% endpaginate %}
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if article.id == 7126908963 %}  <!--  if Pistachio Milk, show related article list    -->
+<div class="related-article-parts">
+  <h2>How to use the leftover pulp</h2>
+  {% for blog_handle in blog_list %}
+    {% paginate blogs[blog_handle].articles by 200 %}
+      {% for article in blogs[blog_handle].articles %}
+        {% if article.tags contains 'pistachio milk related' %}
+
+        <div class="grid__item medium-up--one-third">
+          {% if article.image %}
+          <a href="{{ article.url }}" class="article__grid-image">
+            {{ article | img_url: '345x', scale: 2 | img_tag: article.title }}
+          </a>
+          {% endif %}
+
+          <div class="article__grid-meta">
+            <h6 class="article__title text-center">
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </h6>
+          </div>
+        </div>
+
+        {% endif %}
+      {% endfor %}
+    {% endpaginate %}
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if article.id == 26859339811 %}  <!--  if Hemp seed milk, show related article list    -->
+<div class="related-article-parts">
+  <h2>How to use the leftover pulp</h2>
+  {% for blog_handle in blog_list %}
+    {% paginate blogs[blog_handle].articles by 200 %}
+      {% for article in blogs[blog_handle].articles %}
+        {% if article.tags contains 'hemp seed milk related' %}
+
+        <div class="grid__item medium-up--one-third">
+          {% if article.image %}
+          <a href="{{ article.url }}" class="article__grid-image">
+            {{ article | img_url: '345x', scale: 2 | img_tag: article.title }}
+          </a>
+          {% endif %}
+
+          <div class="article__grid-meta">
+            <h6 class="article__title text-center">
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </h6>
+          </div>
+        </div>
+
+        {% endif %}
+      {% endfor %}
+    {% endpaginate %}
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if article.id == 26859470883 %}  <!--  if Walnut Milk, show related article list    -->
+<div class="related-article-parts">
+  <h2>How to use the leftover pulp</h2>
+  {% for blog_handle in blog_list %}
+    {% paginate blogs[blog_handle].articles by 200 %}
+      {% for article in blogs[blog_handle].articles %}
+        {% if article.tags contains 'walnut milk related' %}
+
+        <div class="grid__item medium-up--one-third">
+          {% if article.image %}
+          <a href="{{ article.url }}" class="article__grid-image">
+            {{ article | img_url: '345x', scale: 2 | img_tag: article.title }}
+          </a>
+          {% endif %}
+
+          <div class="article__grid-meta">
+            <h6 class="article__title text-center">
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </h6>
+          </div>
+        </div>
+
+        {% endif %}
+      {% endfor %}
+    {% endpaginate %}
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if article.id == 29466361891 %}  <!--  if Hazelnut Milk, show related article list    -->
+<div class="related-article-parts">
+  <h2>How to use the leftover pulp</h2>
+  {% for blog_handle in blog_list %}
+    {% paginate blogs[blog_handle].articles by 200 %}
+      {% for article in blogs[blog_handle].articles %}
+        {% if article.tags contains 'hazelnut milk related' %}
+
+        <div class="grid__item medium-up--one-third">
+          {% if article.image %}
+          <a href="{{ article.url }}" class="article__grid-image">
+            {{ article | img_url: '345x', scale: 2 | img_tag: article.title }}
+          </a>
+          {% endif %}
+
+          <div class="article__grid-meta">
+            <h6 class="article__title text-center">
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </h6>
+          </div>
+        </div>
+
+        {% endif %}
+      {% endfor %}
+    {% endpaginate %}
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if article.id == 31583404067 %}  <!--  if CoCoCash Milk, show related article list    -->
+<div class="related-article-parts">
+  <h2>How to use the leftover pulp</h2>
+  {% for blog_handle in blog_list %}
+    {% paginate blogs[blog_handle].articles by 200 %}
+      {% for article in blogs[blog_handle].articles %}
+        {% if article.tags contains 'cococash milk related' %}
+
+        <div class="grid__item medium-up--one-third">
+          {% if article.image %}
+          <a href="{{ article.url }}" class="article__grid-image">
+            {{ article | img_url: '345x', scale: 2 | img_tag: article.title }}
+          </a>
+          {% endif %}
+
+          <div class="article__grid-meta">
+            <h6 class="article__title text-center">
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </h6>
+          </div>
+        </div>
+
+        {% endif %}
+      {% endfor %}
+    {% endpaginate %}
+  {% endfor %}
+</div>
+{% endif %}

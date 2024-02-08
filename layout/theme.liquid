@@ -1,0 +1,352 @@
+{% comment %} Redirect subscribers to Portal {% endcomment %}
+{% if customer and template contains 'page.subscribers' %}
+  {% assign has_tags = false %}
+
+  {% if customer.orders_count > 0 %}
+    {% for order in customer.orders %}
+      {% if order.tags contains 'Subscription' %}
+        {% assign has_tags = true %}
+        {% break %}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+
+  {% if has_tags or customer.metafields.subscriptions.customer_string %}
+    <script>
+      window.location.href = '/tools/recurring/login';
+    </script>
+  {% else %}
+    <script>
+      window.location.href = '/account';
+    </script>
+  {% endif %}
+{% endif %}
+
+<!doctype html>
+<!--[if IE 9]> <html class="ie9 no-js" lang="{{ shop.locale }}"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js" lang="{{ shop.locale }}"> <!--<![endif]-->
+<head>
+  {% include 'geolizr-init' %}
+  
+  <!-- domain verify -->
+  <meta name="p:domain_verify" content="2c2c97aa1aad3ea781735e5ae92d75e4"/>
+  <meta name="google-site-verification" content="Y8nrFCieILbxtATWBshovchMSitflRMEjbmdX0T6q-0" />
+  
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_button }}">
+  
+  <meta name="robots" content="index,follow">
+  {% if template contains "collection" %}
+    <meta name="robots" content="noindex">
+  {% endif %}
+  {% if template contains "product.ingredient-bundle" %}
+  <meta name="pinterest-rich-pin" content="false" />
+  {% endif %}
+  
+  <link rel="canonical" href="{{ canonical_url }}">
+  
+  {% if settings.favicon != blank %}
+    <link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+  {% endif %}
+  
+  <link rel="preload" href="{{ 'theme.scss.css' | asset_url }}" as="style">
+  <link rel="preload" href="{{ 'vendor.js' | asset_url }}" as="script">
+  <link rel="preload" href="{{ 'theme.js' | asset_url }}" as="script">
+  <link rel="preload" href="{{ 'slick.min.js' | asset_url }}" as="script">
+  
+  <link rel="preconnect dns-prefetch" href="https://pro.ip-api.com" crossorigin>
+  <link rel="preconnect" href="https://s3.us-west-2.amazonaws.com" crossorigin>
+  <link rel="preconnect" href="https://media.fbot-sandbox.me" crossorigin>
+  <link rel="preconnect" href="https://widget.manychat.com">
+  <link rel="preconnect" href="https://connect.facebook.net" crossorigin>
+  <link rel="preconnect" href="https://assets.gorgias.io" crossorigin>
+  <link rel="preconnect" href="https://public.fbot.me">
+  <link rel="preconnect" href="https://shy.elfsight.com">
+  <link rel="preconnect" href="https://in.hotjar.com" crossorigin>
+  <link rel="preconnect" href="https://manychat.com" crossorigin>
+  <link rel="preconnect" href="https://f.vimeocdn.com">
+  <link rel="preconnect" href="https://i.vimeocdn.com">
+  <link rel="preconnect" href="https://rechargeassets-bootstrapheroes-rechargeapps.netdna-ssl.com" crossorigin>
+  <link rel="preconnect" href="https://www.facebook.com" crossorigin>
+  <link rel="preconnect" href="https://script.hotjar.com">
+  <link rel="preconnect" href="https://vars.hotjar.com">
+  <link rel="preconnect" href="https://edge.fullstory.com" crossorigin>
+
+  {% capture seo_title %}
+    {{ page_title }}
+    {% if current_tags %}
+      {%- assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags -}}
+    {% endif %}
+    {% if current_page != 1 %}
+      &ndash; {{ 'general.meta.page' | t: page: current_page }}
+    {% endif %}
+    {% unless page_title contains shop.name %}
+      &ndash; {{ shop.name }}
+    {% endunless %}
+  {% endcapture %}
+  <title>{{ seo_title }}</title>
+
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+
+  {% include 'social-meta-tags' %}
+  
+  {{ 'theme.scss.css' | asset_url | stylesheet_tag }}
+  
+  
+  <noscript id="deferred-css">
+    
+    {% include 'google-fonts' %}
+    <link href="https://fonts.googleapis.com/css?family=Signika+Negative:300,400,600,700&display=swap" rel="stylesheet">
+    {{ 'slick.min.css' | asset_url | stylesheet_tag }}
+    
+  </noscript>
+  <script>
+
+    var loadDeferredStyles = function() {
+
+      var addStylesNode = document.getElementById("deferred-css");
+
+      var replacement = document.createElement("div");
+
+      replacement.innerHTML = addStylesNode.textContent;
+
+      document.body.appendChild(replacement)
+
+      addStylesNode.parentElement.removeChild(addStylesNode);
+
+    };
+
+    var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+
+        webkitRequestAnimationFrame || msRequestAnimationFrame;
+
+    if (raf) raf(function() { window.setTimeout(loadDeferredStyles, 0); });
+
+    else window.addEventListener('load', function() { window.setTimeout(loadDeferredStyles, 0)});
+
+  </script>
+  
+
+  <script>
+    var theme = {
+      strings: {
+        addToCart: {{ 'products.product.add_to_cart' | t | json }},
+        soldOut: {{ 'products.product.sold_out' | t | json }},
+        unavailable: {{ 'products.product.unavailable' | t | json }},
+        showMore: {{ 'general.filters.show_more' | t | json }},
+        showLess: {{ 'general.filters.show_less' | t | json }}
+      },
+      moneyFormat: {{ shop.money_format | json }}
+    }
+
+    document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+  </script>
+
+  <!--[if (lte IE 9) ]>{{ 'match-media.min.js' | asset_url | script_tag }}<![endif]-->
+
+  {% if template.directory == 'customers' %}
+    <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'shopify_common.js' | shopify_asset_url }}" defer="defer"></script><!--<![endif]-->
+    <!--[if lte IE 9]><script src="{{ 'shopify_common.js' | shopify_asset_url }}"></script><![endif]-->
+  {% endif %}
+
+  <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'vendor.js' | asset_url }}"></script><!--<![endif]-->
+<!--   [if lte IE 9]><script src="{{ 'vendor.js' | asset_url }}"></script><![endif] -->
+
+  <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'theme.js' | asset_url }}"></script><!--<![endif]-->
+  <!--[if lte IE 9]><script src="{{ 'theme.js' | asset_url }}"></script><![endif]-->
+  
+  <script src="{{ 'lazysizes.min.js' | asset_url }}" async></script><!--  "lazyload" class for img tag  -->
+  <script src="{{ 'jquery.lazy.min.js' | asset_url }}" defer></script><!-- "lazy" class and for background & delay images  -->
+  <script src="{{ 'slick.min.js' | asset_url }}"></script>
+
+  {% include 'matcha-snippet' %}
+  {{ content_for_header }}
+  
+  <!-- Facebook Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+     if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+     n.queue=[];t=b.createElement(e);t.async=!0;
+     t.src=v;s=b.getElementsByTagName(e)[0];
+     s.parentNode.insertBefore(t,s)}(window,document,'script',
+                                     'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '182923769182093'); 
+    fbq('track', 'PageView');
+    
+  </script>
+  <noscript>
+    <img height="1" width="1" 
+         src="https://www.facebook.com/tr?id=182923769182093&ev=PageView
+              &noscript=1"/>
+  </noscript>
+  <!-- End Facebook Pixel Code -->
+  
+  <!-- Facebook Pixel Meta-tag Verification -->
+  <meta name="facebook-domain-verification" content="hbh1yiodeia8gnsn33my3i1c0hs75m" />
+  <!-- End Facebook Pixel Meta-tag Verification -->
+  
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-NV877NW');</script>
+  <!-- End Google Tag Manager -->
+  
+  <!-- Global site tag (gtag.js) - Google Ads: 863759834 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=AW-863759834"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'AW-863759834');
+  </script>
+  
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-89513418-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-89513418-1', { 'optimize_id': 'GTM-M2TQV6D'});
+  </script>
+  
+  <!-- Hotjar Tracking Code for https://www.almondcow.co -->
+  <script>
+    (function(h,o,t,j,a,r){
+      h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+      h._hjSettings={hjid:848380,hjsv:6};
+      a=o.getElementsByTagName('head')[0];
+      r=o.createElement('script');r.async=1;
+      r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+  </script>
+  
+  <script src="//staticxx.s3.amazonaws.com/aio_stats_lib_v1.min.js?v=1.0" defer></script>
+  
+  <!-- Gorgias Chat Widget Start -->
+  <div id="gorgias-chat">
+    <script>window.gorgiasChatParameters = {}</script>
+    <script src="https://config.gorgias.io/production/bVpA37lvQ96J5oEd/chat/Aa90l7EbgjxJWorj.js" defer></script>
+  </div>
+  <!-- Gorgias Chat Widget End -->
+  
+  <!-- Fullstory.com start -->
+  <script>
+    window['_fs_debug'] = false;
+    window['_fs_host'] = 'fullstory.com';
+    window['_fs_script'] = 'edge.fullstory.com/s/fs.js';
+    window['_fs_org'] = 'S4NFZ';
+    window['_fs_namespace'] = 'FS';
+    (function(m,n,e,t,l,o,g,y){
+      if (e in m) {if(m.console && m.console.log) { m.console.log('FullStory namespace conflict. Please set window["_fs_namespace"].');} return;}
+      g=m[e]=function(a,b,s){g.q?g.q.push([a,b,s]):g._api(a,b,s);};g.q=[];
+      o=n.createElement(t);o.async=1;o.crossOrigin='anonymous';o.src='https://'+_fs_script;
+      y=n.getElementsByTagName(t)[0];y.parentNode.insertBefore(o,y);
+      g.identify=function(i,v,s){g(l,{uid:i},s);if(v)g(l,v,s)};g.setUserVars=function(v,s){g(l,v,s)};g.event=function(i,v,s){g('event',{n:i,p:v},s)};
+      g.shutdown=function(){g("rec",!1)};g.restart=function(){g("rec",!0)};
+      g.log = function(a,b){g("log",[a,b])};
+      g.consent=function(a){g("consent",!arguments.length||a)};
+      g.identifyAccount=function(i,v){o='account';v=v||{};v.acctId=i;g(o,v)};
+      g.clearUserCookie=function(){};
+      g._w={};y='XMLHttpRequest';g._w[y]=m[y];y='fetch';g._w[y]=m[y];
+      if(m[y])m[y]=function(){return g._w[y].apply(this,arguments)};
+    })(window,document,window['_fs_namespace'],'script','user');
+  </script>
+  <!-- Fullstory.com End -->
+
+
+ 
+	{% include 'magiczoomplus.headers' %}
+
+
+{% include 'globo.formbuilder.scripts' %}
+{% include 'ufe-offer' %}</head>  
+
+<body class="template-{{ template | split: '.' | first }}">
+  {% include 'geolizr-api' %}
+  
+  {% include 'timber-cart' %}
+  
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-NV877NW"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <a class="in-page-link visually-hidden skip-link" href="#MainContent">{{ 'general.accessibility.skip_to_content' | t }}</a>
+
+  <div id="SearchDrawer" class="search-bar drawer drawer--top">
+    <div class="search-bar__table">
+      <div class="search-bar__table-cell search-bar__form-wrapper">
+        <form class="search search-bar__form" action="/search" method="get" role="search">
+          <button class="search-bar__submit search__submit btn--link" type="submit">
+            {% include 'icon-search' %}
+            <span class="icon__fallback-text">{{ 'general.search.submit' | t }}</span>
+          </button>
+          <input class="search__input search-bar__input" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}" aria-label="{{ 'general.search.placeholder' | t }}">
+        </form>
+      </div>
+      <div class="search-bar__table-cell text-right">
+        <button type="button" class="btn--link search-bar__close js-drawer-close">
+          {% include 'icon-close' %}
+          <span class="icon__fallback-text">{{ 'general.search.close' | t }}</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  {% section 'header' %}
+
+  <div class="page-container" id="PageContainer">
+
+    <main class="main-content" id="MainContent" role="main">
+      {{ content_for_layout }}
+    </main>
+    
+    {% section 'footer' %}
+
+    <script src="//cdn.codeblackbelt.com/js/modules/frequently-bought-together/main.min.js?shop=almond-cow.myshopify.com" defer></script>
+    
+  </div>
+  
+  <script>
+    (function() {
+      var discountParam = document.location.search.match(/discount=(\w+)/);
+      if (discountParam && discountParam.length > 1) {
+        document.cookie = discountParam[0] + ';path=/';
+      }
+    })();
+  </script>
+  
+  {% include 'search-autocomplete' %}
+  
+  {% include 'ajax-cart-scripts' %}
+  
+  <input type="hidden" id="656565115116111114101" data-customer-id="{{ customer.id }}" data-customer-email="{{ customer.email }}" data-customer-name="{{ customer.first_name }} {{ customer.last_name }}"/>
+  
+<!-- Begin ReCharge code -->
+{% include 'subscription-theme-footer' %}
+<!-- End ReCharge code -->
+
+ {% include 'smile-initializer' %}
+
+  {% render 'afterpay' %}
+<!--Gorgias Chat Widget Start--><script id="gorgias-chat-widget-install">!function(_){_.GORGIAS_CHAT_APP_ID="202",_.GORGIAS_CHAT_BASE_URL="us-east1-898b.production.gorgias.chat",_.GORGIAS_API_BASE_URL="config.gorgias.chat";var e=new XMLHttpRequest;e.open("GET","https://config.gorgias.chat/applications/202",!0),e.onload=function(t){if(4===e.readyState)if(200===e.status){var n=JSON.parse(e.responseText);if(!n.application||!n.bundleVersion)throw new Error("Missing fields in the response body - https://config.gorgias.chat/applications/202");if(_.GORGIAS_CHAT_APP=n.application,_.GORGIAS_CHAT_BUNDLE_VERSION=n.bundleVersion,n&&n.texts&&(_.GORGIAS_CHAT_TEXTS=n.texts),n&&n.sspTexts&&(_.GORGIAS_CHAT_SELF_SERVICE_PORTAL_TEXTS=n.sspTexts),!document.getElementById("gorgias-chat-container")){var o=document.createElement("div");o.id="gorgias-chat-container",document.body.appendChild(o);var r=document.createElement("script");r.setAttribute("defer",!0),r.src="https://storage.googleapis.com/gorgias-chat-production-client-builds/{bundleVersion}/static/js/main.js".replace("{bundleVersion}",n.bundleVersion),document.body.appendChild(r)}}else console.error("Failed request GET - https://config.gorgias.chat/applications/202")},e.onerror=function(_){console.error(_)},e.send()}(window||{});</script><script id="gorgias-chat-shopify-install">!function(_){_.SHOPIFY_PERMANENT_DOMAIN="{{shop.permanent_domain}}",_.SHOPIFY_CUSTOMER_ID="{{customer.id}}",_.SHOPIFY_CUSTOMER_EMAIL="{{customer.email}}"}(window||{});</script><!--Gorgias Chat Widget End--></body>
+
+<script src="{{ 'geolizr-custom-location.js' | asset_url }}"></script>
+
+
+<!-- Custom JS Deferred - rotating text fuction 7/2019-->
+<!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'alt-dot-custom.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
+<!--[if lte IE 9]><script src="{{ 'alt-dot-custom.min.js' | asset_url }}"></script><![endif]-->
+
+</html>

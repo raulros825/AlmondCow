@@ -1,0 +1,57 @@
+<section class="home-video-section">
+  
+    <div class="page-width">
+      
+      <div class="text-center">
+        <h4 class="title">{{ section.settings.title }}</h4>
+      </div>
+
+      <div class="grid video-part">    
+<!--         <div style="padding:56.25% 0 0 0;position:relative;"><iframe id="home_iframe_video" src="https://www.youtube.com/embed/oKsYqntqBV8?rel=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div> -->
+        <div style="padding:55.25% 0 0 0;position:relative;">
+          <iframe src="" data-src="{{ section.settings.video_url }}" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen allow=autoplay id="vimeo_video">
+          </iframe>
+        </div>
+        <a id="home-poster-video" href="#">
+          <img class="lazyload" data-src="{{ section.settings.video_image | img_url: '750x' }}" />
+        </a>
+        <a id="home-poster-video-button" href="#">
+          <img class="lazyload" data-src="{{ 'video-icon.png' | asset_url }}" />
+          <img class="lazyload" data-src="{{ 'video-blue-icon.png' | asset_url }}" />
+        </a>
+      </div>
+
+    </div>
+
+</section>
+
+{% schema %}
+  {
+    "name": "Almond Pro Video Section",
+	"class": "almond-pro-video-section",
+    "settings": [
+		{
+			"type"  :  "text",
+			"id"    :  "title",
+			"label" :  "Title"
+		},
+		{
+			"type"  :  "url",
+			"id"    :  "video_url",
+			"label" :  "Video URL"
+		},
+        {
+          	"type"  : "image_picker",
+          	"id"    : "video_image",
+          	"label" : "Video Poster Image",
+			"info"  : "750 x 422px"
+        }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

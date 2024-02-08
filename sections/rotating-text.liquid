@@ -1,0 +1,108 @@
+{% assign text_options = section.settings.rotating | newline_to_br | split: '<br />' %}
+
+<section class="rotating-hero" data-rotate-text-hero>
+  <picture class="rotating-hero__image">
+    {% if section.settings.mobile_image %}
+    <source srcset="{{ section.settings.mobile_image | img_url: '750x' }}" media="(max-width: 749px)">
+    {% endif %}
+    {% if section.settings.desktop_image %}
+    <img class="lazyload" data-src="{{ section.settings.desktop_image | img_url: '1920x' }}" alt="{{ section.settings.desktop_image.alt }}">
+    {% endif %}
+  </picture>
+  <div class="rotating-hero__content">
+    <h1 class="rotating-hero__title">
+      {{ section.settings.title  }}
+      <span class="rotating-hero__rotate-spacer">
+        <span class="rotating-hero__rotate" data-rotate>{{ text_options | first }}</span>
+      </span>
+      <span class="rotating-hero__subtext desktop-only">
+        {{ section.settings.subtitle  }}
+      </span>
+    </h1>
+    {% if section.settings.button_link != blank %}
+    <div class="pre-remove">
+      <a class="btn rotating-hero__button" href="{{ section.settings.button_link }}">
+        {{ section.settings.button_text }}
+      </a>
+    </div>
+    <div class="none-pre-remove">
+      <a class="btn rotating-hero__button" href="{{ section.settings.button_link1 }}">
+        {{ section.settings.button_text1 }}
+      </a>
+    </div>
+    {% endif %}
+  </div>
+  <button class="rotating-hero__scroll desktop-only" data-scroll>
+    <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="20" cy="20" r="19" stroke="white" stroke-width="2"/>
+      <path d="M11.25 16.25L20.0888 25.0888L28.9277 16.25" stroke="white" stroke-width="2"/>
+    </svg>
+  </button>
+</section>
+
+<script>
+  var rotateText = [{%- for option in text_options -%}'{{- option | strip -}}',{%- endfor -%}];
+</script>
+
+{% schema %}
+  {
+    "name": "Rotating Text Hero",
+    "settings": [
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Heading",
+        "info": "Heading text before the rotating text"
+      },
+      {
+        "type": "textarea",
+        "id": "rotating",
+        "label": "Rotating Text",
+        "info": "List seperated by line breaks"
+      },
+      {
+        "type": "html",
+        "id": "subtitle",
+        "label": "Subheading",
+        "info": "Heading text after the rotating text"
+      },
+      {
+        "type": "url",
+        "id": "button_link",
+        "label": "Pre Button Link"
+      },
+      {
+        "type": "url",
+        "id": "button_link1",
+        "label": "None Pre Button Link"
+      },
+      {
+        "type": "text",
+        "id": "button_text",
+        "label": "Button Text"
+      },
+      {
+        "type": "text",
+        "id": "button_text1",
+        "label": "Button Text1"
+      },
+      {
+        "type": "image_picker",
+        "id": "desktop_image",
+        "label": "Desktop Image"
+      },
+	  {
+        "type": "image_picker",
+        "id": "mobile_image",
+        "label": "Mobile Image"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Rotating Text Hero",
+        "category": "Custom Section"
+      }
+    ]
+  }
+
+{% endschema %}

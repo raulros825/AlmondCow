@@ -1,0 +1,78 @@
+<div class="page-width contact_page_container">
+    <div class="grid__item medium-up--one-third small--one-whole">
+
+      <div class="banner_img banner_img_contact desktop-only">
+        {{ 'almond-cow-contact-us.JPG' | asset_url | img_tag }}
+      </div> 
+
+    </div>
+    <div class="grid__item medium-up--one-half small--one-whole contact-form">
+      <h1 class="uppercase blue-text disable-contact">let's talk milk.</h1>
+      <h4 class="brown-text disable-contact">Send us a message.</h4>
+      <div class="banner_text banner_text_contact">
+        <div style="clear:both"></div>
+        <div class="contact-form form-vertical">
+
+
+
+
+          {% form 'contact' %}
+          {% if form.posted_successfully? %}
+          <p class="note form-success">
+            {{ 'contact.form.post_success' | t }}
+          </p>
+          {% endif %}
+
+          {{ form.errors | default_errors }}
+          <div class="contact-form disable-contact">
+            <input type="hidden" name="form_type" value="contact">
+            <input type="hidden" name="utf8" value="✓">
+            <div class="grid grid--half-gutters">
+              <div class="grid__item  ">
+
+                <input type="text" id="ContactFormName" name="contact[name]" placeholder="Name" value="">
+              </div>
+              <div class="grid__item ">
+
+                <input type="email" id="ContactFormEmail" name="contact[email]" placeholder="Email" autocorrect="off" autocapitalize="off" value="" class="">
+              </div>
+            </div>
+            <div class="grid ">
+              <div class="grid__item zero-left-padding ">
+
+                <textarea rows="3"  id="ContactFormMessage" name="contact[body]" placeholder="MESSAGE ..."></textarea>
+              </div>
+            </div>
+            <div class="grid">
+              <label for="ContactFormFlavor">How did you hear about us?</label>
+              <select id="ContactFormFlavor" name="contact[How did you hear about us?]">
+                <option value="Please make a selection">Please make a selection</option>
+                <option value="Instagram">Instagram</option>
+                <option value="Facebook">Facebook</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            <div class="grid contact_account1">
+              <label for="ContactFormAccount">Which Account?</label>
+              <input type="text" id="ContactFormAccount" name="contact[Account]" placeholder="Enter Account">
+            </div>
+            <div class="grid contact_account2">
+              <label for="ContactFormAccount">How did you hear about us?</label>
+              <input type="text" id="ContactFormAccount" name="contact[Account]" placeholder="">
+            </div>
+            
+          </div>
+          
+          <div class="contact-form-submit-btn-container disable-contact">
+             
+          	<input type="submit" id="contactus-submit" class="btn" value="Send &#xf054;">
+          </div>
+          
+            {% endform %}
+        </div>
+      </div>
+    </div>
+
+</div>
+
+<!-- <img src="{{ 'contact-page-bottom.png' | asset_url}}" class="full-width contact-page-bottom" /> -->

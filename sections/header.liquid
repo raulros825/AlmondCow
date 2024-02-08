@@ -1,0 +1,263 @@
+{% if section.settings.message %}
+  <style>
+    .notification-bar {
+      background-color: {{ section.settings.color_bg }};
+    }
+
+    .notification-bar__message {
+      color: {{ section.settings.color_text }};
+    }
+  </style>
+{% endif %}
+
+<div data-section-id="{{ section.id }}" data-section-type="header-section">
+
+  
+  <nav class="mobile-nav-wrapper medium-up--hide" role="navigation">
+    <ul id="MobileNav" class="mobile-nav">
+      <div class="pre-remove">
+        {% include 'site-nav-mobile-preorder' %}
+      </div>
+      <div class="none-pre-remove">
+        {% include 'site-nav-mobile' %}
+      </div>
+      <div class="none-us-only">
+        {% include 'currency-switcher' %}
+      </div>
+      
+      <button type="button" class="btn--link site-header__search-toggle js-drawer-open-top medium-up--hide">
+        {% include 'icon-search' %}
+        <span class="icon__fallback-text">{{ 'layout.navigation.search' | t }}</span>
+      </button>
+    </ul>    
+  </nav>
+  
+
+  {% if section.settings.message %}
+    <div class="notification-bar us-only">
+      {% if section.settings.message %}
+        {% if section.settings.message_link != blank %}
+          <a href="{{ section.settings.message_link }}" class="notification-bar__message">
+            {{ section.settings.message_text | escape }}
+          </a>
+        {% else %}
+          <span class="notification-bar__message">{{ section.settings.message_text | escape }}</span>
+        {% endif %}
+      {% endif %}
+    </div>
+  {% endif %}
+
+  <div class="mobile-only">
+    <div class="grid__item small--one-whole medium--hide mobile-logo custom_mobile_logo">
+      {% comment %}
+      <a href="/"><img class="" src="{{ section.settings.logo | img_url: "159x" }}"
+           srcset="{{ section.settings.logo | img_url: "159x" }} 1x, {{ section.settings.logo | img_url: "159x", scale: 2 }} 2x"
+           alt="{{ section.settings.logo.alt | default: shop.name }}"
+                                    itemprop="logo"></a>
+      {% endcomment %}
+      
+      <a href="/" class="svg-logo none_toggle_logo">
+        <img class="svg" src="{{ section.settings.logo_link }}" alt="{{ section.settings.logo.alt | default: shop.name }}" itemprop="logo" />
+      </a>
+      
+      <a href="/" class="toggle_logo">
+        <img class="svg" src="{{ section.settings.logo_link_open }}" alt="{{ section.settings.logo.alt | default: shop.name }}" itemprop="logo" />
+      </a>
+      
+    </div>
+  </div>
+  
+  <header class="custom_mobile_nav site-header{% if section.settings.align_logo == 'left' %} border-bottom logo--left{% else %} logo--center{% endif %}" role="banner">
+    
+    <div class="grid grid--no-gutters grid--table header">
+    
+      <div class="grid__item small--hide medium-up--one-half">
+        <div class="pre-remove">
+          {% include 'site-nav-left-preorder' %}
+        </div>
+        <div class="none-pre-remove">
+          {% include 'site-nav-left' %}
+        </div>
+      </div>
+      
+      <div class="grid__item medium-up--two-sixths logo-align--center">
+        {% comment %}
+          Use the uploaded logo from theme settings if enabled.
+          Site name gets precedence with H1 tag on homepage, div on other pages.
+        {% endcomment %}
+        {% if template.name == 'index' %}
+          <h1 class="h2 site-header__logo" itemscope itemtype="http://schema.org/Organization">
+        {% else %}
+          <div class="h2 site-header__logo" itemscope itemtype="http://schema.org/Organization">
+        {% endif %}
+          {% if section.settings.logo %}
+            {% comment %}
+            <a href="/" itemprop="url" class="desktop-only site-header__logo-image{% if section.settings.align_logo == 'center' %} site-header__logo-image--centered{% endif %}">
+              {% capture image_size %}{{ section.settings.logo_max_width }}x{% endcapture %}
+              <img src="{{ section.settings.logo | img_url: image_size }}"
+                   srcset="{{ section.settings.logo | img_url: image_size }} 1x, {{ section.settings.logo | img_url: image_size, scale: 2 }} 2x"
+                   alt="{{ section.settings.logo.alt | default: shop.name }}"
+                   itemprop="logo">
+            </a>
+            {% endcomment %}
+            
+            <a href="/" itemprop="url" class="svg-logo desktop-only site-header__logo-image{% if section.settings.align_logo == 'center' %} site-header__logo-image--centered{% endif %}">
+              <img class="svg" src="{{ section.settings.logo_link }}" alt="{{ section.settings.logo.alt | default: shop.name }}" itemprop="logo" />
+            </a>
+            
+          {% else %}
+            <a class="site-header__logo-link" href="/" itemprop="url">{{ shop.name }}</a>
+          {% endif %}
+        {% if template.name == 'index' %}
+          </h1>
+        {% else %}
+          </div>
+        {% endif %}
+      </div>
+      <div class="grid__item small--hide medium-up--one-half custom-menu-right-part">
+        {% include 'site-nav-right' %}
+      </div>
+      
+      <div class="topbar-shop_btn mobile-only">
+
+        <a href="/products/starter-set" class="pre-remove">
+          <input type="submit" class="btn" value="Shop" />
+        </a>
+        <a href="/products/almond-cow-milk-machine-220v" class="none-pre-remove">
+          <input type="submit" class="btn" value="Shop" />
+        </a>
+
+      </div>
+      
+      <div class="grid__item small--one-third medium-up--hide site-header__icons{% if shop.customer_accounts_enabled %} site-header__icons--plus{% endif %}">
+        <div class="site-header__icons-wrapper">
+          
+          {% if template contains "product" %}
+          <button type="button" class="btn--link site-header__search-toggle js-drawer-open-top medium-up--hide">
+            {% include 'icon-search' %}
+            <span class="icon__fallback-text">{{ 'layout.navigation.search' | t }}</span>
+          </button>
+
+          <a class="site-header__cart">
+            {% include 'icon-cart' %}
+            <span class="visually-hidden">{{ 'layout.cart.title' | t }}</span>
+            <span class="icon__fallback-text">{{ 'layout.cart.title' | t }}</span>
+            {% if cart.item_count > 0 %}
+              <div id="CartCount" class="site-header__cart-count">
+                <span>{{ cart.item_count }}</span>
+                <span class="icon__fallback-text medium-up--hide">{{ 'layout.cart.items_count' | t: count: cart.item_count }}</span>
+              </div>
+            {% endif %}
+          </a>
+          {% endif %}
+
+          {% unless linklists[section.settings.main_linklist] == blank %}
+            <button type="button" class="btn--link site-header__menu js-mobile-nav-toggle mobile-nav--open {% unless template contains "product" %} none-product-hanmbuerger{% endunless %}">
+              {% include 'icon-hamburger' %}
+              {% include 'icon-close' %}
+              <span class="icon__fallback-text">{{ 'layout.navigation.toggle' | t }}</span>
+            </button>
+          {% endunless %}
+        </div>
+
+      </div>
+      
+    </div>
+  </header>
+  <style>
+    {% if section.settings.logo != blank %}
+      .site-header__logo-image {
+        max-width: {{ section.settings.logo_max_width }}px;
+      }
+    {% endif %}
+  </style>
+</div>
+
+{% schema %}
+  {
+    "name": "Header",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Desktop Logo"
+      },
+	  {
+		"type"  :  "url",
+		"id"    :  "logo_link",
+		"label" :  "SVG Logo Link"
+	  },
+      {
+		"type"  :  "url",
+		"id"    :  "logo_link_open",
+		"label" :  "SVG Logo Link Open"
+	  },
+      {
+        "type": "text",
+        "id": "logo_max_width",
+        "label": "Custom logo width (in pixels)",
+        "default": "100"
+      },
+      {
+        "type": "link_list",
+        "id": "main_linklist_left",
+        "label": "Menu Left",
+        "default": "main-menu"
+      },
+	  {
+        "type": "link_list",
+        "id": "main_linklist_left_advance",
+        "label": "Menu Left (US & Canada)",
+        "default": "main-menu"
+      },
+      {
+        "type": "link_list",
+        "id": "main_linklist_right",
+        "label": "Menu Right",
+        "default": "main-menu"
+      },
+      {
+        "type": "link_list",
+        "id": "main_linklist",
+        "label": "Mobile Menu",
+        "default": "main-menu"
+      },
+      {
+        "type": "link_list",
+        "id": "main_linklist_mobile_preorder",
+        "label": "Mobile Menu (US & Canada)",
+        "default": "main-menu"
+      },
+      {
+        "type": "checkbox",
+        "id": "message",
+        "label": "Show announcement",
+        "default": false
+      },
+      {
+        "type": "textarea",
+        "id": "message_text",
+        "label": "Announcement text",
+        "default": "Announce something here"
+      },
+      {
+        "type": "url",
+        "id": "message_link",
+        "label": "Announcement link",
+        "info": "Optional"
+      },
+      {
+        "type": "color",
+        "id": "color_bg",
+        "label": "Announcement color",
+        "default": "#7796A8"
+      },
+      {
+        "type": "color",
+        "id": "color_text",
+        "label": "Announcement text color",
+        "default": "#fff"
+      }
+    ]
+  }
+{% endschema %}

@@ -1,0 +1,156 @@
+<section class="product-{{ product.id }} home-ingredient-section">
+
+  <div class="grid__item medium-up--one-half">
+    
+	<!--  Product - Bulk Organic Cashew Pieces - 3lb   -->
+    {% if product.id == 5604200743064 %}
+      <div class="desktop-only">
+        {% if section.settings.cashew_desktop_image %}
+        <img class="ingredient-banner lazyload" data-src="{{ section.settings.cashew_desktop_image | img_url: '950x' }}" />
+        {% endif %}
+      </div>
+      <div class="mobile-only">
+        {% if section.settings.cashew_mobile_image %}
+        <img class="ingredient-banner lazyload" data-src="{{ section.settings.cashew_mobile_image | img_url: '750x' }}" />
+        {% endif %}
+      </div>
+    {% endif %}
+    
+    <!--  Product - Bulk Organic Whole Grain Oats - 3lb   -->
+    {% if product.id == 4383776276580 %}
+      <div class="desktop-only">
+        {% if section.settings.oats_desktop_image %}
+        <img class="ingredient-banner lazyload" data-src="{{ section.settings.oats_desktop_image | img_url: '950x' }}" />
+        {% endif %}
+      </div>
+      <div class="mobile-only">
+        {% if section.settings.oats_mobile_image %}
+        <img class="ingredient-banner lazyload" data-src="{{ section.settings.oats_mobile_image | img_url: '750x' }}" />
+        {% endif %}
+      </div>
+    {% endif %}
+    
+    <!--  Product - Bulk Organic Coconut Shreds - 2lb   -->
+    {% if product.id == 4383775588452 %}
+      <div class="desktop-only">
+        {% if section.settings.coconut_desktop_image %}
+        <img class="ingredient-banner lazyload" data-src="{{ section.settings.coconut_desktop_image | img_url: '950x' }}" />
+        {% endif %}
+      </div>
+      <div class="mobile-only">
+        {% if section.settings.coconut_mobile_image %}
+        <img class="ingredient-banner lazyload" data-src="{{ section.settings.coconut_mobile_image | img_url: '750x' }}" />
+        {% endif %}
+      </div>
+    {% endif %}
+    
+    <!--  Product - Bulk Almonds - 3lb   -->
+    {% if product.id == 4383774507108 %}
+      <div class="desktop-only">
+        {% if section.settings.almonds_desktop_image %}
+        <img class="ingredient-banner lazyload" data-src="{{ section.settings.almonds_desktop_image | img_url: '950x' }}" />
+        {% endif %}
+      </div>
+      <div class="mobile-only">
+        {% if section.settings.almonds_mobile_image %}
+        <img class="ingredient-banner lazyload" data-src="{{ section.settings.almonds_mobile_image | img_url: '750x' }}" />
+        {% endif %}
+      </div>
+    {% endif %}
+    
+  </div>
+  <div class="grid__item medium-up--one-half content-part text-center">
+    <div>
+      <h3 class="title">{{ section.settings.title }}</h3>
+      <p class="description">{{ section.settings.subtitle }}</p>
+      <a class="btn main-btn" href="#subscribe">{{ section.settings.button_text }}</a>
+    </div>    
+  </div>
+
+</section>
+
+{% schema %}
+  {
+    "name": "Ingredients Subscribe",
+	"class": "ingredients-subscribe",
+    "settings": [
+		{
+			"type"  :  "header",
+			"content": "Cashew product part"
+		},
+		{
+          	"type"  :  "image_picker",
+          	"id"    :  "cashew_desktop_image",
+          	"label" :  "Cashew Desktop Image"
+        },
+        {
+          	"type"  :  "image_picker",
+          	"id"    :  "cashew_mobile_image",
+          	"label" :  "Cashew Mobile Image"
+        },
+        {
+          	"type"  :  "text",
+          	"id"    :  "title",
+          	"label" :  "Title"
+        },
+        {
+          	"type"  :  "textarea",
+          	"id"    :  "subtitle",
+          	"label" :  "Sub Title"
+        },
+		{
+			"type"  :  "text",
+			"id"    :  "button_text",
+			"label" :  "Button Label"
+		},
+		{
+			"type"  :  "header",
+			"content": "Oats product part"
+		},
+		{
+          	"type"  :  "image_picker",
+          	"id"    :  "oats_desktop_image",
+          	"label" :  "Oats Desktop Image"
+        },
+        {
+          	"type"  :  "image_picker",
+          	"id"    :  "oats_mobile_image",
+          	"label" :  "Oats Mobile Image"
+        },
+		{
+			"type"  :  "header",
+			"content": "Coconut product part"
+		},
+		{
+          	"type"  :  "image_picker",
+          	"id"    :  "coconut_desktop_image",
+          	"label" :  "Coconut Desktop Image"
+        },
+        {
+          	"type"  :  "image_picker",
+          	"id"    :  "coconut_mobile_image",
+          	"label" :  "Coconut Mobile Image"
+        },
+		{
+			"type"  :  "header",
+			"content": "Almonds product part"
+		},
+		{
+          	"type"  :  "image_picker",
+          	"id"    :  "almonds_desktop_image",
+          	"label" :  "Almonds Desktop Image"
+        },
+        {
+          	"type"  :  "image_picker",
+          	"id"    :  "almonds_mobile_image",
+          	"label" :  "Almonds Mobile Image"
+        }
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

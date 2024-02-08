@@ -1,0 +1,76 @@
+
+<!--<div class="left_header_bg"><img src="//cdn.shopify.com/s/files/1/1667/4225/t/13/assets/contact_top_bg.png?8090848710640367602" alt=""></div>
+-->
+
+
+
+<div class="page-width">
+  <div class="grid">
+    <div class="grid__item medium-up--one-half">
+      <div class="banner_text banner_text_contact">Send us a message
+        <div style="clear:both"></div>
+        <span style="font-weight:normal; font-style: italic;">Always within reach</span>
+        <div style="clear:both"></div>
+        <div class="contact-form form-vertical">
+
+
+
+
+          {% form 'contact' %}
+          {% if form.posted_successfully? %}
+          <p class="note form-success">
+            {{ 'contact.form.post_success' | t }}
+          </p>
+          {% endif %}
+
+          {{ form.errors | default_errors }}
+          <div class="contact-form">
+            <input type="hidden" name="form_type" value="contact">
+            <input type="hidden" name="utf8" value="✓">
+            <div class="grid grid--half-gutters">
+              <div class="grid__item grid--half-gutters grid--half-gutters2">
+
+                <input type="text" id="ContactFormName" name="contact[name]" placeholder="Name" value="">
+              </div>
+              <div class="grid__item grid--half-gutters grid--half-gutters2">
+
+                <input type="email" id="ContactFormEmail" name="contact[email]" placeholder="Email" autocorrect="off" autocapitalize="off" value="" class="">
+              </div>
+            </div>
+            <div class="grid__item grid--half-gutters grid__item2 grid--half-gutters2">
+              <textarea rows="3" id="ContactFormMessage" name="contact[body]" placeholder="Type your message here"></textarea>
+            </div>
+            <input type="submit" class="btn" value="Send">
+
+            {% endform %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid__item medium-up--one-half">
+
+      <div class="banner_img banner_img_contact">
+        {{ 'holding-almond.jpg' | asset_url | img_tag }}
+      </div> 
+
+    </div>
+  </div>
+  <div class="grid">
+    <div class="grid__item medium-up--one-whole">
+
+      <div class="white-background full-width padding-bottom-30 ">
+        <div class="contact_banner full-width ">{{ 'contact_banner.png' | asset_url | img_tag }}
+          <div class="buy_contact_div padding-top-30">
+            <div class="contact_buy_div">Buy an Almond Cow <strong>right now</strong>
+              <div style="clear:both;"></div>
+              <div class="footer_buy_btn_buy"><a href="/collections/all">Go to shop</a></div>
+              <div style="clear:both;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

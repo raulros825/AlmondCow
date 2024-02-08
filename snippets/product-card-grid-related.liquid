@@ -1,0 +1,52 @@
+<!-- /snippets/product-card-grid-related.liquid -->
+<div class="collection--product text-center grid-view-item{% unless product.available %} product-price--sold-out grid-view-item--sold-out{% endunless %}">
+
+    <a class="grid-view-item__link" href="{{ product.url }}">
+      <img class="grid-view-item__image lazyload" data-src="{{ product.featured_image.src | img_url: grid_image_width, scale: grid_image_scale }}" >
+      <div class="h4 grid-view-item__title">{{ product.title }}</div>
+      {% if section.settings.show_vendor %}
+      <div class="grid-view-item__vendor">{{ product.vendor }}</div>
+      {% endif %}
+      <div class="grid-view-item__meta">
+        {% include 'product-price' %}
+
+        {% if section.settings.related_descriptions %}
+        {{ product.description | truncate:60 }}
+        {% endif %}
+
+      </div>
+    </a>
+  
+    {% unless product.id == 6094328430744 %}
+    <form method="post" action="/cart/add" class="AddToCartForm">
+      <input type="hidden" name="id" value="{{ product.variants.first.id }}" />
+      <div class="collection-input-btn">
+        
+        {% if template contains 'product.ingredients' %}
+        <p class="qty-text">Quantity</p>
+        {% endif %}
+        
+        {% include 'quantity-box' %}
+        <input type="submit" class="collection-cart-btn btn AddToCart" value="Add to cart" />
+
+      </div>
+    </form>
+    {% endunless %}
+    
+  {% comment %}
+    {% if product.id == 4377372950628 %}<!-- in case of Bottle product  -->
+    <a href="/products/almond-cow-bottles">
+      <input type="submit" class="btn product-notify-btn" value="Notify me when available">
+    </a>
+    {% endif %}
+  {% endcomment %}
+    
+    {% if product.id == 6094328430744 %}<!-- in Homemade for the Holidays Recipe eBook product  -->
+    <script type="text/javascript" src="https://transactions.sendowl.com/assets/sendowl.js" ></script>
+    <a href="https://transactions.sendowl.com/products/78407902/5876369B/purchase" rel="nofollow">
+      <input type="submit" class="btn product-notify-btn" value="Download Now">
+    </a>    
+    {% endif %}
+    
+  
+</div>

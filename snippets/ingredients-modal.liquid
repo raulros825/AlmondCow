@@ -1,0 +1,185 @@
+<!-- /snippets/ingredients-modal.liquid -->
+
+<div class="main-modal ingredient-modal">
+  <div class="modal-overlay modal-popup"></div>
+  <div class="modal-wrapper modal-transition">
+    <button class="modal-close modal-popup"><svg class="icon-close icon" viewBox="0 0 32 32"><use xlink:href="#icon-close"></use></svg></button>
+    <div class="grid vertical-center">
+      
+      {% assign product = all_products['almonds-3lb'] %}
+      
+      <div class="grid__item medium-up--one-half">
+        {%- assign ingredients_image = '400x400' -%}
+        <div class="slider ingredients-modal-slider">
+          {% for image in product.images %}
+          <div>
+            <img data-lazy="{{ image.src | img_url: ingredients_image }}" alt="{{ product.featured_image.alt }}" >
+          </div>
+          {% endfor %}
+        </div>
+        <!-- control arrows -->
+        <button class="ingredient-slick-prev">
+          {% include 'icon-chevron-left' %}
+        </button>
+        <button class="ingredient-slick-next">
+          {% include 'icon-chevron-right' %}
+        </button>
+        
+      </div>
+      
+      <div class="grid__item medium-up--one-half text-center">
+        <a href="{{ product.url }}"><h3>{{ product.title }}</h3></a>
+        {{ product.description }}
+        <div class="certified-Badges vertical-center">
+          <div>
+            <img class="lazyload" data-src="{{ 'Pollinator-Badge.png' | asset_url }}" />
+          </div>
+          <div>
+            <img class="lazyload" data-src="{{ 'GRF-Badge.png' | asset_url }}" />
+          </div>
+          <div>
+            <img class="lazyload" data-src="{{ 'NON-GMO-Badge.png' | asset_url }}" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main-modal ingredient-modal1">
+  <div class="modal-overlay modal-popup1"></div>
+  <div class="modal-wrapper modal-transition">
+    <button class="modal-close modal-popup1"><svg class="icon-close icon" viewBox="0 0 32 32"><use xlink:href="#icon-close"></use></svg></button>
+    <div class="grid vertical-center">
+      
+      {% assign product = all_products['coconut-shreds-2lb'] %}
+      
+      <div class="grid__item medium-up--one-half">
+               
+        <div class="slider ingredients-modal-slider">
+          {% for image in product.images %}
+          <div>
+            <img data-lazy="{{ image.src | img_url: ingredients_image }}" alt="{{ product.featured_image.alt }}">
+          </div>
+          {% endfor %}
+        </div>
+        <!-- control arrows -->
+        <button class="ingredient-slick-prev">
+          {% include 'icon-chevron-left' %}
+        </button>
+        <button class="ingredient-slick-next">
+          {% include 'icon-chevron-right' %}
+        </button>
+        
+      </div>
+      
+      <div class="grid__item medium-up--one-half text-center">
+        <a href="{{ product.url }}"><h3>{{ product.title }}</h3></a>
+        {{ product.description }}
+        <div class="certified-Badges vertical-center">
+          <div>
+            <img class="lazyload" data-src="{{ 'NON-GMO-Badge.png' | asset_url }}" />
+          </div>
+          <div>
+            <img class="lazyload" data-src="{{ 'usda-organic-badge.png' | asset_url }}" />
+          </div>
+          <div>
+            <img class="lazyload" data-src="{{ 'GRF-Badge.png' | asset_url }}" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main-modal ingredient-modal2">
+  <div class="modal-overlay modal-popup2"></div>
+  <div class="modal-wrapper modal-transition">
+    <button class="modal-close modal-popup2"><svg class="icon-close icon" viewBox="0 0 32 32"><use xlink:href="#icon-close"></use></svg></button>
+    <div class="grid vertical-center">
+      
+      {% assign product = all_products['whole-grain-oats-2lb'] %}
+      
+      <div class="grid__item medium-up--one-half">
+              
+        <div class="slider ingredients-modal-slider">
+          {% for image in product.images %}
+          <div>
+            <img data-lazy="{{ image.src | img_url: ingredients_image }}" alt="{{ product.featured_image.alt }}">
+          </div>
+          {% endfor %}
+        </div>
+        <!-- control arrows -->
+        <button class="ingredient-slick-prev">
+          {% include 'icon-chevron-left' %}
+        </button>
+        <button class="ingredient-slick-next">
+          {% include 'icon-chevron-right' %}
+        </button>
+        
+      </div>
+      
+      <div class="grid__item medium-up--one-half text-center">
+        <a href="{{ product.url }}"><h3>{{ product.title }}</h3></a>
+        {{ product.description }}
+        <div class="certified-Badges vertical-center">
+          <div>
+            <img class="lazyload" data-src="{{ 'GF-Badge.png' | asset_url }}" />
+          </div>
+          <div>
+            <img class="lazyload" data-src="{{ 'usda-organic-badge.png' | asset_url }}" />
+          </div>
+          <div>
+            <img class="lazyload" data-src="{{ 'GRF-Badge.png' | asset_url }}" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main-modal ingredient-modal3">
+  <div class="modal-overlay modal-popup3"></div>
+  <div class="modal-wrapper modal-transition">
+    <button class="modal-close modal-popup3"><svg class="icon-close icon" viewBox="0 0 32 32"><use xlink:href="#icon-close"></use></svg></button>
+    <div class="grid vertical-center">
+      
+      {% assign product = all_products['bulk-organic-cashew-pieces-3lb'] %}
+      
+      <div class="grid__item medium-up--one-half">
+              
+        <div class="slider ingredients-modal-slider">
+          {% for image in product.images %}
+          <div>
+            <img data-lazy="{{ image.src | img_url: ingredients_image }}" alt="{{ product.featured_image.alt }}">
+          </div>
+          {% endfor %}
+        </div>
+        <!-- control arrows -->
+        <button class="ingredient-slick-prev">
+          {% include 'icon-chevron-left' %}
+        </button>
+        <button class="ingredient-slick-next">
+          {% include 'icon-chevron-right' %}
+        </button>
+        
+      </div>
+      
+      <div class="grid__item medium-up--one-half text-center">
+        <a href="{{ product.url }}"><h3>{{ product.title }}</h3></a>
+        {{ product.description }}
+        <div class="certified-Badges vertical-center">
+          <div>
+            <img class="lazyload" data-src="{{ 'usda-organic-badge.png' | asset_url }}" />
+          </div>
+          <div>
+            <img class="lazyload" data-src="{{ 'GRF-Badge.png' | asset_url }}" />
+          </div>
+          <div>
+            <img class="lazyload" data-src="{{ 'NON-GMO-Badge.png' | asset_url }}" />
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

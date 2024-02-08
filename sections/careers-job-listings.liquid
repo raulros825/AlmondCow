@@ -1,0 +1,72 @@
+<section>
+  <div class="icon-blocks">
+    {% for block in section.blocks %}
+    	{% if block.type == 'icons' %}
+    		<img class="lazyload" data-src="{{ block.settings.icon | img_url: '60x' }}" />
+    	{% endif %}
+    {% endfor %}
+  </div>
+  <div class="content-part">
+    {% for block in section.blocks %}
+    	{% if block.type == 'content' %}
+    		<div class="text-block">
+              <div class="grid__item medium-up--two-thirds">
+                <h3>{{ block.settings.job_title }}</h3>
+                <p>{{ block.settings.sub_title }}</p>
+              </div>
+              <div class="grid__item medium-up--one-third">
+                <a href="{{ block.settings.job_url }}" class="btn main-btn">Apply now</a>
+              </div>
+    		</div>
+    	{% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Careers Job Listings",
+	"class": "careers-job-listings",
+    "settings": [],
+	"blocks": [
+		{
+			"type"  :  "icons",
+			"name"  :  "Icons",
+			"settings": [
+				{
+					"type"  :  "image_picker",
+					"id"    :  "icon",
+					"label" :  "Icon"
+				}
+			]
+		},
+		{
+			"type"  :  "content",
+			"name"  :  "Content",
+			"settings": [
+				{
+					"type"  :  "text",
+					"id"    :  "job_title",
+					"label" :  "Job Title"
+				},
+				{
+					"type"  :  "text",
+					"id"    :  "sub_title",
+					"label" :  "Sub Title"
+				},
+				{
+					"type"  :  "url",
+					"id"    :  "job_url",
+					"label" :  "Job Page Url"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

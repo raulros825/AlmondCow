@@ -1,0 +1,22 @@
+<style>
+
+  .qtydiv {display: inline-block;}
+  .qtydiv label{display: block;margin-bottom: 12px;letter-spacing: 2.8px;color: #747a7b;}
+  .qtydiv .btnqty{display: inline-block;cursor: pointer;user-select: none;font-size: 25px;padding: 5px;}
+  .qtydiv .btnqty.qtyminus{margin-right: 8px;}
+  .qtydiv .btnqty.qtyplus{margin-left: 8px;}
+  .qtydiv .quantity-input{border: 1px solid;padding: 8px;text-align: center;width: 50px;outline: none;display: inline-block;}
+
+</style>
+
+
+<div class="qtydiv">
+<!--   <label for="Quantity" class="quantity-selector">Quantity</label> -->
+  <div class="qtybox">
+    <span class="btnqty qtyminus icon-minus">-</span>
+    <input type="text" id="quantity" name="quantity" value="1" min="1" class="quantity-selector quantity-input" pattern="[0-9]*">
+    <span class="btnqty qtyplus icon-plus">+</span>
+  </div>
+</div>
+
+<!-- input box(readonly="")  -->

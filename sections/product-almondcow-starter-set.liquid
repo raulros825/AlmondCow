@@ -1,0 +1,784 @@
+<div class="product-template__container pre-remove" itemscope itemtype="http://schema.org/Product" id="ProductSection-{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="product" data-enable-history-state="true">
+  <meta itemprop="name" content="{{ product.title }}">
+  <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
+  <meta itemprop="image" content="{{ product.featured_image.src | img_url: '800x' }}">
+  
+  <div id="recipes-category-page" class="main-almond-product">    
+
+  {% comment %}
+    Get first variant, or deep linked one
+  {% endcomment %}
+  {%- assign current_variant = product.selected_or_first_available_variant -%}
+  {%- assign product_thumb_size = '98x' -%}
+  {%- assign product_image_zoom_size = '1024x1024' -%}
+  {%- assign enable_zoom = section.settings.enable_zoom -%}
+    
+
+  {% case section.settings.image_size %}
+    {% when 'small' %}
+      {%- assign product_image_width = 'medium-up--one-third' -%}
+      {%- assign product_description_width = 'medium-up--two-thirds' -%}
+      {%- assign product_thumbnail_width = 'medium-up--one-third' -%}
+      {%- assign product_image_size = '345x' -%}
+    {% when 'medium' %}
+      {%- assign product_image_width = 'medium-up--one-half' -%}
+      {%- assign product_description_width = 'medium-up--one-half' -%}
+      {%- assign product_thumbnail_width = 'medium-up--one-quarter' -%}
+      {%- assign product_image_size = '545x' -%}
+    {% when 'large' %}
+      {%- assign product_image_width = 'medium-up--two-thirds' -%}
+      {%- assign product_description_width = 'medium-up--one-third' -%}
+      {%- assign product_thumbnail_width = 'medium-up--one-fifth' -%}
+      {%- assign product_image_size = '720x' -%}
+    {% when 'full' %}
+      {%- assign product_image_width = '' -%}
+      {%- assign product_description_width = '' -%}
+      {%- assign product_thumbnail_width = 'medium-up--one-eighth' -%}
+      {%- assign product_image_size = '1090x' -%}
+      {%- assign enable_zoom = false -%}
+  {% endcase %}
+
+    <div class="grid product-single product-background" data-test="love">
+
+      <div class="page-width main_product_almond">
+
+        <div class="grid__item product-single__photos {{ product_image_width }}{% if section.settings.image_size == 'full' %} product-single__photos--full{% endif %}">
+          
+{% capture mzp %}{% include 'magiczoomplus' %}{% endcapture %}
+{% if mzp contains "Liquid error" %}
+
+          {%- assign featured_img_src = current_variant.featured_image.src | default: product.featured_image.src -%}
+          {%- assign featured_img_alt = current_variant.featured_image.alt | default: product.featured_image.alt -%}
+          
+
+          <div id="FeaturedImageZoom-{{ section.id }}" class="product-single__photo{% if product.images.size > 1 %} product-single__photo--has-thumbnails product__slider-main {% endif %}" {% if enable_zoom %}data-zoom="{{ featured_img_src | img_url: product_image_zoom_size }}"{% endif %}>
+            {% for image in product.images %}
+            <div class="slide">
+              <img data-lazy="{{ image.src | img_url: product_image_size }}" {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size }}"{% endif %} id="FeaturedImage-{{ section.id }}" class="product-featured-img{% if enable_zoom %} js-zoom-enabled{% endif %}">
+            </div>
+            {% endfor %}
+          </div>
+          
+          <button type="button" class="slick-prev-arrow">
+            {% include 'icon-chevron-left' %}
+            <span class="icon__fallback-text">{{ 'sections.slideshow.previous_slide' | t }}</span>
+          </button>
+          
+          <button type="button" class="slick-next-arrow">
+            {% include 'icon-chevron-right' %}
+            <span class="icon__fallback-text">{{ 'sections.slideshow.next_slide' | t }}</span>
+          </button>
+        
+
+          {% if product.images.size > 1 %}
+          {% if product.images.size > 3 %}
+          {%- assign enable_thumbnail_slides = true -%}
+          {% endif %}
+
+          <div class="thumbnails-wrapper{% if enable_thumbnail_slides == true %} thumbnails-slider--active product__slider-thmb{% endif %} desktop-only">
+            
+            {% for image in product.images %}
+            
+            <div class="slide">
+              <a
+                 href="{{ image.src | img_url: product_image_size }}"
+                 class="text-link product-single__thumbnail product-single__thumbnail--{{ section.id }}"
+                 {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size }}"{% endif %}>
+                <img class="product-single__thumbnail-image" data-lazy="{{ image.src | img_url: product_thumb_size }}">
+              </a>
+            </div>
+            
+            {% endfor %}     
+            
+          </div>
+          {% endif %}
+          
+{% else %}
+          <div style="display:none">
+
+          {%- assign featured_img_src = current_variant.featured_image.src | default: product.featured_image.src -%}
+          {%- assign featured_img_alt = current_variant.featured_image.alt | default: product.featured_image.alt -%}
+          
+
+          <div id="FeaturedImageZoom-{{ section.id }}" class="product-single__photo{% if product.images.size > 1 %} product-single__photo--has-thumbnails product__slider-main {% endif %}" {% if enable_zoom %}data-zoom="{{ featured_img_src | img_url: product_image_zoom_size }}"{% endif %}>
+            {% for image in product.images %}
+            <div class="slide">
+              <img data-lazy="{{ image.src | img_url: product_image_size }}" {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size }}"{% endif %} id="FeaturedImage-{{ section.id }}" class="product-featured-img{% if enable_zoom %} js-zoom-enabled{% endif %}">
+            </div>
+            {% endfor %}
+          </div>
+          
+          <button type="button" class="slick-prev-arrow">
+            {% include 'icon-chevron-left' %}
+            <span class="icon__fallback-text">{{ 'sections.slideshow.previous_slide' | t }}</span>
+          </button>
+          
+          <button type="button" class="slick-next-arrow">
+            {% include 'icon-chevron-right' %}
+            <span class="icon__fallback-text">{{ 'sections.slideshow.next_slide' | t }}</span>
+          </button>
+        
+
+          {% if product.images.size > 1 %}
+          {% if product.images.size > 3 %}
+          {%- assign enable_thumbnail_slides = true -%}
+          {% endif %}
+
+          <div class="thumbnails-wrapper{% if enable_thumbnail_slides == true %} thumbnails-slider--active product__slider-thmb{% endif %} desktop-only">
+            
+            {% for image in product.images %}
+            
+            <div class="slide">
+              <a
+                 href="{{ image.src | img_url: product_image_size }}"
+                 class="text-link product-single__thumbnail product-single__thumbnail--{{ section.id }}"
+                 {% if enable_zoom %}data-zoom="{{ image.src | img_url: product_image_zoom_size }}"{% endif %}>
+                <img class="product-single__thumbnail-image" data-lazy="{{ image.src | img_url: product_thumb_size }}">
+              </a>
+            </div>
+            
+            {% endfor %}     
+            
+          </div>
+          {% endif %}            
+          
+          </div>
+	{{ mzp }}
+{% endif %}
+          
+          {% comment %}
+          <a href="https://vimeo.com/392258211" target="_blank" class="btn product-video-button">
+            <span>Watch the magic</span>
+            <img class="lazyload" data-src="{{ 'video-play-mobile.png' | asset_url }}" />
+          </a>
+          {% endcomment %}
+          
+        </div>
+
+        <div class="grid__item {{ product_description_width }}">
+          <div class="product-single__meta medium_text_center">
+
+            <h1 itemprop="name" class="product-single__title medium_text_center">{{ product.title }}</h1>
+
+            {% if section.settings.show_vendor %}
+            <p itemprop="brand" class="product-single__vendor">{{ product.vendor }}</p>
+            {% endif %}
+
+            <div itemprop="offers" itemscope itemtype="http://schema.org/Offer">
+              <meta itemprop="priceCurrency" content="{{ shop.currency }}">
+
+              <link itemprop="availability" href="http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}">
+              
+              <div class="product-single__description" itemprop="description">
+                {{ product.description | split: "<!-- split -->" | first }}
+              </div>
+
+              <ul class="accordion pro-accordion product-accordion">
+                <li>
+                  <a>Our ingredients</a>
+                  <div class="accordion_text">
+                    <div class="one-thirds">
+                      <div class="modal-popup">
+                        <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Bulk-Almonds.svg?v=1596808129" />
+                        <p>Bee-Friendly<br>Almonds</p>
+                      </div>
+                    </div>
+                    <div class="one-thirds">
+                      <div class="modal-popup1">
+                        <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Bulk-Organic-Coconut.svg?v=1596808130" />
+                        <p>Organic<br>Coconut Shreds</p>
+                      </div>
+                    </div>
+                    <div class="one-thirds">
+                      <div class="modal-popup2">
+                        <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Bulk-WGO.svg?v=1596841807" />                        
+                        <p>Organic<br>Whole Grain Oats</p>
+                      </div>
+                    </div>
+                    
+                    {% comment %}
+                    <p class="ingredient-text">
+                      <small>{{ product.description | split: "<!-- split -->" | last }}</small>
+                    </p>
+                    {% endcomment %}
+                  </div>                  
+                </li>
+                <li>
+                  <a>Details</a>
+                  <div class="accordion_text">
+                    <b>Dimensions:</b> 12 H x 9.5 D x 6.5 W in. / 30 x 24 x 17 cm.<br>
+                    <b>Interior Surfaces:</b> 304 Stainless Steel<br>
+                    <b>Weight:</b> 21 lbs / 9.5 kg<br>
+                    <b>Power Usage:</b> 240W<br>
+                    <b>Electrical Rating:</b> 120V 60Hz (US and Canada)               
+                  </div>
+                </li>
+              </ul>
+
+              <form action="/cart/add" method="post" enctype="multipart/form-data" class="AddToCartForm product-form product-form-{{ section.id }}{% unless section.settings.show_variant_labels %} product-form--hide-variant-labels{% endunless %}" data-section="{{ section.id }}">
+                {% unless product.options.size == 1 and product.variants[0].title == 'Default Title' %}
+                {% for option in product.options_with_values %}
+                <div class="selector-wrapper js product-form__item">
+                  <label {% if option.name == 'default' %}class="label--hidden" {% endif %}for="SingleOptionSelector-{{ forloop.index0 }}">
+                    {{ option.name }}
+                  </label>
+                  <select class="single-option-selector single-option-selector-{{ section.id }} product-form__input" id="SingleOptionSelector-{{ forloop.index0 }}" data-index="option{{ forloop.index }}">
+                    {% for value in option.values %}
+                    <option value="{{ value | escape }}"{% if option.selected_value == value %} selected="selected"{% endif %}>{{ value }}</option>
+                    {% endfor %}
+                  </select>
+
+                </div>
+                {% endfor %}
+                {% endunless %}
+
+                <select name="id" id="ProductSelect-{{ section.id }}" data-section="{{ section.id }}" class="product-form__variants no-js">
+                  {% for variant in product.variants %}
+                  {% if variant.available %}
+                  <option {% if variant == product.selected_or_first_available_variant %} selected="selected" {% endif %} value="{{ variant.id }}">
+                    {{ variant.title }}
+                  </option>
+                  {% else %}
+                  <option disabled="disabled">{{ variant.title }} - {{ 'products.product.sold_out' | t }}</option>
+                  {% endif %}
+                  {% endfor %}
+                </select>
+
+                <p class="product-single__price product-single__price-{{ section.id }}{% unless current_variant.available %} product-price--sold-out{% endunless %}">
+                  {% if current_variant.compare_at_price > current_variant.price %}
+                  <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+                  <s id="ComparePrice-{{ section.id }}">{{ current_variant.compare_at_price | money }}</s>
+                  <span class="product-price__price product-price__price-{{ section.id }} product-price__sale product-price__sale--single">
+                    <span id="ProductPrice-{{ section.id }}"
+                          itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
+                      {{ current_variant.price | money}}
+                    </span>
+
+                    <span class="product-price__sale-label product-price__sale-label-{{ section.id }}">{{ 'products.product.on_sale' | t }}</span>
+                  </span>
+                  {% else %}
+                  <span class="visually-hidden">{{ 'products.product.regular_price' | t }}</span>
+                  <s id="ComparePrice-{{ section.id }}" class="hide">{{ current_variant.compare_at_price | money }}</s>
+                  <span class="product-price__price product-price__price-{{ section.id }}">
+                    <span id="ProductPrice-{{ section.id }}"
+                          itemprop="price" content="{{ current_variant.price | divided_by: 100.00 }}">
+                      {{ current_variant.price | money_without_trailing_zeros}}
+                    </span>
+
+                    <span class="product-price__sale-label product-price__sale-label-{{ section.id }} hide">{{ 'products.product.on_sale' | t }}</span>
+                  </span>
+                  {% endif %}
+                </p>
+
+                <div class="ac-stater-qt">
+                  {% if section.settings.show_quantity_selector %}
+
+                  {% include 'quantity-box' %}
+
+                  {% endif %}
+                </div>
+                
+                <div class="additional_description pre-order-version">
+                  {% if section.settings.preorder_text %}
+                  {{ section.settings.preorder_text }}
+                  {% endif %}
+                </div>
+
+                <div class="product-form__item product-form__item--submit product--btn-container">
+                  <button type="submit" name="add" id="AddToCart-{{ section.id }}" {% unless current_variant.available %}disabled="disabled"{% endunless %} class="btn product-form__cart-submit AddToCart{% if product.options.size == 1 and product.variants[0].title == 'Default Title' %} product-form__cart-submit--small{% endif %}">
+                    <span id="AddToCartText-{{ section.id }}">
+                      {% unless current_variant.available %}
+                      {{ 'products.product.sold_out' | t }}
+                      {% else %}
+                      {{ 'products.product.add_to_cart' | t }}
+                      {% endunless %}
+                    </span>
+                  </button>
+                </div>
+                
+              </form>
+              
+            </div>
+
+            {% if section.settings.show_share_buttons %}
+            {% include 'social-sharing', share_title: product.title, share_permalink: product.url, share_image: product %}
+            {% endif %}
+          </div>
+          
+        </div>
+      </div><!--   page width     -->
+
+    </div> <!-- product-single end-->
+
+  </div>
+  
+  <div class="starter-related">
+    <div class="page-width">
+      <div class="grid grid--uniform grid--view-items">
+        
+        {%- assign grid_image_width = '200x200' -%}
+        {%- assign grid_image_scale = '2' -%}
+        
+        <div class="grid__item medium-up--one-third">
+          {% assign product = all_products['almond-cow-milk-machine'] %}
+          {% include 'product-card-grid-related' %}
+        </div>
+        
+        <div class="grid__item medium-up--one-third">
+          {% assign product = all_products['glass-jug-jug-brush'] %}
+          {% include 'product-card-grid-related' %}
+        </div> 
+
+        <div class="grid__item medium-up--one-third">
+          <div class="tile-content">
+            {% assign product = all_products['bulk-organic-cashew-pieces-3lb'] %}
+            {% include 'product-card-grid-slider' %}
+            <div class="content-details fadeIn-top">
+              <input type="submit" class="modal-popup3" value="Quick View">
+            </div>
+          </div>
+        </div> 
+        
+        <div class="grid__item medium-up--one-third">
+          <div class="tile-content">
+            {% assign product = all_products['almonds-3lb'] %}
+            {% include 'product-card-grid-slider' %}
+            <div class="content-details fadeIn-top">
+              <input type="submit" class="modal-popup" value="Quick View">
+            </div>
+          </div>
+        </div>
+
+        <div class="grid__item medium-up--one-third">
+          <div class="tile-content">
+            {% assign product = all_products['coconut-shreds-2lb'] %}
+            {% include 'product-card-grid-slider' %}
+            <div class="content-details fadeIn-top">
+              <input type="submit" class="modal-popup1" value="Quick View">
+            </div>
+          </div>
+        </div>
+        
+        <div class="grid__item medium-up--one-third">
+          <div class="tile-content">
+            {% assign product = all_products['whole-grain-oats-2lb'] %}
+            {% include 'product-card-grid-slider' %}
+            <div class="content-details fadeIn-top">
+              <input type="submit" class="modal-popup2" value="Quick View">
+            </div>
+          </div>
+        </div>        
+        
+        <div class="grid__item medium-up--one-third">
+          {% assign product = all_products['almond-cow-glass-jug'] %}
+          {% include 'product-card-grid-related' %}
+        </div>
+        
+        <div class="grid__item medium-up--one-third">
+          {% assign product = all_products['almond-cow-bottles'] %}
+          {% include 'product-card-grid-related' %}
+        </div>
+        
+        <div class="grid__item medium-up--one-third">
+          {% assign product = all_products['jug-brush'] %}
+          {% include 'product-card-grid-related' %}
+        </div>
+        
+        <div class="grid__item medium-up--one-third">
+          {% assign product = all_products['ac-kitchen-recipe-book'] %}
+          {% include 'product-card-grid-related' %}
+        </div>
+        
+        {% comment %}
+        {% assign product = all_products['homemade-for-the-holidays-recipe-ebook'] %}
+        {% if product.available %}
+        <div class="grid__item medium-up--one-third">          
+          {% include 'product-card-grid-related' %}
+        </div>
+        {% endif %}
+        {% endcomment %}
+        
+      </div>
+    </div>
+  </div>
+  
+  <div class="testimonial-part">
+    <div class="page-width">
+      <h2>{{ section.settings.testimonial_title }}</h2>
+      <div class="slider responsive">
+        
+        {% for block in section.blocks %}
+        
+        {% if block.type == 'image' %}
+        <div>
+          <div class="testimonial-image lazy-preload" {% if block.settings.author_img %} data-src="{{ block.settings.author_img | img_url: '350x' }}" {% endif %}>
+            <p class="descriptions">{{ block.settings.author_descriptions }}</p>
+          </div>
+          <p class="author_name">{{ block.settings.author_name }}</p>
+        </div>
+        {% endif %}
+        
+        {% endfor %}
+        
+      </div>
+      <!-- control arrows -->
+      <div class="testimonial-slick-prev">
+        {% include 'icon-chevron-left' %}
+      </div>
+      <div class="testimonial-slick-next">
+        {% include 'icon-chevron-right' %}
+      </div>
+    </div>
+  </div>
+
+  {% comment %}
+  <div class="bottom-product-container">
+    <div class="page-width">
+      <h2 class="text-center">How it works</h2>
+      
+      <div class="slider how_it_works">
+      
+      {% for block in section.blocks %}
+      
+      {% if block.type ==  'howitworks' %}
+        
+        <div>
+          <img data-lazy="{{ block.settings.work_image | img_url: '410x' }}"/>
+          <h6 class="title-border_top">{{ block.settings.work_text }}</h6>
+        </div>
+      
+      {% endif %}
+      
+      {% endfor %}
+        
+      </div>
+      <!-- control arrows -->
+      <div class="works-slick-prev">
+        {% include 'icon-chevron-left' %}
+      </div>
+      <div class="works-slick-next">
+        {% include 'icon-chevron-right' %}
+      </div>
+
+    </div>
+  </div>
+  {% endcomment %}
+  
+  <div class="product-page-faq">
+    <div class="page-width">
+      <div class="most-question-part">
+        <h2 class="text-center">Most asked questions</h2>
+        <ul class="accordion">
+          <li>
+            <a>Do I still have to strain the milk?</a>
+            <div class="accordion_text">
+              Nope, no straining needed! Almond Cow separates the pulp from the milk so you don't have to. Say goodbye to your nut milk bag.
+            </div>
+          </li>
+          <li>
+            <a>How much milk is made in one batch?</a>
+            <div class="accordion_text">
+              5-6 cups per batch.
+            </div>
+          </li>
+          <li>
+            <a>What quantity of nuts and seeds should I use to make the milk?</a>
+            <div class="accordion_text">
+              We recommend using ½ to 1 full cup of soaked raw ingredients - 
+              any combination of nuts, seeds, and grains that you like - to make milk in your Almond Cow. 
+              (Most plant-based milks in stores use very little in the way of actual nuts or seeds.
+              They’re mostly water and a large amount of artificial thickeners, fillers, and flavorings.)
+            </div>
+          </li>
+          <li>
+            <a>Do you have to soak the nuts beforehand?</a>
+            <div class="accordion_text">
+              Soaking the nuts is not required but we do recommend it for a smoother milk.
+            </div>
+          </li>
+          <li>
+            <a>Can coconut water or other liquids be used in the base of the machine in place of regular water?</a>
+            <div class="accordion_text">
+              Yes!
+            </div>
+          </li>
+          <li>
+            <a>How is this different than a blender with a nut milk bag?</a>
+            <div class="accordion_text">
+              The Almond Cow automatically separates the pulp from the milk, so you don’t have to! In less than a minute, 
+              you have milk that’s ready to drink and pulp that’s ready to enjoy!
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  
+  {% include 'ingredients-modal' %}
+  
+</div>
+
+{% comment %}
+
+{% if collection %}
+  <div class="text-center return-link-wrapper">
+    <a href="{{ collection.url }}" class="btn btn--secondary btn--has-icon-before return-link">
+      {% include 'icon-arrow-left' %}
+      {{ 'products.product.back_to_collection' | t: title: collection.title }}
+    </a>
+  </div>
+{% endif %}
+
+{% endcomment %}
+
+{% unless product == empty %}
+  <script type="application/json" id="ProductJson-{{ section.id }}">
+    {{ product | json }}    
+  </script>
+{% endunless %}
+
+
+<script>
+  
+// testimonial
+  $('.responsive').slick({
+    dots: true,
+    prevArrow: $('.testimonial-slick-prev'),
+    nextArrow: $('.testimonial-slick-next'),
+    infinite: true,
+    swipe:true,
+    autoplay: false,
+    speed: 4000,
+    slidesToShow: 3,
+    slidesToScroll: 3,
+    responsive: [
+      {
+        breakpoint: 1025,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2
+        }
+      },
+      {
+        breakpoint: 641,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          speed: 2000
+        }
+      },
+      {
+        breakpoint: 481,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          speed: 1000
+        }
+      }
+    ]
+//     adaptiveHeight: true
+  });
+  
+// How it works section
+//   $('.how_it_works').slick({
+//     dots: true,
+//     prevArrow: $('.works-slick-prev'),
+//     nextArrow: $('.works-slick-next'),
+//     infinite: true,
+//     lazyLoad: 'ondemand',
+//     swipe:true,
+//     autoplay: false,
+//     speed: 4000,
+//     slidesToShow: 4,
+//     slidesToScroll: 4,
+//     responsive: [
+//       {
+//         breakpoint: 750,
+//         settings: {
+//           slidesToShow: 2,
+//           slidesToScroll: 2,
+//           speed: 2000
+//         }
+//       },
+//       {
+//         breakpoint: 641,
+//         settings: {
+//           slidesToShow: 1,
+//           slidesToScroll: 1,
+//           speed: 1000
+//         }
+//       }
+//     ]
+//   });
+  
+  
+// product image slider
+  if ( $('.product__slider-main').length ) {
+    var $slider = $('.product__slider-main')
+    .on('init', function(slick) {
+      $('.product__slider-main').fadeIn(1000);
+    })
+    .slick({
+      slidesToShow: 1,
+      slidesToScroll: 1,
+      arrows: true,
+      autoplay: false,
+      lazyLoad: 'ondemand',
+//       autoplaySpeed: 3000,
+      asNavFor: '.product__slider-thmb',
+      prevArrow:'.slick-prev-arrow',
+      nextArrow:'.slick-next-arrow'
+    });
+
+    var $slider2 = $('.product__slider-thmb')
+    .on('init', function(slick) {
+      $('.product__slider-thmb').fadeIn(1000);
+    })
+    .slick({
+      slidesToShow: 5,
+      slidesToScroll: 1,
+      lazyLoad: 'ondemand',
+      asNavFor: '.product__slider-main',
+      dots: false,
+      centerMode: false,
+      focusOnSelect: true
+    });
+
+    //remove active class from all thumbnail slides
+    $('.product__slider-thmb .slick-slide').removeClass('slick-active');
+
+    //set active class to first thumbnail slides
+    $('.product__slider-thmb .slick-slide').eq(1).addClass('slick-active');
+
+    // On before slide change match active thumbnail to current slide
+    $('.product__slider-main').on('beforeChange', function (event, slick, currentSlide, nextSlide) {
+      var mySlideNumber = nextSlide;
+      $('.product__slider-thmb .slick-slide').removeClass('slick-active');
+      $('.product__slider-thmb .slick-slide').eq(mySlideNumber).addClass('slick-active');
+    });
+
+  }
+  
+</script>
+
+
+{% schema %}
+  {
+    "name": "Almond Cow Starter Set",
+	"class": "almond-starter-set",
+    "settings": [
+      {
+        "type": "select",
+        "id": "image_size",
+        "label": "Image size",
+        "options": [
+          {
+            "value": "small",
+            "label": "Small"
+          },
+          {
+            "value": "medium",
+            "label": "Medium"
+          },
+          {
+            "value": "large",
+            "label": "Large"
+          },
+          {
+            "value": "full",
+            "label": "Full-width"
+          }
+        ],
+        "default": "medium"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_quantity_selector",
+        "label": "Show quantity selector",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_variant_labels",
+        "label": "Show variant labels",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_vendor",
+        "label": "Show vendor",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "enable_zoom",
+        "label": "Enable image zoom",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "show_share_buttons",
+        "label": "Show social sharing buttons",
+        "default": true
+      },
+	  {
+		"type"  :  "header",
+		"content": "Preorder Line"   
+	  },
+	  {
+		"type"  :  "richtext",
+		"id"    :  "preorder_text",
+		"label" :  "Preorder Line For US and Canada"
+	  },
+	  {
+		"type"  :  "header",
+		"content" : "Related products"
+	  },
+	  {
+		"type"  :  "checkbox",
+		"id"    :  "related_descriptions",
+		"label" :  "Show Descriptions",
+		"default" : true
+	  }
+    ],
+    "blocks": [
+      {
+        "type": "image",
+        "name": "Image",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "author_img",
+            "label": "Author Image"
+          },
+          {
+            "type": "textarea",
+            "id": "author_descriptions",
+            "label": "Author Descriptions"
+          },
+          {
+            "type": "textarea",
+            "id": "author_name",
+            "label": "Author Name"
+          }
+        ]
+      },
+	  {
+		"type"  :  "howitworks",
+		"name"  :  "How It Works",
+		"settings": [
+			{
+				"type"  :  "image_picker",
+				"id"    :  "work_image",
+				"label" :  "Image"
+			},
+			{
+				"type"  :  "textarea",
+				"id"    :  "work_text",
+				"label" :  "Text"
+			}
+		]
+	  }
+    ]
+  }
+{% endschema %}

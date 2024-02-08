@@ -1,0 +1,62 @@
+<section class="sustainability-AC-method">
+
+  <div class="page-width text-center">
+    
+    <div class="desktop-only">
+      <p>{{ section.settings.title }}</p>
+      
+      {% if section.settings.image != blank %}
+      <img class="lazyload" data-src="{{ section.settings.image | img_url: '1000x' }}" />
+      {% endif %}
+    </div>
+    
+    <div class="mobile-only">
+      <p>{{ section.settings.mobile_title }}</p>
+      
+      {% if section.settings.image != blank %}
+      <img class="lazyload" data-src="{{ section.settings.mobile_image | img_url: '750x' }}" />
+      {% endif %}
+    </div>
+  </div>
+  
+</section>
+
+{% schema %}
+  {
+    "name": "Sustainability AC Method",
+    "settings": [
+		{
+			"type"  :  "textarea",
+			"id"    :  "title",
+			"label" :  "Desktop Title"
+		},
+		{
+			"type"  :  "textarea",
+			"id"    :  "mobile_title",
+			"label" :  "Mobile Title"
+		},
+		{
+			"type"  :  "image_picker",
+			"id"    :  "image",
+			"label" :  "Ac Method Desktop Image"
+		},
+		{
+			"type"  :  "image_picker",
+			"id"    :  "mobile_image",
+			"label" :  "Ac Method Mobile Image"
+		}
+	],
+	"presets": [
+		{
+			"name"  :  "Sustainability Ac Method",
+			"category" :  "Sustainability Page"
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

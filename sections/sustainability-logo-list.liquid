@@ -1,0 +1,136 @@
+<section class="sustain-logo-list page-width">
+  <p>{{ section.settings.logo_list_title }}</p>
+
+  <div class="desktop-only">
+    <div class="logo-content">
+
+      {% for block in section.blocks %}
+
+      {% if block.type == 'logo' %}
+
+      <div class="logo_item-list">
+        {% if block.settings.logo %}
+        <img class="lazyload" data-src="{{ block.settings.logo | img_url: '195x' }}" />
+        {% endif %}
+        <p>{{ block.settings.logo_text }} {% include 'icon-chevron-right' %} </p>        
+      </div>
+
+      {% endif %}
+
+      {% endfor %}
+
+    </div>
+  </div>
+  
+  <div class="mobile-only">
+    
+    <div class="slider logo-content-mobile">
+      
+      {% for block in section.blocks %}
+
+      {% if block.type == 'mobile_logo' %}
+
+      <div>
+        {% if block.settings.logo %}
+        <img data-lazy="{{ block.settings.logo | img_url: '700x' }}" />
+        {% endif %}
+        <p>{{ block.settings.logo_text }} </p>        
+      </div>
+
+      {% endif %}
+
+      {% endfor %}
+      
+    </div>
+    
+  </div>
+
+</section>
+
+<script>
+
+  $('.logo-content-mobile').slick({
+    dots: true,
+    infinite: true,
+    lazyLoad: 'ondemand',
+    swipe:true,
+    autoplay: false,
+    speed: 4000,
+    slidesToShow: 5,
+    slidesToScroll: 5,
+    responsive: [
+      {
+        breakpoint: 750,
+        settings: {
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          speed: 1500
+        }
+      }
+    ]
+    //     adaptiveHeight: true
+  });
+
+
+</script>
+
+{% schema %}
+  {
+    "name": "Sustainability Logo List",
+    "settings": [
+		{
+			"type"  :  "textarea",
+			"id"    :  "logo_list_title",
+			"label" :  "Title"
+		}
+	],
+	"blocks": [
+		{
+			"type"  :  "logo",
+			"name"  :  "Logo",
+			"settings":[
+				{
+					"type"  :  "image_picker",
+					"id"    :  "logo",
+					"label" :  "Logo",
+					"info"  :  "width: 200px recommend"
+				},
+				{
+					"type"  :  "text",
+					"id"    :  "logo_text",
+					"label" :  "Logo Text"
+ 				}
+			]
+		},
+		{
+			"type"  :  "mobile_logo",
+			"name"  :  "Mobile Logo",
+			"settings": [
+				{
+					"type"  :  "image_picker",
+					"id"    :  "logo",
+					"label" :  "Logo",
+					"info"  :  "width: 700px recommend"
+				},
+				{
+					"type"  :  "text",
+					"id"    :  "logo_text",
+					"label" :  "Logo Text"
+ 				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name"  :  "Sustainability Logo List",
+			"category" :  "Sustainability Page"
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

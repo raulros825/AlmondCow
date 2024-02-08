@@ -1,0 +1,89 @@
+<section>
+  <div class="page-width">
+    <div class="content align-{{ section.settings.text_align }}">
+      
+      {% if section.settings.title != blank %}
+      <h3 class="title">{{ section.settings.title }}</h3>
+      {% endif %}
+      
+      {% if section.settings.content != blank %}
+      <p>{{ section.settings.content }}</p>
+      {% endif %}
+      
+      {% if section.settings.button_text != blank %}
+      <a href="{{ section.settings.button_link1 }}" class="pre-remove">
+        <input type="submit" class="btn main-btn" value="{{ section.settings.button_text }}">
+      </a>
+      <a href="{{ section.settings.button_link2 }}" class="none-pre-remove">
+        <input type="submit" class="btn main-btn" value="{{ section.settings.button_text }}">
+      </a>
+      {% endif %}
+      
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Home Text Section",
+	"class": "home-text",
+    "settings": [
+        {
+            "type": "select",
+            "id": "text_align",
+            "label": "Text alignment",
+            "options": [
+                {
+                  "value": "left",
+                  "label": "Left"
+                },
+                {
+                  "value": "center",
+                  "label": "Center"
+                },
+                {
+                  "value": "right",
+                  "label": "Right"
+                }
+            ]
+        },
+		{
+			"type": "text",
+         	"id": "title",
+        	"label": "Title"
+        },
+        {
+        	"type": "html",
+        	"id": "content",
+          	"label": "Sub Text"
+        },
+		{
+			"type"  :  "url",
+			"id"    :  "button_link1",
+			"label" :  "Button Link for Pre Order"
+		},
+		{
+			"type"  :  "url",
+			"id"    :  "button_link2",
+			"label" :  "Button Link for Rest"
+		},
+		{
+			"type"  :  "text",
+			"id"    :  "button_text",
+			"label" :  "Button Text"
+		}
+	],
+	"presets": [
+		{
+			"name"  :  "Home Text Section",
+			"category": "Custom Section"
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,210 @@
+<section>
+  {% for block in section.blocks %}
+  
+    {% if product.id == 5604200743064 and block.type == 'cashew' %}<!--  Product - Bulk Organic Cashew Pieces - 3lb   -->
+      <div class="review-img">
+        <img class="lazyload" data-src="{{ block.settings.product_image | img_url: '500x' }}" />
+      </div>
+      <div class="review-contents">
+        <div class="review-block" style="background: {{ block.settings.background_color }}; box-shadow: -4px -4px 1px 3px {{ block.settings.shadow_color }};">
+          <div class="review-text">{{ block.settings.review1 }}</div>
+          <img class="lazyload stars" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/blue-star-reviews.png?v=1600077170" />
+        </div>
+        <div class="review-block" style="background: {{ block.settings.background_color }}; box-shadow: 4px -4px 1px 3px {{ block.settings.shadow_color }};">
+          <div class="review-text">{{ block.settings.review2 }}</div>
+          <img class="lazyload stars" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/blue-star-reviews.png?v=1600077170" />
+        </div>
+      </div>
+    {% endif %}
+  
+  	{% if product.id == 4383776276580 and block.type == 'oats' %}<!--  Product - Bulk Organic Whole Grain Oats - 3lb   -->
+      <div class="review-img">
+        <img class="lazyload" data-src="{{ block.settings.product_image | img_url: '500x' }}" />
+      </div>
+      <div class="review-contents">
+        <div class="review-block" style="background: {{ block.settings.background_color }}; box-shadow: -4px -4px 1px 3px {{ block.settings.shadow_color }};">
+          <div class="review-text">{{ block.settings.review1 }}</div>
+          <img class="lazyload stars" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/blue-star-reviews.png?v=1600077170" />
+        </div>
+        <div class="review-block" style="background: {{ block.settings.background_color }}; box-shadow: 4px -4px 1px 3px {{ block.settings.shadow_color }};">
+          <div class="review-text">{{ block.settings.review2 }}</div>
+          <img class="lazyload stars" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/blue-star-reviews.png?v=1600077170" />
+        </div>
+      </div>
+    {% endif %}
+  
+  	{% if product.id == 4383775588452 and block.type == 'coconut' %}<!--  Product - Bulk Organic Coconut Shreds - 2lb   -->
+      <div class="review-img">
+        <img class="lazyload" data-src="{{ block.settings.product_image | img_url: '500x' }}" />
+      </div>
+      <div class="review-contents">
+        <div class="review-block" style="background: {{ block.settings.background_color }}; box-shadow: -4px -4px 1px 3px {{ block.settings.shadow_color }};">
+          <div class="review-text">{{ block.settings.review1 }}</div>
+          <img class="lazyload stars" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/blue-star-reviews.png?v=1600077170" />
+        </div>
+        <div class="review-block" style="background: {{ block.settings.background_color }}; box-shadow: 4px -4px 1px 3px {{ block.settings.shadow_color }};">
+          <div class="review-text">{{ block.settings.review2 }}</div>
+          <img class="lazyload stars" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/blue-star-reviews.png?v=1600077170" />
+        </div>
+      </div>
+    {% endif %}
+  
+    {% if product.id == 4383774507108 and block.type == 'almonds' %}<!--  Product - Bulk Almonds - 3lb   -->
+      <div class="review-img">
+        <img class="lazyload" data-src="{{ block.settings.product_image | img_url: '500x' }}" />
+      </div>
+      <div class="review-contents">
+        <div class="review-block" style="background: {{ block.settings.background_color }}; box-shadow: -4px -4px 1px 3px {{ block.settings.shadow_color }};">
+          <div class="review-text">{{ block.settings.review1 }}</div>
+          <img class="lazyload stars" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/blue-star-reviews.png?v=1600077170" />
+        </div>
+        <div class="review-block" style="background: {{ block.settings.background_color }}; box-shadow: 4px -4px 1px 3px {{ block.settings.shadow_color }};">
+          <div class="review-text">{{ block.settings.review2 }}</div>
+          <img class="lazyload stars" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/blue-star-reviews.png?v=1600077170" />
+        </div>
+      </div>
+    {% endif %}
+  
+  {% endfor %}
+  
+</section>
+
+{% schema %}
+  {
+    "name": "Ingredients Review",
+	"class":  "ingredients-review-section",
+	"settings": [],
+	"blocks": [
+		{
+			"type"  :  "cashew",
+			"name"  :  "Cashew",
+			 "settings": [
+                {
+                    "type"  :  "image_picker",
+                    "id"    :  "product_image",
+                    "label" :  "Product Image"
+                },
+                {
+                    "type"  :  "color",
+                    "id"    :  "background_color",
+                    "label" :  "Review Background Color"
+                },
+                {
+                    "type"  :  "color",
+                    "id"    :  "shadow_color",
+                    "label" :  "Review Shadow Color"
+                },
+                {
+                    "type"  :  "html",
+                    "id"    :  "review1",
+                    "label" :  "Review1"
+                },
+                {
+                    "type"  :  "html",
+                    "id"    :  "review2",
+                    "label" :  "Review2"
+                }
+            ]
+		},
+		{
+			"type"  :  "oats",
+			"name"  :  "Oats",
+			 "settings": [
+                {
+                    "type"  :  "image_picker",
+                    "id"    :  "product_image",
+                    "label" :  "Product Image"
+                },
+                {
+                    "type"  :  "color",
+                    "id"    :  "background_color",
+                    "label" :  "Review Background Color"
+                },
+                {
+                    "type"  :  "color",
+                    "id"    :  "shadow_color",
+                    "label" :  "Review Shadow Color"
+                },
+                {
+                    "type"  :  "html",
+                    "id"    :  "review1",
+                    "label" :  "Review1"
+                },
+                {
+                    "type"  :  "html",
+                    "id"    :  "review2",
+                    "label" :  "Review2"
+                }
+            ]
+		},
+		{
+			"type"  :  "coconut",
+			"name"  :  "Coconut",
+			 "settings": [
+                {
+                    "type"  :  "image_picker",
+                    "id"    :  "product_image",
+                    "label" :  "Product Image"
+                },
+                {
+                    "type"  :  "color",
+                    "id"    :  "background_color",
+                    "label" :  "Review Background Color"
+                },
+                {
+                    "type"  :  "color",
+                    "id"    :  "shadow_color",
+                    "label" :  "Review Shadow Color"
+                },
+                {
+                    "type"  :  "html",
+                    "id"    :  "review1",
+                    "label" :  "Review1"
+                },
+                {
+                    "type"  :  "html",
+                    "id"    :  "review2",
+                    "label" :  "Review2"
+                }
+            ]
+		},
+		{
+			"type"  :  "almonds",
+			"name"  :  "Almonds",
+			 "settings": [
+                {
+                    "type"  :  "image_picker",
+                    "id"    :  "product_image",
+                    "label" :  "Product Image"
+                },
+                {
+                    "type"  :  "color",
+                    "id"    :  "background_color",
+                    "label" :  "Review Background Color"
+                },
+                {
+                    "type"  :  "color",
+                    "id"    :  "shadow_color",
+                    "label" :  "Review Shadow Color"
+                },
+                {
+                    "type"  :  "html",
+                    "id"    :  "review1",
+                    "label" :  "Review1"
+                },
+                {
+                    "type"  :  "html",
+                    "id"    :  "review2",
+                    "label" :  "Review2"
+                }
+            ]
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

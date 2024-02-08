@@ -1,0 +1,125 @@
+<section>
+  {% for block in section.blocks %}
+  
+  	<!--  Product - Bulk Organic Cashew Pieces - 3lb -->
+    {% if product.id == 5604200743064 and block.type == "cashew" %}
+      <div class="desktop-only">
+        <img class="lazyload" data-src="{{ block.settings.desktop_image | img_url: '1900x' }}" />
+      </div>
+      <div class="mobile-only">
+        <img class="lazyload" data-src="{{ block.settings.mobile_image | img_url: '750x' }}" />
+      </div>
+    {% endif %}
+  
+    <!--  Product - Bulk Organic Whole Grain Oats - 3lb -->
+    {% if product.id == 4383776276580 and block.type == "oats" %}
+      <div class="desktop-only">
+        <img class="lazyload" data-src="{{ block.settings.desktop_image | img_url: '1900x' }}" />
+      </div>
+      <div class="mobile-only">
+        <img class="lazyload" data-src="{{ block.settings.mobile_image | img_url: '750x' }}" />
+      </div>
+    {% endif %}
+  
+  	<!--  Product - Bulk Organic Coconut Shreds - 2lb -->
+    {% if product.id == 4383775588452 and block.type == "coconut" %}
+      <div class="desktop-only">
+        <img class="lazyload" data-src="{{ block.settings.desktop_image | img_url: '1900x' }}" />
+      </div>
+      <div class="mobile-only">
+        <img class="lazyload" data-src="{{ block.settings.mobile_image | img_url: '750x' }}" />
+      </div>
+    {% endif %}
+  
+  	<!--  Product - Bulk Almonds - 3lb -->
+    {% if product.id == 4383774507108 and block.type == "almonds" %}
+      <div class="desktop-only">
+        <img class="lazyload" data-src="{{ block.settings.desktop_image | img_url: '1900x' }}" />
+      </div>
+      <div class="mobile-only">
+        <img class="lazyload" data-src="{{ block.settings.mobile_image | img_url: '750x' }}" />
+      </div>
+    {% endif %}
+  
+  {% endfor %}
+</section>
+
+{% schema %}
+  {
+    "name": "Ingredients Banner",
+	"class": "ingredients-banner-section",
+    "settings": [],
+	"blocks": [
+		{
+			"type"  :  "cashew",
+			"name"  :  "Cashew",
+			"settings": [
+				{
+					"type"  :  "image_picker",
+					"id"    :  "desktop_image",
+					"label" :  "Desktop Image"
+				},
+				{
+					"type"  :  "image_picker",
+					"id"    :  "mobile_image",
+					"label" :  "Mobile Image"
+				}
+			]
+		},
+		{
+			"type"  :  "oats",
+			"name"  :  "Oats",
+			"settings": [
+				{
+					"type"  :  "image_picker",
+					"id"    :  "desktop_image",
+					"label" :  "Desktop Image"
+				},
+				{
+					"type"  :  "image_picker",
+					"id"    :  "mobile_image",
+					"label" :  "Mobile Image"
+				}
+			]
+		},
+		{
+			"type"  :  "coconut",
+			"name"  :  "Coconut",
+			"settings": [
+				{
+					"type"  :  "image_picker",
+					"id"    :  "desktop_image",
+					"label" :  "Desktop Image"
+				},
+				{
+					"type"  :  "image_picker",
+					"id"    :  "mobile_image",
+					"label" :  "Mobile Image"
+				}
+			]
+		},
+		{
+			"type"  :  "almonds",
+			"name"  :  "Almonds",
+			"settings": [
+				{
+					"type"  :  "image_picker",
+					"id"    :  "desktop_image",
+					"label" :  "Desktop Image"
+				},
+				{
+					"type"  :  "image_picker",
+					"id"    :  "mobile_image",
+					"label" :  "Mobile Image"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

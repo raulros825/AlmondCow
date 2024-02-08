@@ -1,0 +1,76 @@
+<div class="starter-related">
+  <div class="page-width">
+    <div class="grid grid--uniform grid--view-items">
+
+      {%- assign grid_image_width = '200x200' -%}
+      {%- assign grid_image_scale = '2' -%}
+
+      <div class="grid__item medium-up--one-third">
+        {% assign product = all_products['almond-cow-pro-starter-set'] %}
+        {% include 'product-card-grid-related' %}
+      </div>
+
+      <div class="grid__item medium-up--one-third">
+        {% assign product = all_products['case-of-bulk-almonds-3lbs-each'] %}
+        {% include 'product-card-grid-slider' %}
+      </div>
+
+      <div class="grid__item medium-up--one-third">
+        {% assign product = all_products['case-of-bulk-organic-whole-grain-oats-3lbs-each'] %}
+        {% include 'product-card-grid-slider' %}
+      </div>        
+
+      <div class="grid__item medium-up--one-third">
+        {% assign product = all_products['case-of-bulk-coconuts-2lbs-each'] %}
+        {% include 'product-card-grid-slider' %}
+      </div>
+      
+      <div class="grid__item medium-up--one-third">
+        {% assign product = all_products['case-of-bulk-organic-cashew-pieces-30lbs'] %}
+        {% include 'product-card-grid-slider' %}
+      </div>
+      
+      <div class="grid__item medium-up--one-third">
+        {% assign product = all_products['almond-cow-pro-cococash-case-bundle-3xcoconuts-6xcashews'] %}
+        {% include 'product-card-grid-related' %}
+      </div>
+
+      <div class="grid__item medium-up--one-third">
+        {% assign product = all_products['ingredient-variety-case'] %}
+        {% include 'product-card-grid-slider' %}
+      </div>
+
+      <div class="grid__item medium-up--one-third">
+        {% assign product = all_products['almond-cow-glass-jug-6-pack'] %}
+        {% include 'product-card-grid-related' %}
+      </div>        
+
+      <div class="grid__item medium-up--one-third">
+        {% assign product = all_products['jug-brush'] %}
+        {% include 'product-card-grid-related' %}
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% schema %}
+  {
+    "name": "Almond Pro Related",
+	"class": "almond-pro-related-section",
+    "settings": [
+		{
+          "type"  :  "checkbox",
+          "id"    :  "related_descriptions",
+          "label" :  "Show Descriptions",
+          "default" : true
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,205 @@
+<section class="product-{{ product.id }}">
+  <div class="page-width">
+    <div class="mobile-only nutrition-img">      
+      
+      {% if product.id == 5604200743064 %} <!--  Product - Bulk Organic Cashew Pieces - 3lb   -->
+        <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-usda-organic.svg?v=1595619957" />
+        <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-Glyphosate-Residue-Free.svg?v=1595617774" />
+        <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-NON-GMO.svg?v=1595617774" />
+      {% endif %}      
+      
+      {% if product.id == 4383776276580 %} <!--  Product - Bulk Organic Whole Grain Oats - 3lb   -->
+      	<img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-Gluten-Free.svg?v=1595617773" />
+        <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-usda-organic.svg?v=1595619957" />
+        <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-Glyphosate-Residue-Free.svg?v=1595617774" />
+      {% endif %}      
+      
+      {% if product.id == 4383775588452 %} <!--  Product - Bulk Organic Coconut Shreds - 2lb   -->
+      	<img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-NON-GMO.svg?v=1595617774" />
+      	<img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-Glyphosate-Residue-Free.svg?v=1595617774" />
+        <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-usda-organic.svg?v=1595619957" />        
+      {% endif %}      
+      
+      {% if product.id == 4383774507108 %} <!--  Product - Bulk Almonds - 3lb   -->
+      	<img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-Pollinator.svg?v=1595613819" />
+      	<img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-Glyphosate-Residue-Free.svg?v=1595617774" />        
+        <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-NON-GMO.svg?v=1595617774" />
+      {% endif %}
+      
+    </div>
+    
+    <div class="product-tab-container">
+      <input id="tab1" type="radio" name="tabs" checked>
+      <label for="tab1">{{ section.settings.label1 }}</label>
+      <input id="tab2" type="radio" name="tabs">
+      <label for="tab2">{{ section.settings.label2 }}</label>
+      <input id="tab3" type="radio" name="tabs" class="desktop-only">
+      <label for="tab3" class="desktop-only">{{ section.settings.label3 }}</label>
+      <div class="clearfix"></div>
+      
+      <section id="content1" class="description">
+        {{ product.description }}
+      </section>
+      
+      <section id="content2" class="nutrition-facts">
+        
+        <!--  Product - Bulk Organic Cashew Pieces - 3lb   -->
+        {% if product.id == 5604200743064 %}
+        <div class="img-part">
+          <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/cashew-nutrition-facts.png?v=1600095365" />
+        </div>
+        <div class="text-part">
+          <h6>Ingredient:</h6>
+          <p>Organic Cashew Pieces</p>
+          <h6>Contains:</h6>
+          <p>Tree Nuts<br>Packaged in a facility that also packages Peanuts, Tree Nuts, Wheat, Dairy and Soy</p>
+          <h6>Country of Origin:</h6>
+          <p>India/ Vietnam</p>
+        </div>
+        {% endif %}
+        
+        <!--  Product - Bulk Organic Whole Grain Oats - 3lb    -->
+        {% if product.id == 4383776276580 %}
+        <div class="img-part">
+          <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/oats-nutrition-facts.png?v=1600146344" />
+        </div>
+        <div class="text-part">
+          <h6>Ingredient:</h6>
+          <p>Organic Whole Grain Oats</p>
+          <p>Packaged in a facility that also Packages Tree Nuts and Dairy</p>
+          <h6>Country of Origin:</h6>
+          <p>Canada</p>
+        </div>
+        {% endif %}
+        
+        <!--  Product - Bulk Organic Coconut Shreds - 2lb    -->
+        {% if product.id == 4383775588452 %}
+        <div class="img-part">
+          <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/coconut-nutrition-facts.png?v=1600157815" />
+        </div>
+        <div class="text-part">
+          <h6>Ingredient:</h6>
+          <p>Organic Coconut Shreds</p>
+          <h6>Contains:</h6>
+          <p>Tree Nuts<br>Packaged in a facility that also packages Peanuts, Tree Nuts, Wheat, Dairy and Soy</p>
+          <h6>Country of Origin:</h6>
+          <p>Philippines / Sri Lanka</p>
+        </div>
+        {% endif %}
+        
+        <!--  Product - Bulk Almonds - 3lb    -->
+        {% if product.id == 4383774507108 %}
+        <div class="img-part">
+          <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/almonds-nutrition-facts.png?v=1600162184" />
+        </div>
+        <div class="text-part">
+          <h6>Ingredient:</h6>
+          <p>Raw Almonds</p>
+          <h6>Contains:</h6>
+          <p>Tree Nuts<br>Packaged in a facility that also packages Peanuts, Tree Nuts, Wheat, Dairy and Soy</p>
+          <h6>Country of Origin:</h6>
+          <p>USA</p>
+        </div>
+        {% endif %}
+        
+      </section>
+      
+      <section id="content3" class="certifications desktop-only">
+        <div>        
+          {% if product.id == 5604200743064 %} <!--  Product - Bulk Organic Cashew Pieces - 3lb   -->
+            <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-usda-organic.svg?v=1595619957" />
+            <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-Glyphosate-Residue-Free.svg?v=1595617774" />
+            <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-NON-GMO.svg?v=1595617774" />
+          {% endif %}
+
+          {% if product.id == 4383776276580 %} <!--  Product - Bulk Organic Whole Grain Oats - 3lb   -->
+            <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-Gluten-Free.svg?v=1595617773" />
+            <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-usda-organic.svg?v=1595619957" />
+            <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-Glyphosate-Residue-Free.svg?v=1595617774" />
+          {% endif %}
+         
+          {% if product.id == 4383775588452 %} <!--  Product - Bulk Organic Coconut Shreds - 2lb   -->
+            <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-NON-GMO.svg?v=1595617774" />
+            <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-Glyphosate-Residue-Free.svg?v=1595617774" />
+            <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-usda-organic.svg?v=1595619957" />
+          {% endif %}
+        
+          {% if product.id == 4383774507108 %} <!--  Product - Bulk Almonds - 3lb   -->
+            <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-Pollinator.svg?v=1595613819" />
+            <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-Glyphosate-Residue-Free.svg?v=1595617774" />    
+            <img class="lazyload" data-src="//cdn.shopify.com/s/files/1/1667/4225/files/Certification-NON-GMO.svg?v=1595617774" />
+          {% endif %}
+        </div>
+      </section>
+      
+      <!--  Product - Bulk Organic Cashew Pieces - 3lb   -->
+      {% if product.id == 5604200743064 %}
+      	<img class="lazyload ingredients-img" data-src="{{ section.settings.ingredients_image | img_url: '150x' }}" />
+      {% endif %}
+      <!--  Product - Bulk Organic Whole Grain Oats - 3lb   -->
+      {% if product.id == 4383776276580 %}
+      	<img class="lazyload ingredients-img" data-src="{{ section.settings.oats_image | img_url: '150x' }}" />
+      {% endif %}
+      <!--  Product - Bulk Organic Coconut Shreds - 2lb   -->
+      {% if product.id == 4383775588452 %}
+      	<img class="lazyload ingredients-img" data-src="{{ section.settings.coconut_image | img_url: '150x' }}" />
+      {% endif %}
+      <!--  Product - Bulk Almonds - 3lb   -->
+      {% if product.id == 4383774507108 %}
+      	<img class="lazyload ingredients-img" data-src="{{ section.settings.almonds_image | img_url: '150x' }}" />
+      {% endif %}
+      
+      
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Ingredients Tabs",
+	"class" : "ingredients-tab",
+    "settings": [
+		{
+			"type"  :  "text",
+			"id"    :  "label1",
+			"label" :  "Tab Label"
+		},
+		{
+			"type"  :  "text",
+			"id"    :  "label2",
+			"label" :  "Tab Label"
+		},
+		{
+			"type"  :  "text",
+			"id"    :  "label3",
+			"label" :  "Tab Label"
+		},
+		{
+			"type"  :  "image_picker",
+			"id"    :  "ingredients_image",
+			"label" :  "Cashew Image"
+		},
+		{
+			"type"  :  "image_picker",
+			"id"    :  "oats_image",
+			"label" :  "Oats Image"
+		},
+		{
+			"type"  :  "image_picker",
+			"id"    :  "coconut_image",
+			"label" :  "Coconut Image"
+		},
+		{
+			"type"  :  "image_picker",
+			"id"    :  "almonds_image",
+			"label" :  "Almonds Image"
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,236 @@
+<div class="educational-page">
+  
+  <div class="page-width why-top-section text-center">
+    <h1>{{ section.settings.page_title }}</h1>
+    <p>{{ section.settings.page_sub_title }}</p>
+    <div class="grid">
+      {% for block in section.blocks %}
+      
+      {% if block.type == 'almond_cow' %}
+      <div class="grid__item medium-up--one-fifth">
+        <a href="{{ block.settings.image_link }}" class="scroll-down-btn">
+          <img src="{{ block.settings.image | img_url: '205x' }}" />
+          <h4>{{ block.settings.title }}</h4>
+        </a>
+      </div>      
+      {% endif %}
+      
+      {% endfor %}
+    </div>
+  </div>
+  
+  <div class="featured-border"></div>
+  
+  <div id="healthy" class="page-width healthy-section text-center">
+    <h4 class="pre-title">{{ section.settings.healthy_sub_title }}</h4>
+    <h3 class="title">{{ section.settings.healthy_title }}</h3>
+    <div class="grid">
+      <div class="grid__item medium-up--one-half">
+        <img src="{{ section.settings.healthy_img1 | img_url: '470x' }}" />
+      </div>
+      <div class="grid__item medium-up--one-half">
+        <img src="{{ section.settings.healthy_img2 | img_url: '470x' }}" />
+      </div>
+    </div>
+  </div>
+  
+  <div class="featured-border"></div>
+  
+  <div id="convenient" class="page-width convenient-section text-center">
+    <h4 class="pre-title">{{ section.settings.convenient_sub_title }}</h4>
+    <h3 class="title">{{ section.settings.convenient_title }}</h3>
+    <div class="convenient-video">
+      <div style="padding:56.25% 0 0 0;position:relative;">
+        <iframe src="https://www.youtube.com/embed/VZOdbr8oJJs?rel=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="grid__item medium-up--one-third">
+        <img src="{{ section.settings.add_ingredients_img | img_url: '251x' }}" />
+        <p>Add ingredients</p>
+      </div>
+      <div class="grid__item medium-up--one-third">
+        <img src="{{ section.settings.add_water_img | img_url: '251x' }}" />
+        <p>Add water</p>
+      </div>
+      <div class="grid__item medium-up--one-third">
+        <img src="{{ section.settings.Press_cow_img | img_url: '251x' }}" />
+        <p>Press the cow</p>
+      </div>
+    </div>
+    <a href="/products/starter-set" class="no-opacity shop-btn pre-remove">
+      <input type="submit" class="btn bordered-btn" value="SHOP NOW">
+    </a>
+    <a href="/products/almond-cow-milk-machine" class="no-opacity shop-btn none-pre-remove">
+      <input type="submit" class="btn bordered-btn" value="SHOP NOW">
+    </a>
+  </div>
+  
+  <div class="featured-border"></div>
+  
+  <div id="budget-friendly" class="page-width budget-section text-center">
+    <h4 class="pre-title">{{ section.settings.budget_sub_title }}</h4>
+    <h3 class="title">{{ section.settings.budget_title }}</h3>
+    <div class="grid vertical-center">
+      <div class="grid__item medium-up--two-fifths">
+        <h5>You can go to the store and pay<br> $3.79 for 64 oz.</h5>
+        <img src="{{ section.settings.budget_img1 | img_url: '353x' }}" />
+      </div>
+      <div class="grid__item medium-up--one-fifth">
+        <p class="or-font">OR</p>
+      </div>
+      <div class="grid__item medium-up--two-fifths">
+        <h5>You can make 40 oz of homemade<br> milk for $0.55 at the touch of a button.</h5>
+        <img src="{{ section.settings.budget_img2 | img_url: '353x' }}" />
+      </div>
+    </div>
+    <h1>The Choice Is Yours</h1>
+  </div>
+  
+  <div class="featured-border"></div>
+  
+  <div id="sustainable" class="page-width sustainable-section">
+    <h4 class="text-center">{{ section.settings.sustainable_title }}</h4>
+    <div class="grid">      
+      <div class="grid__item medium-up--four-sixths">
+        <img src="{{ section.settings.sustainable_img | img_url: '1200x' }}" />  
+      </div>
+      <div class="grid__item medium-up--two-fifths">
+        <div class="sustainable-content">
+          <p>{{ section.settings.sustainable_content }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="featured-border"></div>
+
+</div>
+
+
+{% schema %}
+  {
+    "name": "Educational Page",
+    "settings": [
+    	{
+			"type"   :  "text",
+			"id"     :  "page_title",
+			"label"  :  "Page Title"
+		},
+        {
+			"type"   :  "text",
+			"id"     :  "page_sub_title",
+			"label"  :  "Page Sub Title"
+		},
+        {
+			"type"   :  "text",
+			"id"     :  "healthy_sub_title",
+			"label"  :  "Healthy Sub Title"
+		},
+        {
+			"type"   :  "textarea",
+			"id"     :  "healthy_title",
+			"label"  :  "Healthy Title"
+		},
+        {
+			"type"   :  "image_picker",
+			"id"     :  "healthy_img1",
+			"label"  :  "Healthy image"
+		},
+        {
+			"type"   :  "image_picker",
+			"id"     :  "healthy_img2",
+			"label"  :  "Healthy image"
+		},
+        {
+			"type"   :  "text",
+			"id"     :  "convenient_sub_title",
+			"label"  :  "Convenient Sub Title"
+		},
+        {
+			"type"   :  "textarea",
+			"id"     :  "convenient_title",
+			"label"  :  "Convenient Title"
+		},
+        {
+			"type"   :  "image_picker",
+			"id"     :  "add_ingredients_img",
+			"label"  :  "Add ingredients image"
+		},
+        {
+			"type"   :  "image_picker",
+			"id"     :  "add_water_img",
+			"label"  :  "Add Water image"
+		},
+        {
+			"type"   :  "image_picker",
+			"id"     :  "Press_cow_img",
+			"label"  :  "Press Cow image"
+		},
+        {
+			"type"   :  "text",
+			"id"     :  "budget_sub_title",
+			"label"  :  "Budget Sub Title"
+		},
+        {
+			"type"   :  "text",
+			"id"     :  "budget_title",
+			"label"  :  "Budget Title"
+		},
+        {
+			"type"   :  "image_picker",
+			"id"     :  "budget_img1",
+			"label"  :  "Budget Friendly image"
+		},
+        {
+			"type"   :  "image_picker",
+			"id"     :  "budget_img2",
+			"label"  :  "Budget Friendly image"
+		},
+        {
+			"type"   :  "text",
+			"id"     :  "sustainable_title",
+			"label"  :  "Sustainable Title"
+		},
+        {
+			"type"   :  "image_picker",
+			"id"     :  "sustainable_img",
+			"label"  :  "Sustainable Image"
+		},
+		{
+			"type"   :  "textarea",
+			"id"     :  "sustainable_content",
+			"label"  :  "Sustainable Content"
+		}
+	],
+	"blocks":  [
+		{
+			"type"   :  "almond_cow",
+			"name"   :  "Why Almond Cow",
+			"settings":[
+				{
+					"type"   :  "url",
+					"id"     :  "image_link",
+					"label"  :  "Image Link"
+				},
+				{
+					"type"   :  "image_picker",
+					"id"     :  "image",
+					"label"  :  "Image"
+				},
+				{
+					"type"   :  "text",
+					"id"     :  "title",
+          			"label"  :  "Title"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

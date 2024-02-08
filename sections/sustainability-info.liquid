@@ -1,0 +1,65 @@
+<section class="sustainability-info">
+  
+  <div class="page-width">
+    <div class="grid">
+      <div class="grid__item medium-up--three-quarters">
+        <p class="headline">{{ section.settings.headline1 }}</p>
+        <p class="text">{{ section.settings.content1 }}</p>
+      </div>
+      <div class="grid__item medium-up--one-quarter">
+        <img class="lazyload" data-src="{{ section.settings.image | img_url: '300x' }}" />
+      </div>
+    </div>
+    <div class="second-block">
+      <h4>{{ section.settings.headline2 }}</h4>
+      {{ section.settings.content2 }}
+    </div>
+  </div>
+  
+</section>
+
+{% schema %}
+  {
+    "name": "Sustainability Info",
+    "settings": [
+		{
+			"type"  :  "textarea",
+			"id"    :  "headline1",
+			"label" :  "First Headline"
+		},
+		{
+			"type"  :  "html",
+			"id"    :  "content1",
+			"label" :  "First Content"
+		},
+		{
+			"type"  :  "image_picker",
+			"id"    :  "image",
+			"label" :  "AC Globe Image",
+			"info"  :  "width: 400px recommend"
+		},
+		{
+			"type"  :  "textarea",
+			"id"    :  "headline2",
+			"label" :  "Second Headline"
+		},
+		{
+			"type"  :  "html",
+			"id"    :  "content2",
+			"label" :  "Second Content"
+		}
+	],
+	"presets":[
+		{
+			"name"  :  "Sustainability Info",
+			"category" :  "Sustainability Page"
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

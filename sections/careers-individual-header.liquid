@@ -1,0 +1,122 @@
+<section class="lazy-background" {% if section.settings.background_image %}
+         data-src="{{ section.settings.background_image | img_url: '1903x' }}" {% endif %}>
+  
+  <div class="page-width">
+    {% for block in section.blocks %}
+    	{% if block.type == "creative_designer" and page.id == 67987243160 %}
+          <div class="grid__item medium-up--two-thirds">
+            <img class="lazyload" data-src="{{ block.settings.icon | img_url: '50x' }}" />
+            <h1 class="title">{{ block.settings.title }}</h1>
+          </div>
+          <div class="grid__item medium-up--one-third">
+            <a href="{{ block.settings.job_apply_url }}" class="btn main-btn" target="_blank">Apply now</a>
+          </div>
+    	{% endif %}
+    
+    	{% if block.type == "product_development" and page.id == 67991666840 %}
+          <div class="grid__item medium-up--two-thirds">
+            <img class="lazyload" data-src="{{ block.settings.icon | img_url: '50x' }}" />
+            <h1 class="title">{{ block.settings.title }}</h1>
+          </div>
+          <div class="grid__item medium-up--one-third">
+            <a href="{{ block.settings.job_apply_url }}" class="btn main-btn" target="_blank">Apply now</a>
+          </div>
+    	{% endif %}
+    
+    	{% if block.type == "marketing_coordinator" and page.id == 67991765144 %}
+          <div class="grid__item medium-up--two-thirds">
+            <img class="lazyload" data-src="{{ block.settings.icon | img_url: '50x' }}" />
+            <h1 class="title">{{ block.settings.title }}</h1>
+          </div>
+          <div class="grid__item medium-up--one-third">
+            <a href="{{ block.settings.job_apply_url }}" class="btn main-btn" target="_blank">Apply now</a>
+          </div>
+    	{% endif %}
+    {% endfor %}
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Careers Each Header",
+	"class": "careers-individual-header",
+    "settings": [
+		{
+			"type"  :  "image_picker",
+			"id"    :  "background_image",
+			"label" :  "Background Image"
+		}
+	],
+	"blocks": [
+		{
+			"type"  :  "creative_designer",
+			"name"  :  "Creative Deisgner",
+			"settings": [
+				{
+					"type"  :  "image_picker",
+					"id"    :  "icon",
+					"label" :  "Icon"
+				},
+				{
+					"type"  :  "text",
+					"id"    :  "title",
+					"label" :  "Title"
+				},
+				{
+					"type"  :  "url",
+					"id"    :  "job_apply_url",
+					"label" :  "Job Apply Url"
+				}
+			]
+		},
+		{
+			"type"  :  "product_development",
+			"name"  :  "Product Development",
+			"settings": [
+				{
+					"type"  :  "image_picker",
+					"id"    :  "icon",
+					"label" :  "Icon"
+				},
+				{
+					"type"  :  "text",
+					"id"    :  "title",
+					"label" :  "Title"
+				},
+				{
+					"type"  :  "url",
+					"id"    :  "job_apply_url",
+					"label" :  "Job Apply Url"
+				}
+			]
+		},
+		{
+			"type"  :  "marketing_coordinator",
+			"name"  :  "Marketing Coordinator",
+			"settings": [
+				{
+					"type"  :  "image_picker",
+					"id"    :  "icon",
+					"label" :  "Icon"
+				},
+				{
+					"type"  :  "text",
+					"id"    :  "title",
+					"label" :  "Title"
+				},
+				{
+					"type"  :  "url",
+					"id"    :  "job_apply_url",
+					"label" :  "Job Apply Url"
+				}
+			]
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,227 @@
+{%- assign social_icons = false -%}
+
+{% if
+  settings.social_twitter_link != blank
+  or settings.social_facebook_link != blank
+  or settings.social_pinterest_link != blank
+  or settings.social_instagram_link != blank
+  or settings.social_tumblr_link != blank
+  or settings.social_snapchat_link != blank
+  or settings.social_youtube_link != blank
+  or settings.social_vimeo_link != blank
+  or template.name == 'article'
+  or template.name == 'blog'
+%}
+  {%- assign social_icons = true -%}
+{% endif %}
+
+<footer class="site-footer" role="contentinfo">
+
+  <div class="page-width">
+    <div class="grid grid--no-gutters">
+      <div class="grid__item medium-up--one-half">
+        
+        <div class="grid__item medium-up--one-third footer-menu">
+          <div class="pre-remove">
+            {% include 'site-nav-footer-preorder' %}
+          </div>
+          <div class="none-pre-remove">
+            {%- assign footer_linklist = section.settings.footer_linklist -%}
+            {% if linklists[footer_linklist].links.size > 0 %}
+            <ul>
+              {% for link in linklists[footer_linklist].links %}
+              <li>
+                <a href="{{ link.url }}" class="main-underline-effect">{{ link.title }}</a>
+              </li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="grid__item medium-up--one-third footer-menu">
+          {%- assign footer_linklist_two = section.settings.footer_linklist_two -%}
+          {% if linklists[footer_linklist_two].links.size > 0 %}
+          <ul>
+            {% for link in linklists[footer_linklist_two].links %}
+            <li>
+              <a href="{{ link.url }}" class="main-underline-effect">{{ link.title }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+
+        <div class="grid__item medium-up--one-third footer-menu">
+          {%- assign footer_linklist_three = section.settings.footer_linklist_three -%}
+          {% if linklists[footer_linklist_three].links.size > 0 %}
+          <ul>
+            {% for link in linklists[footer_linklist_three].links %}
+            <li>
+              <a href="{{ link.url }}" class="main-underline-effect">{{ link.title }}</a>
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+
+      </div>
+
+      <div class="grid__item medium-up--one-half">
+        {% if section.settings.footer_newsletter_enable %}
+        <div class="grid__item medium-up--three-fifths klaviyo--part">
+
+          <form action="https://manage.kmail-lists.com/subscriptions/subscribe?a=KQUDUy&g=L9spjA" method="post" id="contact_form" name="mc-embedded-subscribe-form" target="_blank">
+            <div class="klaviyo_container">
+              <h6>Thirsty for more?</h6>
+              <p>Join the community to receive $10 off<br>+ a free recipe eBook</p>
+              <div class="input-row">
+                <input type="email" placeholder="Email" value="" name="EMAIL" class="klaviyo_email_box">
+                <input type="submit" value="Send me the ebook!" name="subscribe" class="btn klaviyo_button" id="klaviyo-subscribe">
+              </div>
+            </div>
+          </form>
+
+        </div>
+        {% endif %}
+
+        {% if social_icons %}
+        <div class="grid__item medium-up--two-fifths text-center">
+
+          <img class="footer-logo svg" src="{{ section.settings.footer_logo }}" />
+
+          <div class="social_icon_part">
+            <ul class="list--inline site-footer__social-icons social-icons">
+              {% if settings.social_pinterest_link != blank %}
+              <li>
+                <a target="_blank" class="social-icons__link" href="{{ settings.social_pinterest_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Pinterest' }}">                  
+                  {% include 'icon-pinterest-new' %}                                   
+                </a>
+              </li>
+              {% endif %}
+              {% if settings.social_facebook_link != blank %}
+              <li>
+                <a target="_blank" class="social-icons__link" href="{{ settings.social_facebook_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Facebook' }}">
+                  {% include 'icon-facebook-new' %}
+                </a>
+              </li>
+              {% endif %}
+              {% if settings.social_instagram_link != blank %}
+              <li>
+                <a target="_blank" class="social-icons__link" href="{{ settings.social_instagram_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'Instagram' }}">
+                  {% include 'icon-instagram-new' %}
+                </a>
+              </li>
+              {% endif %}
+              {% if settings.social_youtube_link != blank %}
+              <li>
+                <a target="_blank" class="social-icons__link" href="{{ settings.social_youtube_link }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: 'YouTube' }}">
+                  {% include 'icon-youtube-new' %}
+                </a>
+              </li>
+              {% endif %}
+            </ul>
+          </div>
+          
+          <div class="footer-contact-info">
+            <a href="mailto:{{ section.settings.cotact_email }}" class="main-underline-effect">{{ section.settings.cotact_email }}</a><br>
+            {% comment %}
+            <a href="callto://14047367248">{{section.settings.phone_number }}</a>
+            {% endcomment %}
+          </div>
+
+        </div>      
+        {% endif %}
+      </div>
+    </div>
+    
+  </div>
+
+  {% if social_icons and section.settings.footer_newsletter_enable and section.settings.show_payment_icons %}
+  <div class="site-footer__copyright--bottom">
+    <small class="site-footer__copyright-content">&copy; {{ 'now' | date: "%Y" }}, {{ shop.name | link_to: '/' }} ® ALL RIGHTS RESERVED.</small>
+    {% if section.settings.footer_note != blank %}
+      <p class="footer-note">{{ section.settings.footer_note }}</p>
+    {% endif %}
+  </div>
+  {% endif %}
+
+</footer>
+
+
+<!-- once click klaviyo button, it will fired Facebook lead event  -->
+<script type="text/javascript">
+  var klaviyo_button = document.getElementById('klaviyo-subscribe');
+  klaviyo_button.addEventListener(
+    'click', 
+    function() { 
+      fbq('track', 'Lead');         
+    },
+    false
+  );
+</script>
+
+{% schema %}
+  {
+    "name": "Footer",
+    "settings": [
+		{
+			"type"  :  "url",
+			"id"    :  "footer_logo",
+			"label" :  "Footer SVG Logo"
+		},
+      {
+        "type": "text",
+        "id": "phone_number",
+        "label": "Phone Number"
+      },
+      {
+        "type": "text",
+        "id": "cotact_email",
+        "label": "Contact Email",
+        "default": "info@almondcow.co"
+      },
+      {
+        "type": "link_list",
+        "id": "footer_linklist",
+        "label": "Primary menu",
+        "default": "footer"
+      },
+	  {
+		"type"  :  "link_list",
+		"id"    :  "footer_linklist_preorder",
+		"label" :  "Footer Menu (US & Canada)",
+		"default": "main-menu"
+	  },
+      {
+        "type": "link_list",
+        "id": "footer_linklist_two",
+        "label": "Additional menu1",
+        "default": "main-menu"
+      },
+      {
+        "type": "link_list",
+        "id": "footer_linklist_three",
+        "label": "Additional menu2",
+        "default": "main-menu"
+      },
+      {
+        "type": "checkbox",
+        "id": "footer_newsletter_enable",
+        "label": "Show newsletter signup",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "show_payment_icons",
+        "label": "Show payment icons",
+        "default": false
+      },
+		{
+			"type"  :  "html",
+			"id"    :  "footer_note",
+			"label" :  "Footer Note"
+		}
+    ]
+  }
+{% endschema %}

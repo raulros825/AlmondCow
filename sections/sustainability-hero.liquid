@@ -1,0 +1,50 @@
+<section class="sustain-hero">
+
+  {% if section.settings.hero_image %}
+  	<img class="lazyload" data-src="{{ section.settings.hero_image | img_url: '1903x' }}"  />
+  {% endif %}  
+  
+  <div class="page-width">
+    <div class="caption">
+      <h1>{{ section.settings.hero_title }}</h1>
+      {{ section.settings.hero_des }}
+    </div>
+  </div>
+
+</section>
+
+{% schema %}
+  {
+    "name": "Sustainability Hero",
+    "settings": [
+		{
+			"type"  :  "image_picker",
+			"id"    :  "hero_image",
+			"label" :  "Desktop Hero Image",
+			"info"  :  "1903 x 900px recommend"
+		},
+		{
+			"type"  :  "text",
+			"id"    :  "hero_title",
+			"label" :  "Hero Title"
+		},
+		{
+			"type"  :  "richtext",
+			"id"    :  "hero_des",
+			"label" :  "Hero Content"
+		}
+	],
+	"presets":[
+		{
+			"name"  :  "Sustainability Hero",
+			"category" :  "Sustainability Page"
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

@@ -1,0 +1,24 @@
+{% layout none %}
+<script>
+  window.location.href = '/products/starter-set';
+</script>
+
+{% for product in collection.products %}
+  <div class="rc-product-tile" product-id="{{ product.variants.first.id }}">
+    <div class="rc-product-tile__image-wrapper">
+      <img class="rc-product-tile__image" src="{{ product.featured_image | img_url: '960x' }}" alt="{{ product.title }}" width="480" height="480">
+    </div>
+
+    <div class="rc-product-tile__meta">
+      <div class="rc-product-tile__title font-signika bold">{{ product.title }}</div>
+
+      <p class="rc-product-tile__price">{{ product.price | money | remove: ".00" }}</p>
+    </div>
+
+    <br>
+
+    <button class="rc-product-tile__btn button button--primary rel shop-button full-width" add-onetime="">
+      <span class="shop-button__cta bold">Buy Once</span>
+    </button>
+  </div>
+{% endfor %}

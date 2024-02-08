@@ -1,0 +1,296 @@
+<style>
+
+  @media only screen and (min-width: 750px){
+    #shopify-section-header{
+      box-shadow: 0px 2px 15px #a7a7a7;
+    }
+  }
+
+</style>
+
+{% assign blog_handles = "Pro-Milk-Recipes;Pro-Pulp-Recipes;Pro-Beverages;" %}
+{% assign blog_list = blog_handles | split: ';' %}
+
+{% assign blog_handles1 = "Pro-Milk-Recipes;" %}
+{% assign blog_list1 = blog_handles1 | split: ';' %}
+
+{% assign blog_handles2 = "Pro-Pulp-Recipes;" %}
+{% assign blog_list2 = blog_handles2 | split: ';' %}
+
+{% assign blog_handles3 = "Pro-Beverages;" %}
+{% assign blog_list3 = blog_handles3 | split: ';' %}
+
+
+<div class="page-width recipe-search-page">
+  
+  <header class="section-header text-center">
+<!--     <h1 class="uppercase">{{ page_title }}</h1> -->
+    <h1 class="uppercase">Pro Recipes</h1>
+
+    <form action="/search" method="get" class="search recipe-search-form">
+      <input type="hidden" name="type" value="article">
+      <input class="search-header__input search__input"
+             type="search"
+             name="q"
+             placeholder="{{ 'general.search.placeholder' | t }}"
+             aria-label="{{ 'general.search.placeholder' | t }}">
+      <button class="search-header__submit search__submit btn--link" type="submit">
+        {% include 'icon-search' %}
+        <span class="icon__fallback-text">{{ 'general.search.submit' | t }}</span>
+      </button>
+    </form>
+    
+<!--     <div class="blog-tag-tabs">
+      <li><input type="submit" id="#milk" class="btn bordered-btn" value="MILK"></li>      
+      <li><input type="submit" id="#pulp" class="btn bordered-btn" value="PULP"></li>
+      <li><input type="submit" id="#beverage" class="btn bordered-btn" value="BEVERAGE"></li>
+    </div>
+    <div class="blog-reset-button text-center">
+      <input type="submit" class="btn bordered-btn" value="RESET">
+    </div> -->
+  </header>
+  
+  <div class="recipes-search-container">      
+
+    <div class="blog--list-view btn-click-none">
+      <h4>Pro Milk Recipes</h4>
+      <div class="grid grid--uniform grid--blog">
+        {% for blog_handle1 in blog_list1 %}
+
+        {% for article in blogs[blog_handle1].articles limit: 8 %}        
+
+
+        <div class="grid__item medium-up--one-third">
+          {% if article.image %}
+          <a href="{{ article.url }}" class="article__grid-image">
+            {{ article | img_url: '345x', scale: 2 | img_tag: article.title }}
+          </a>
+          {% endif %}
+
+          <div class="article__grid-meta">
+            <h6 class="article__title text-center">
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </h6>
+          </div>
+        </div>
+
+
+        {% endfor %}
+
+        {% endfor %}         
+
+      </div>
+      <div class="recipe-explore-btn border-bottom-1">
+        <a href="/blogs/pro-milk-recipes">
+          <input type="submit" class="btn bordered-btn" value="EXPLORE ALL PRO MILK RECIPES">
+        </a>
+      </div>        
+    </div>
+
+    <div class="blog--list-view padding-top-40 btn-click-none">
+      <h4>Pro Pulp Recipes</h4>
+      <div class="grid grid--uniform grid--blog">
+        {% for blog_handle2 in blog_list2 %}
+
+        {% for article in blogs[blog_handle2].articles limit: 8 %}
+
+        <div class="grid__item medium-up--one-third">
+          {% if article.image %}
+          <a href="{{ article.url }}" class="article__grid-image">
+            {{ article | img_url: '345x', scale: 2 | img_tag: article.title }}
+          </a>
+          {% endif %}
+
+          <div class="article__grid-meta">
+            <h6 class="article__title text-center">
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </h6>
+          </div>
+        </div>
+
+        {% endfor %}
+
+        {% endfor %}         
+
+      </div>
+      <div class="recipe-explore-btn border-bottom-1">
+        <a href="/blogs/pro-pulp-recipes">
+          <input type="submit" class="btn bordered-btn" value="EXPLORE ALL PRO PULP RECIPES">
+        </a>
+      </div>
+    </div>
+    
+    <div class="blog--list-view padding-top-40 btn-click-none">
+      <h4>Pro Beverages</h4>
+      <div class="grid grid--uniform grid--blog">
+        {% for blog_handle3 in blog_list3 %}
+
+        {% for article in blogs[blog_handle3].articles limit: 8 %}
+
+        <div class="grid__item medium-up--one-third">
+          {% if article.image %}
+          <a href="{{ article.url }}" class="article__grid-image">
+            {{ article | img_url: '345x', scale: 2 | img_tag: article.title }}
+          </a>
+          {% endif %}
+
+          <div class="article__grid-meta">
+            <h6 class="article__title text-center">
+              <a href="{{ article.url }}">{{ article.title }}</a>
+            </h6>
+          </div>
+        </div>
+
+        {% endfor %}
+
+        {% endfor %}         
+
+      </div>
+      <div class="recipe-explore-btn">
+        <a href="/blogs/pro-beverages">
+          <input type="submit" class="btn bordered-btn" value="EXPLORE ALL PRO BEVERAGES">
+        </a>
+      </div>
+    </div>
+
+    <div class="blog--list-view">
+      <div class="grid grid--uniform grid--blog">
+        
+        <!--    recipes for pro-milk tag      -->
+        <div id="milk" class="tab_content">
+          {% for blog_handle in blog_list %}
+          {% for article in blogs[blog_handle].articles %}
+          {% if article.tags contains 'pro-milk' %}
+
+          <div class="grid__item medium-up--one-quarter">
+            {% if article.image %}
+            <a href="{{ article.url }}" class="article__grid-image">
+              {{ article | img_url: '345x', scale: 2 | img_tag: article.title }}
+            </a>
+            {% endif %}
+
+            <div class="article__grid-meta">
+              <h6 class="article__title text-center">
+                <a href="{{ article.url }}">{{ article.title }}</a>
+              </h6>
+            </div>
+          </div>
+
+          {% endif %}
+          {% endfor %}
+          {% endfor %}
+        </div>
+        
+        <!--    recipes for pro-pulp tag      -->
+        <div id="pulp" class="tab_content">
+          {% for blog_handle in blog_list %}
+          {% for article in blogs[blog_handle].articles %}
+          {% if article.tags contains 'pro-pulp' %}
+
+          <div class="grid__item medium-up--one-quarter">
+            {% if article.image %}
+            <a href="{{ article.url }}" class="article__grid-image">
+              {{ article | img_url: '345x', scale: 2 | img_tag: article.title }}
+            </a>
+            {% endif %}
+
+            <div class="article__grid-meta">
+              <h6 class="article__title text-center">
+                <a href="{{ article.url }}">{{ article.title }}</a>
+              </h6>
+            </div>
+          </div>
+
+          {% endif %}
+          {% endfor %}
+          {% endfor %}
+        </div>
+        
+        <!--    recipes for pro-beverage tag      -->
+        <div id="beverage" class="tab_content">
+          {% for blog_handle in blog_list %}
+          {% for article in blogs[blog_handle].articles %}
+          {% if article.tags contains 'pro-beverage' %}
+
+          <div class="grid__item medium-up--one-quarter">
+            {% if article.image %}
+            <a href="{{ article.url }}" class="article__grid-image">
+              {{ article | img_url: '345x', scale: 2 | img_tag: article.title }}
+            </a>
+            {% endif %}
+
+            <div class="article__grid-meta">
+              <h6 class="article__title text-center">
+                <a href="{{ article.url }}">{{ article.title }}</a>
+              </h6>
+            </div>
+          </div>
+
+          {% endif %}
+          {% endfor %}
+          {% endfor %}
+        </div>
+        
+
+      </div>      
+    </div>
+    
+  </div>  
+
+</div>
+
+<script>
+  
+  $('.tab_content').hide();
+  $('.blog-tag-tabs li').click(function(event) {
+    $('.blog-tag-tabs li').removeClass('active');
+    $(this).addClass('active');
+    $('.tab_content').hide();
+    $('.btn-click-none').hide();
+    var selectTab = $(this).find('input').attr('id');    
+    $(selectTab).fadeIn();
+  });
+  $('.blog-reset-button input').click(function(){
+    $('.tab_content').hide();
+    $('.btn-click-none').fadeIn();
+  });
+  
+  
+</script>
+
+
+{% schema %}
+  {
+    "name": "Pro Blog Landing pages",
+    "settings": [
+      {
+        "type": "select",
+        "id": "layout",
+        "label": "Layout",
+        "default": "list",
+        "options": [
+          {
+            "value": "grid",
+            "label": "Grid"
+          },
+          {
+            "value": "list",
+            "label": "List"
+          }
+        ]
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_author",
+        "label": "Show author",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "blog_show_date",
+        "label": "Show date",
+        "default": true
+      }
+    ]
+  }
+{% endschema %}

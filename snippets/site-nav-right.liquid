@@ -1,0 +1,60 @@
+<ul class="site-nav list--inline {{ nav_alignment }}" id="SiteNav">
+  {% for link in linklists[section.settings.main_linklist_right].links %}
+    {%- assign child_list_handle = link.title | handleize -%}
+
+    {% if linklists[child_list_handle].links != blank %}
+      <li class="site-nav--has-dropdown{% if link.active %} site-nav--active{% endif %}">
+        <a href="{{ link.url }}" class="site-nav__link site-nav__link--main" aria-has-popup="true" aria-expanded="false" aria-controls="SiteNavLabel-{{ child_list_handle }}">
+          {{ link.title }}
+          {% include 'icon-chevron-down' %}
+          <span class="visually-hidden">{{ 'layout.navigation.expand' | t }}</span>
+        </a>
+
+        <div class="site-nav__dropdown" id="SiteNavLabel-{{ child_list_handle }}">
+          <ul>
+            {% for childlink in linklists[child_list_handle].links %}
+              <li {% if childlink.active %}class="site-nav--active"{% endif %}>
+                <a href="{{ childlink.url }}" class="site-nav__link site-nav__child-link{% if forloop.last %} site-nav__link--last{% endif %}">{{ childlink.title | escape }}</a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+      </li>
+    {% else %}
+      <li {% if link.active %}class="site-nav--active"{% endif %}>
+        <a href="{{ link.url }}" class="site-nav__link site-nav__link--main nav-link-ltr">{{ link.title }}</a>
+      </li>
+    {% endif %}
+  {% endfor %}  
+  
+  <li>
+    <div class="none-us-only">
+      {% include 'currency-switcher' %}
+    </div>
+  </li>
+  
+  <li>
+    <button type="button" class="btn--link site-header__search-toggle js-drawer-open-top">
+      {% include 'icon-search' %}
+      <span class="icon__fallback-text">{{ 'layout.navigation.search' | t }}</span>
+    </button>
+  </li>
+  <li>
+    <a href="/account/login" class="header-icons">
+      {% include 'icon-users' %}
+    </a>
+  </li>
+  <li>      
+    <a class="site-header__cart desktop-cart-icon">
+      {% include 'icon-cart' %}
+      <span class="visually-hidden">{{ 'layout.cart.title' | t }}</span>
+      <span class="icon__fallback-text">{{ 'layout.cart.title' | t }}</span>
+      {% if cart.item_count > 0 %}
+      <div id="CartCount" class="site-header__cart-count">
+        <span>{{ cart.item_count }}</span>
+        <span class="icon__fallback-text medium-up--hide">{{ 'layout.cart.items_count' | t: count: cart.item_count }}</span>
+      </div>
+      {% endif %}
+    </a>
+  </li>
+</ul>

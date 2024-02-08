@@ -1,0 +1,66 @@
+<style>
+
+  #shopify-section-header{
+    box-shadow: 0px 2px 15px #a7a7a7;
+  }
+
+</style>
+
+<div class="page-width customer-register-template">
+  <div class="grid">
+    <div class="grid__item medium-up--one-half medium-up--push-one-quarter">
+
+      <div class="form-vertical">
+        {% form 'create_customer' %}
+
+          <h1 class="text-center">Create an account</h1>
+
+          {{ form.errors | default_errors }}
+
+        {% comment %}
+          <label for="FirstName">{{ 'customer.register.first_name' | t }}</label>
+        {% endcomment %}
+          <input type="text" name="customer[first_name]" id="FirstName" placeholder="first name" {% if form.first_name %}value="{{ form.first_name }}"{% endif %} autofocus>
+
+        {% comment %}
+          <label for="LastName">{{ 'customer.register.last_name' | t }}</label>
+        {% endcomment %}
+          <input type="text" name="customer[last_name]" id="LastName" placeholder="last name" {% if form.last_name %}value="{{ form.last_name }}"{% endif %}>
+
+        {% comment %}
+          <label for="Email">{{ 'customer.register.email' | t }}</label>
+        {% endcomment %}
+          <input type="email" name="customer[email]" id="Email" placeholder="email" class="{% if form.errors contains 'email' %} input--error{% endif %}" {% if form.email %} value="{{ form.email }}"{% endif %} autocorrect="off" autocapitalize="off">
+
+        {% comment %}
+          <label for="CreatePassword">{{ 'customer.register.password' | t }}</label>
+        {% endcomment %}
+          <input type="password" name="customer[password]" id="CreatePassword" placeholder="password" class="{% if form.errors contains 'password' %} input--error{% endif %}">
+        
+          <input type="password" value="" name="customer[password_confirmation]" id="confirm-password" placeholder="confirm password" class="password text" size="30" />
+
+          <p class="text-center">
+            <input type="submit" value="Register" class="btn main-btn">
+          </p>
+        
+        <p class="notice">
+          By creating an account, you agree to our Terms of Use and Privacy Policy
+        </p>
+
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<script>
+  $(function(){
+    $('#create_customer').submit(function(e) {     
+      if ( $('input[name="customer[password]"]').val() != $('input[name="customer[password_confirmation]"]').val()) {
+        e.preventDefault();
+        alert('Passwords do not match.');
+      }
+    });
+  });
+</script>

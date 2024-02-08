@@ -1,0 +1,51 @@
+<section>
+  <div class="page-width">
+    <div class="logo-content">
+
+      {% for block in section.blocks %}
+      <div class="logo_item-list">
+        <a class="pre-remove" href="/products/starter-set">
+          <img class="svg" src="{{ block.settings.svg_url }}" />
+        </a>
+        <a class="none-pre-remove" href="/products/almond-cow-milk-machine-220v">
+          <img class="svg" src="{{ block.settings.svg_url }}" />
+        </a>
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Home Svg Grid Section",
+	"class": "home-svg-grid",
+    "settings": [],
+	"blocks": [
+		{
+			"type"  :  "svg",
+			"name"    :  "SVG URL",
+			"settings":[
+				{
+					"type"  :  "url",
+			    	"id"    :  "svg_url",
+					"label" :  "SVG URL"
+				}
+			]
+		}
+	],
+	"presets": [
+		{
+			"name"  :  "Home Svg Grid Section",
+			"category" :  "Custom Section"
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

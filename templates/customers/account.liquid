@@ -1,0 +1,104 @@
+<div class="page-width customer-account-template">
+  <div class="section-header">
+    <h1>Hey there, {{ customer.first_name }}!</h1>
+
+    {% comment %}
+    {{ 'layout.customer.log_out' | t | customer_logout_link }}
+    {% endcomment %}
+
+  </div>
+
+  <!-- tab function   -->
+  <div class="customer-tab-container">
+
+    <input id="tab1" type="radio" name="tabs" checked>
+    <label for="tab1">My Info</label>
+
+    <input id="tab2" type="radio" name="tabs">
+    <label for="tab2">Subscription</label>
+
+    <input id="tab3" type="radio" name="tabs">
+    <label for="tab3">Rewards</label>
+
+    <div class="clearfix"></div>
+
+    <!--    My info    -->
+    <section id="content1" class="account-details">
+
+      <div class="data-blocks">
+        <div>Name</div>
+        <div>{{ customer.name }}</div>
+      </div>
+      <div class="data-blocks">
+        <div>Email</div>
+        <div>{{ customer.email }}</div>
+      </div>
+      <div class="data-blocks">
+        <div>My Address</div>
+        <div>{{ customer.default_address | format_address }}
+          <a href="/account/addresses">{{ 'customer.account.view_addresses' | t }} ({{ customer.addresses_count }})</a>
+        </div>
+
+      </div>
+      
+      {% comment %}
+      <div class="data-blocks">
+        <div>Payment Method</div>
+        <div>
+          {% for order in customer.orders %}
+
+          {% for transaction in order.transactions %}
+          {{ transaction.gateway }}: {{ transaction.id }}<br>
+          {% endfor %}
+
+          {% endfor %}
+        </div>
+      </div>
+      {% endcomment %}
+      
+      <h2 class="order-title">{{ 'customer.orders.title' | t }}</h2>
+
+      {% paginate customer.orders by 20 %}
+      {% if customer.orders.size != 0 %}
+      
+      {% for order in customer.orders %}
+      
+      <ul>
+        <li><span>{{ 'customer.orders.order_number' | t }}:</span><span><a href="{{ order.customer_url }}">{{ order.name }}</a></span></li>
+        <div class="order-contents">
+          <li><span>{{ 'customer.orders.date' | t }}:</span><span>{{ order.created_at | date: format: 'month_day_year' }}</span></li>
+          <li><span>{{ 'customer.orders.payment_status' | t }}:</span><span>{{ order.financial_status_label }}</span></li>
+          <li><span>{{ 'customer.orders.fulfillment_status' | t }}:</span><span>{{ order.fulfillment_status_label }}</span></li>
+          <li><span>{{ 'customer.orders.total' | t }}:</span><span>{{ order.total_price | money }}</span></li>
+        </div>
+      </ul>
+      {% endfor %}
+
+      {% else %}
+
+      <p>{{ 'customer.orders.none' | t }}</p>
+
+      {% endif %}
+      {% if paginate.pages > 1 %}
+      {% include 'pagination' %}
+      {% endif %}
+      {% endpaginate %}
+
+    </section>
+    <!--    Subscriptions    -->
+    <section id="content2" class="subscriptions">
+      <!-- Begin ReCharge code -->
+      <p id="rc_link_container">
+        <a href="/tools/recurring/login">Manage Subscriptions</a>
+      </p>
+      <!-- End ReCharge code -->
+    </section>
+    <!--    Rewards  -->
+    <section id="content3" class="rewards">
+      <a href="#smile-home">Get my referral link</a>
+    </section>
+
+  </div><!--  tab function end   -->
+
+  
+</div>

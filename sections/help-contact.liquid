@@ -1,0 +1,103 @@
+<section>
+  <div class="page-width">
+    <h3>{{ section.settings.title }}</h3>
+    <p class="subtitle">{{ section.settings.subtitle }}</p>
+    <div>
+      
+      <div class="grid__item  medium-up--one-third">
+        {% if section.settings.icon1 %}
+        <a class="contact-popup">
+          <img class="lazyload" data-src="{{ section.settings.icon1 | img_url: '285x' }}" />
+          <p>{{ section.settings.text1 }}</p>
+        </a>
+        {% endif %}
+      </div>
+      
+      <div class="grid__item  medium-up--one-third">
+        {% if section.settings.icon2 %}
+        <a href="callto://14047367248">
+          <img class="lazyload" data-src="{{ section.settings.icon2 | img_url: '285x' }}" />
+          <p>{{ section.settings.text2 }}</p>
+        </a>
+        {% endif %}        
+      </div>
+      
+      <div class="grid__item  medium-up--one-third">
+        {% if section.settings.icon3 %}
+        <a onclick="GorgiasChat.open();">
+          <img class="lazyload" data-src="{{ section.settings.icon3 | img_url: '285x' }}" />
+          <p>{{ section.settings.text3 }}</p>
+        </a>
+        {% endif %}
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<div class="help-contact-form">
+  <div class="help-modal-overlay contact-popup"></div>
+  {formbuilder:33356}
+</div>
+
+<script type="text/javascript">
+  $('body').on('click', '.contact-popup', function(ev){
+    ev.preventDefault();
+    $('.help-contact-section').find('.help-contact-form').toggleClass('is-visible');
+  });
+</script>
+
+{% schema %}
+  {
+    "name": "Help Contact Section",
+	"class" :  "help-contact-section",
+    "settings": [
+		{
+			"type"  :  "text",
+			"id"    :  "title",
+			"label" :  "Title"
+		},
+		{
+			"type"  :  "text",
+			"id"    :  "subtitle",
+			"label" :  "Sub Title"
+		},
+		{
+			"type"  :  "image_picker",
+			"id"    :  "icon1",
+			"label" :  "Email Icon"
+		},
+		{
+			"type"  :  "text",
+			"id"    :  "text1",
+			"label" :  "Email Text"
+		},
+		{
+			"type"  :  "image_picker",
+			"id"    :  "icon2",
+			"label" :  "Phone Icon"
+		},
+		{
+			"type"  :  "text",
+			"id"    :  "text2",
+			"label" :  "Phone Text"
+		},
+		{
+			"type"  :  "image_picker",
+			"id"    :  "icon3",
+			"label" :  "Chat Icon"
+		},
+		{
+			"type"  :  "text",
+			"id"    :  "text3",
+			"label" :  "Chat Text"
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

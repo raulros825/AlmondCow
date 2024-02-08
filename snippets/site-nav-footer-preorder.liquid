@@ -1,0 +1,10 @@
+{%- assign footer_linklist_preorder = section.settings.footer_linklist_preorder -%}
+{% if linklists[footer_linklist_preorder].links.size > 0 %}
+<ul>
+  {% for link in linklists[footer_linklist_preorder].links %}
+  <li>
+    <a href="{{ link.url }}" class="main-underline-effect">{{ link.title }}</a>
+  </li>
+  {% endfor %}
+</ul>
+{% endif %}

@@ -1,0 +1,29 @@
+<!-- /snippets/include-related-products-v2.liquid -->
+
+<section class="related-products">
+
+  <div class="page-width">
+    
+    {% if section.settings.related_products_title != blank %}
+    <div class="section-header text-center">
+      <h2>{{ section.settings.related_products_title }}</h2>
+    </div>
+    {% endif %}
+
+    <div class="grid grid--uniform grid--view-items">      
+      
+      {%- assign grid_item_width = 'medium-up--one-third' -%}
+      {%- assign grid_image_width = '200x200' -%}
+      {%- assign grid_image_scale = '2' -%}
+      {% for product in collection.products limit: 3 %}
+      <div class="grid__item {{ grid_item_width }}">
+
+          {% include 'product-card-grid-related' %}
+
+      </div>
+      {% endfor %}
+
+    </div>
+  </div>
+  
+</section>

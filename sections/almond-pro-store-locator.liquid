@@ -1,0 +1,72 @@
+<section class="pro-store-locator lazy-background" data-src="{{ section.settings.store_locator | img_url: '1903x' }}">
+  <div class="page-width">
+    <p class="title">{{ section.settings.store_locator_text }}</p>
+    <a href="{{ section.settings.store_locator_link }}" class="btn main-btn">
+      {{ section.settings.store_locator_btn }}
+    </a>
+  </div>
+</section>
+
+<section class="pro-bottom-section text-center">
+  <div class="page-width">
+    {{ section.settings.pro_bottom_text }}
+    <a href="mailto:{{ section.settings.email }}" class="btn">{{ section.settings.button_text }}</a>
+  </div>
+</section>
+
+{% schema %}
+  {
+    "name": "Pro Store Locator",
+    "settings": [
+		{
+			"type"  :  "header",
+			"content": "Store Locator"
+		},
+		{
+			"type"  :  "image_picker",
+			"id"    :  "store_locator",
+			"label" :  "Store Locator Background"
+		},
+		{
+			"type"  :  "textarea",
+			"id"    :  "store_locator_text",
+			"label" :  "Store Locator Text"
+		},
+		{
+			"type"  :  "url",
+			"id"    :  "store_locator_link",
+			"label" :  "Store Locator Link"
+		},
+		{
+			"type"  :  "text",
+			"id"    :  "store_locator_btn",
+			"label" :  "Button Text"
+		},
+		{
+			"type"  :  "header",
+			"content": "Bottom Section"
+		},
+		{
+			"type"  :  "richtext",
+			"id"    :  "pro_bottom_text",
+			"label" :  "Text"
+		},
+		{
+			"type"  :  "text",
+			"id"    :  "email",
+			"label" :  "Email"
+		},
+		{
+			"type"  :  "text",
+			"id"    :  "button_text",
+			"label" :  "Button Label"
+		}
+	]
+  }
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

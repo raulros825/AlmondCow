@@ -1,0 +1,22 @@
+<div class="grid select-groups">
+  <div class="grid__item medium-up--one-half select-ingredient">
+
+    <select>
+      {% for val in ingredients %}            
+      <option value="{{ val | replace: ' ', '_' }}">{{ val }}</option>            
+      {% endfor %}
+    </select>
+
+  </div>
+
+  <div class="grid__item medium-up--one-half select-serving">
+
+    {% assign serving-size = "1/4,1/3,1/2,2/3,1 cup" | split: ',' %}
+    <ul>
+      {% for val in serving-size  %}            
+      <li data-value="{{ val | split: ' ' | first }}" data-clicked=""><span>{{ val }}</span></li>      
+      {% endfor %}
+    </ul>
+
+  </div>
+</div>

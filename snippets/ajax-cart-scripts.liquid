@@ -1,0 +1,51 @@
+<script src="{{ 'handlebars.min.js' | asset_url }}"></script>
+{% include 'ajax-cart-template' %}
+{{ 'ajax-cart.js' | asset_url | script_tag }}
+
+<script>
+  jQuery(function($) {
+    ajaxCart.init({
+      formSelector: '.AddToCartForm',// cart form id
+      cartContainer: '#CartContainer',
+      addToCartSelector: '.AddToCart',// cart button id
+      cartCountSelector: '#CartCount span',
+      cartCostSelector: '.CartCost',
+      moneyFormat: {{ shop.money_format | json }},
+      onToggleCallback: function(cart) {
+      Currency.convertAll(shopCurrency, Currency.currentCurrency);
+      jQuery('.selected-currency').text(Currency.currentCurrency);
+    }
+                  });
+  });
+</script>
+
+<script>
+
+  $('.site-header__cart').click(function(e){
+    ajaxCart.load();
+    $('body').toggleClass("iscartpopup");
+    $('body').parents('html').toggleClass('iscartpopup');
+    e.preventDefault();      
+  });
+
+  $('.close-cart').click(function(e){
+    $('body').toggleClass("iscartpopup");
+    $('body').parents('html').toggleClass('iscartpopup');
+  });
+
+  $('body').click(function(e){
+    if( $(e.target).is('.iscartpopup') ) {
+      e.preventDefault();
+      $(this).removeClass('iscartpopup');
+      $(this).parents('html').removeClass('iscartpopup');
+    }
+  });
+
+  $('.AddToCart').click(function(){
+    if(!$('body').hasClass("iscartpopup")){
+      $('body').toggleClass("iscartpopup");
+      $('body').parents('html').toggleClass('iscartpopup');
+    } 
+  });
+
+</script>

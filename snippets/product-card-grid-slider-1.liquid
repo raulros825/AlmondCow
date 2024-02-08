@@ -1,0 +1,77 @@
+<!-- /snippets/product-card-grid-slider.liquid -->
+<div class="collection--product text-center grid-view-item{% unless product.available %} product-price--sold-out grid-view-item--sold-out{% endunless %}">
+  
+  <a href="{{ product.url }}">
+    <h4 class="ingredient-product_title">{{ product.title }}</h4>
+  </a>
+  
+  <div class="slider-part">
+    <div class="slider product-card-slider1">
+      {% for image in product.images %}
+      <div>
+        <a href="{{ product.url }}">
+          <img data-lazy="{{ image.src | img_url: grid_image_width, scale: grid_image_scale }}">
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- control arrows -->
+    <div class="related-slick-prev">
+      {% include 'icon-chevron-left' %}
+    </div>
+    <div class="related-slick-next">
+      {% include 'icon-chevron-right' %}
+    </div>
+  </div>
+
+  <div class="grid-view-item__meta">
+    {% include 'product-price' %}
+    
+    {% if section.settings.related_descriptions %}
+    	{{ product.description | truncate:60 }}
+    {% endif %}
+
+  </div>
+  
+  <form method="post" action="/cart/add" class="AddToCartForm">
+
+    {% assign product_variant = product.variants.first %}
+    
+    <input 
+      type="hidden" 
+      name="id" 
+      value="{{ product_variant.id }}"
+      data-shopify-id="{{ product_variant.id }}" 
+      data-re-var-id="{{ product_variant.metafields.subscriptions.discount_variant_id }}"
+      data-re-sub-id="{{ product.metafields.subscriptions.subscription_id }}"
+    />
+
+    <div class="collection-input-btn">
+      <input 
+        type="submit" 
+        class="collection-cart-btn btn AddToCart" 
+        value="Add to cart" 
+        data-has-recharge-swap="true"
+      />      
+    </div>
+  </form>  
+  
+</div>
+
+<script>
+  $('.product-card-slider1').each(function(i){
+    $(this).slick({
+      dots: false,
+      prevArrow: $(this).parent().find('.related-slick-prev'),
+      nextArrow: $(this).parent().find('.related-slick-next'),
+      infinite: true,
+      swipe:true,
+      autoplay: false,
+      lazyLoad: 'ondemand',
+      speed: 1000,
+      slidesToShow: 1,
+      slidesToScroll: 1
+    });
+  });
+</script>

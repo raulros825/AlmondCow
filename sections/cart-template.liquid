@@ -1,0 +1,391 @@
+{{ 'cart-modal.css' | asset_url | stylesheet_tag }}
+
+<div class="page-width" data-section-id="{{ section.id }}" data-section-type="cart-template">
+
+  {% if cart.item_count > 0 %}
+    <div class="section-header text-center">
+      <h3 class="mobile-only">{{ 'cart.general.title' | t }}</h3>
+    </div>
+  <div class="text-right">
+    <a href="products/almond-cow-milk-machine" class="small--hide" style="border-bottom: 1px solid;padding-bottom: 5px;">{{ 'cart.general.continue_shopping' | t }} <span><i class="fa fa-angle-right"></i></span></a>
+  </div>
+    <form action="/cart" method="post" novalidate class="cart">
+      <table>
+        <thead class="cart__row cart__header">
+          <th>
+            <h3>{{ 'cart.general.title' | t }}</h3>
+          </th>
+          <th>Description</th>
+          <th>Unit Price</th>
+          <th class="text-center">{{ 'cart.label.quantity' | t }}</th>
+          <th class="text-right">Subtotal</th>
+          <th></th>
+        </thead>
+        <tbody>
+          {% for item in cart.items %}
+            <tr class="cart__row border-bottom line{{ forloop.index }} cart-flex{% if forloop.first %} border-top{% endif %}">
+              <td class="cart__image-wrapper cart-flex-item">
+                <a href="{{ item.url | within: collections.all }}">
+                  <img class="cart__image" src="{{ item | img_url: '95x95', scale: 2 }}" alt="{{ item.title | escape }}">
+                </a>
+              </td>
+              <td class="cart__meta small--text-left cart-flex-item">
+                <div class="list-view-item__title">
+                  <a href="{{ item.url }}">
+                    {{ item.product.title }}
+
+                    {% if item.quantity > 1 %}
+                      <span class="medium-up--hide"><span class="visually-hidden">{{ 'cart.label.quantity' | t }}</span>(x{{ item.quantity }})</span>
+                    {% endif %}
+                  </a>
+                </div>
+                {% unless item.variant.title contains 'Default' %}
+                  <div class="cart__meta-text">
+                    {% for option in item.product.options %}
+                      {{ option }}: {{ item.variant.options[forloop.index0] }}<br/>
+                    {% endfor %}
+                  </div>
+                {% endunless %}
+
+                {% comment %}
+                  Optional, loop through custom product line items if available
+
+                  Line item properties come in as having two parts. The first part will be passed with the default form,
+                  but p.last is the actual custom property and may be blank. If it is, don't show it.
+
+                  For more info on line item properties, visit:
+                    - http://docs.shopify.com/support/your-store/products/how-do-I-collect-additional-information-on-the-product-page-Like-for-a-monogram-engraving-or-customization
+                {% endcomment %}
+                {%- assign property_size = item.properties | size -%}
+                {% if property_size > 0 %}
+                  <div class="cart__meta-text">
+                    {% for p in item.properties %}
+                      {% unless p.last == blank or p.first == "subscription_id" or p.first == "shipping_interval_frequency" or p.first == "shipping_interval_unit_type" %}
+                        {{ p.first }}:
+
+                        {% comment %}
+                          Check if there was an uploaded file associated
+                        {% endcomment %}
+                        {% if p.last contains '/uploads/' %}
+                          <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
+                        {% else %}
+                          {{ p.last }}
+                        {% endif %}
+                      {% endunless %}
+                    {% endfor %}
+                  </div>
+                {% endif %}
+
+              </td>
+              <td class="cart__price-wrapper cart-flex-item">
+<!--                 {{ item.price | money }} -->
+                {{ item.price | money_without_trailing_zeros }}
+
+                {% for discount in item.discounts %}
+                  <div class="cart-item__discount medium-up--hide">{{ discount.title }}</div>
+                {% endfor %}
+
+                <div class="cart__edit medium-up--hide">
+                  <button type="button" class="btn btn--secondary btn--small js-edit-toggle cart__edit--active" data-target="line{{ forloop.index }}">
+                    <span class="cart__edit-text--edit">{{ 'cart.general.edit' | t }}</span>
+                    <span class="cart__edit-text--cancel">{{ 'cart.general.cancel' | t }}</span>
+                  </button>
+                </div>
+              </td>
+              <td class="cart__update-wrapper cart-flex-item text-right">
+                <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="btn btn--small btn--secondary cart__remove medium-up--hide">{{ 'cart.general.remove' | t }}</a>
+                <div class="cart__qty">
+                  <label for="updates_{{ item.key }}" class="cart__qty-label">{{ 'cart.label.quantity' | t }}</label>
+                  
+                  <input class="cart__qty-input" type="number" name="updates[]" id="updates_{{ item.key }}" value="{{ item.quantity }}" min="0" pattern="[0-9]*">
+                  
+                </div>
+                <input type="submit" name="update" class="btn btn--small cart__update medium-up--hide" value="{{ 'cart.general.update' | t }}">
+              </td>
+              <td class="text-right small--hide">
+                {% if item.original_line_price != item.line_price %}
+                  <div class="cart-item__original-price"><s>{{ item.original_line_price | money }}</s></div>
+                {% endif %}
+
+                <div>
+<!--                   {{ item.line_price | money }} -->
+                  {{ item.line_price | money_without_trailing_zeros }}
+                </div>
+
+                {% for discount in item.discounts %}
+                  <div class="cart-item__discount">{{ discount.title }}</div>
+                {% endfor %}
+              </td>
+              <td class="text-center" style="width: 7%;">
+                <p class="small--hide">
+                  <a href="/cart/change?line={{ forloop.index }}&amp;quantity=0" class="cart__remove"><span><i class="fa fa-times fa-2x"></i></span></a>
+                </p>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      <footer class="cart__footer">
+        <div class="grid">
+          {% if section.settings.cart_notes_enable %}
+            <div class="grid__item medium-up--one-half cart-note">
+              <label for="CartSpecialInstructions" class="cart-note__label small--text-center">{{ 'cart.general.note' | t }}</label>
+              <textarea name="note" id="CartSpecialInstructions" class="cart-note__input">{{ cart.note }}</textarea>
+            </div>
+          {% endif %}
+
+          <div class="grid__item medium-up--one-third float-right">
+            <div class="total_price_part text-right">
+              <span class="cart__subtotal-title">Total</span>
+              <span class="cart__subtotal"><h3>{{ cart.total_price | money_without_trailing_zeros }}</h3></span>              
+            </div>
+          </div>
+          <div style="clear:both"></div>
+          <div class="cart_end_part">
+            <div class="payment_btn  mobile-only">
+              <input type="submit" name="checkout" class="btn btn--small-wide" value="{{ 'cart.general.checkout' | t }}">
+            </div>
+            <div class="grid__item medium-up--three-quarters small--text-center">
+              <div class="cart_specification_part">
+                <div class="grid__item medium-up--one-third text-left small--text-center" style="padding-left: 0">
+                  <a href="#" id="myBtn-return"><input type="submit" class="btn cart_custom_btns" value="Returns"></a>
+                </div>
+                <div class="grid__item medium-up--one-third text-left small--text-center">
+                  <a href="#" id="myBtn-warranty"><input type="submit" class="btn cart_custom_btns" value="Warranty"></a>
+                </div>
+                <div class="grid__item medium-up--one-third text-left small--text-center">
+                  <a href="#" id="myBtn-delivery"><input type="submit" class="btn cart_custom_btns" value="Shipping"></a>
+                </div>
+              </div>
+            </div>
+            <div class="grid__item medium-up--one-quarter text-right small--text-center{% if section.settings.cart_notes_enable %} medium-up--one-half{% endif %}">
+              <div style="overflow: hidden;">
+                <p class="desktop-float-right">Already have an account? <span><a href="/account/login">Login</a></span></p>
+              </div>
+              
+              {% if cart.total_discounts > 0 %}
+              
+              <div class="cart__savings">
+                {{ 'cart.general.savings' | t }}
+                <span class="cart__savings-amount">{{ cart.total_discounts | money }}</span>
+              </div>
+              {% endif %} 
+              
+              <div class="payment_btn desktop-float-right checkout-payment-btton">
+
+                {%  comment %}
+                
+                {% if additional_checkout_buttons %}                
+                <span class="additional-checkout-buttons">                  
+                  <div class="additional-checkout-buttons">{{ content_for_additional_checkout_buttons }}</div>
+                </span>
+                {% endif %}
+                
+                {% endcomment %}
+                
+                <input type="submit" name="checkout" class="btn btn--small-wide desktop-only" value="{{ 'cart.general.checkout' | t }}">
+                <input type="submit" name="update" class="btn cart__update cart__update--large small--hide" value="{{ 'cart.general.update' | t }}">
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </form>
+  
+<!--  Modal start   -->
+  <div class="table_container">
+    
+    <!-- The Modal -->
+    <div id="myModal-delivery" class="cart-modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="scroll-head">
+          <h3 class="uppercase cream-text" style="float: left;">Delivery Options</h3>
+          <a href="#" style="float: right;" class="btn-close close cream-text" aria-hidden="true" id="js-close">&nbsp;<span><i class="fa fa-times"></i></span></a>
+        </div>
+        <div class="modal-body">
+          <table class="delivery_table">
+            <thead>
+              <tr>
+                <th>Country</th>
+                <th>Days</th>
+                <th>Cost</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>US</td>
+                <td>3-5</td>
+                <td>$7.95, Free US shipping on your Almond Cow with the purchase of any ingredient or accessory</td>
+              </tr>
+              <tr>
+                <td>UK (includes Ireland)</td>
+                <td>3-5</td>
+                <td>$7.95</td>
+              </tr>
+              <tr>
+                <td>AU/NZ</td>
+                <td>5-7</td>
+                <td>$7.95</td>
+              </tr>
+              <tr>
+                <td>Canada</td>
+                <td>7-10</td>
+                <td>$35</td>
+              </tr>
+              <tr>
+                <td>Rest of the World</td>
+                <td>10-15</td>
+                <td>$50</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    
+    <!-- The Modal -->
+    <div id="myModal-return" class="cart-modal">
+      <!-- Modal content -->
+      <div class="modal-content">
+        <div class="scroll-head">
+          <h3 class="uppercase cream-text" style="float: left;">Returns Policy</h3>
+          <a href="#" style="float: right;" class="btn-close close cream-text" aria-hidden="true" id="js-close">&nbsp;<span><i class="fa fa-times"></i></span></a>
+        </div>
+        <div class="modal-body">
+          <div class="page-width vertical-center">
+            <div class="grid__item medium-up--one-half small--one-whole">
+
+              <div class="banner_img text-center">
+                {{ 'discount.png' | asset_url | img_tag }}
+              </div> 
+
+            </div>
+            <div class="grid__item medium-up--one-half small--one-whole">
+              <p>We love Almond Cow. We are sure that you will too. Just in case, we give customers in the US / Canada 30 days to try it out. 
+                If it doesn't make making plant-based milks easy for you - you are welcome to return it to us for a full refund.
+                Customer is responsible for return shipping costs.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+  
+  <div id="myModal-warranty" class="my-modal">
+    <div class="modal-content my-modal-content">
+      <div class="scroll-head">
+        <h3 class="uppercase cream-text" style="float: left;">Warranty</h3>
+        <a href="#" style="float: right" class="btn-close close cream-text" id="js-close">&nbsp;<span><i class="fa fa-times"></i></span></a>
+      </div>
+      <div class="scroll-body">
+        <p>We warrant to you, the end-user customer who after purchasing the Almond Cow for a valuable consideration, that the parts and motor will be free from defects in materials and workmanship for a period of 1 year from the date of purchase.</p>
+        <p>Warranty does not cover normal wear and tear.</p>
+        <p>1. The warranty is valid only for the original purchaser. This warranty is non-transferable.</p>
+        <p>2. If the Almond Cow exhibits defects while in normal household use, we will, upon our actual receipt of a written notice of such defects from you during the warranty period, at our option, either repair or replace the Almond Cow which proves to be defective. However, we have no such obligation to repair or replace until after you have, by insured mail and in protective packaging*, delivered the Almond Cow to the location of your service center as set forth. A replacement Almond Cow may be either new or like new. The replacement Almond Cow may contain re-manufactured or reconditioned parts, which are equivalent to new in performance or may have been subject to incidental use.</p>
+        <p>3. We do not warrant that the operation of the Almond Cow will be uninterrupted or error free. In no event shall our liability exceed the retail value of the Almond Cow.</p>
+        <p>4. All warranty and repair services must be performed at a warranty service center, which is located within the country where the machine was originally purchased.<br />However, in the event that: <br />[i] the machine must be serviced at a service center that is not located within the country where the machine was purchased; or <br />[ii] there is no service center within the country where the machine is located and must be shipped to a service center in another country, then those service centers are responsible for the parts and service only, and any and all costs relating to the shipping, delivery and handling of the machine to and from those service centers shall be the sole responsibility of the owner.</p>
+        <p>This warranty does not cover defects resulting from:</p>
+        <p>[a] failure to operate the Almond Cow in accordance with the instructions;</p>
+        <p>[b] use of parts or supplies not provided or authorized by the manufacturer;</p>
+        <p>[c] negligent, improper or inadequate maintenance;</p>
+        <p>[d] service performed or attempted by an unauthorized service person;</p>
+        <p>[e] damages, accidental or otherwise, to the Almond Cow, which are not directly caused by the manufacturer; or</p>
+        <p>[f] damages resulting from abuse, tampering, misuse, commercial use, or unauthorized modification of the Almond Cow.</p>
+        <p>WE MAKE NO OTHER EXPRESS OR IMPLIED WARRANTY OR CONDITION WHETHER WRITTEN OR ORAL TO THE EXTENT ALLOWED BY LOCAL LAW, ANY IMPLIED WARRANTY OF FITNESS FOR A PARTICULAR PURPOSE OR IMPLIED WARRANTY OR CONDITION OF MERCHANTABILIITY IS LIMITED TO THREE (1) YEAR.</p>
+        <p>In the event that such limitation or exclusion on the duration of an implied warranty is not allowed in the state or county wherein you reside, the above limitation or exclusion will not apply.</p>
+        <p>This warranty gives you specific legal rights and protection, and you might also have other rights that vary from state to state, or country to country.</p>
+        <p>TO THE EXTENT ALLOWED BY LOCAL LAW, THE REMEDIES IN THIS WARRANTY STATEMENT ARE YOUR SOLE AND EXCLUSIVE REMEDIES. EXCEPT AS INDICATED ABOVE, IN NO EVENT WILL WE BE LIABLE FOR DIRECT, SPECIAL, INCIDENTAL, CONSEQUENTIAL (INCLUDING LOST PROFIT, OR OTHER DAMAGE, WHETHER BASED IN CONTRACT, TORT, OR OTHERWISE).</p>
+        <p>Some states or counties may not allow the exclusion or limitation of incidental or consequential damages. If you reside in such a state or county, the above limitation or exclusion may not be applicable. Do not send your Almond Cow back to the service center without a return authorization.</p>
+        <div class="text-center"><button id="js-close" class="btn btn-primary">Close</button></div>
+      </div>
+    </div>
+  </div>
+
+<!--  Modal End  -->
+  
+  {% else %}
+    <div class="empty-page-content text-center">
+      <h1>{{ 'cart.general.title' | t }}</h1>
+      <p class="cart--empty-message">{{ 'cart.general.empty' | t }}</p>
+      <div class="cookie-message">
+        <p>{{ 'cart.general.cookies_required' | t }}</p>
+      </div>
+      <a href="/" class="btn btn--has-icon-after cart__continue-btn">{{ 'general.404.link' | t }}{% include 'icon-arrow-right' %}</a>
+    </div>
+  {% endif %}
+</div>
+
+<script>
+
+// Get the modal
+  var modal_delivery = document.getElementById('myModal-delivery');
+  var modal_return = document.getElementById('myModal-return');
+  var modal_warranty = document.getElementById('myModal-warranty');
+  
+  // Get the button that opens the modal
+  var delivery_btn = document.getElementById("myBtn-delivery");
+  var return_btn = document.getElementById("myBtn-return");
+  var warranty_btn = document.getElementById("myBtn-warranty");
+
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+
+  // When the user clicks the button, open the modal
+  
+  delivery_btn.onclick = function() {
+    modal_delivery.style.display = "block";
+  }
+  return_btn.onclick = function() {
+    modal_return.style.display = "block";
+  }
+  warranty_btn.onclick = function() {
+    modal_warranty.style.display = "block";
+  }
+
+  // When the user clicks on <span> (x), close the modal
+  
+  $("#myModal-return #js-close").click(function(){
+    $("#myModal-return").css("display","none")
+  });
+  $("#myModal-delivery #js-close").click(function(){
+    $("#myModal-delivery").css("display","none")
+  });
+  $("#myModal-warranty #js-close").click(function(){
+    $("#myModal-warranty").css("display","none")
+  });
+
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal_delivery) {
+      modal_delivery.style.display = "none";
+    }
+    if (event.target == modal_return) {
+      modal_return.style.display = "none";
+    }
+    if (event.target == modal_warranty) {
+      modal_warranty.style.display = "none";
+    }
+  }	
+
+</script>
+
+
+{% schema %}
+  {
+    "name": "Cart page",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "cart_notes_enable",
+        "label": "Enable cart notes",
+        "default": false
+      }
+    ]
+  }
+{% endschema %}
