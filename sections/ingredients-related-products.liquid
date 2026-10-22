@@ -14,7 +14,7 @@
             <div>
               <div class="product-blocks" style="box-shadow: -3px 3px 6px 3px {{ block.settings.box_shadow_color }};">
                 {% assign product_ob = all_products[block.settings.product_url] %}
-                {% include 'product-card-grid-related' with product: product_ob %}
+                {% include 'product-card-grid-related' with product, product: product_ob %}
               </div>
             </div>
           {% endif %}
@@ -24,7 +24,7 @@
             <div>
               <div class="product-blocks" style="box-shadow: -3px 3px 6px 3px {{ block.settings.box_shadow_color }};">
                 {% assign product_ob = all_products[block.settings.product_url] %}
-                {% include 'product-card-grid-related' with product: product_ob %}
+                {% include 'product-card-grid-related' with product, product: product_ob %}
               </div>
             </div>
           {% endif %}
@@ -34,7 +34,7 @@
             <div>
               <div class="product-blocks" style="box-shadow: -3px 3px 6px 3px {{ block.settings.box_shadow_color }};">
                 {% assign product_ob = all_products[block.settings.product_url] %}
-                {% include 'product-card-grid-related' with product: product_ob %}
+                {% include 'product-card-grid-related' with product, product: product_ob %}
               </div>
             </div>
           {% endif %}
@@ -44,7 +44,7 @@
             <div>
               <div class="product-blocks" style="box-shadow: -3px 3px 6px 3px {{ block.settings.box_shadow_color }};">
                 {% assign product_ob = all_products[block.settings.product_url] %}
-                {% include 'product-card-grid-related' with product: product_ob %}
+                {% include 'product-card-grid-related' with product, product: product_ob %}
               </div>
             </div>
           {% endif %}
@@ -170,3 +170,22 @@
 
 {% javascript %}
 {% endjavascript %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{% include 'product-card-grid-related' with product: product_ob %}"
+  to: "{% include 'product-card-grid-related' with product, product: product_ob %}"
+  position: 712..787
+- from: "{% include 'product-card-grid-related' with product: product_ob %}"
+  to: "{% include 'product-card-grid-related' with product, product: product_ob %}"
+  position: 1233..1308
+- from: "{% include 'product-card-grid-related' with product: product_ob %}"
+  to: "{% include 'product-card-grid-related' with product, product: product_ob %}"
+  position: 1755..1830
+- from: "{% include 'product-card-grid-related' with product: product_ob %}"
+  to: "{% include 'product-card-grid-related' with product, product: product_ob %}"
+  position: 2263..2338
+{% endcomment %}
